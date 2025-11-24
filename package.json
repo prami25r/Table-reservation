@@ -1,0 +1,25 @@
+{
+  "name": "table-reservation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prami25r/Table-reservation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/prami25r/Table-reservation/issues"
+  },
+  "homepage": "https://github.com/prami25r/Table-reservation#readme",
+  "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "prisma": "^5.14.0"
+  }
+}
