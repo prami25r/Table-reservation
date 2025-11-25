@@ -9,12 +9,16 @@ export const createReservation = (data: {
   reservationDate: string;
   guestCount: number;
   specialRequests?: string;
-  tableIds: number[];
+  tableIds?: number[];
 }) => api.post('/reservations', data);
 
-export const updateReservationStatus = (
-  id: number,
-  status: 'Upcoming' | 'Checked-In' | 'Cancelled'
-) => api.patch(`/reservations/${id}/status`, { status });
+
+export const updateReservation = (id: number, data: any) =>
+  api.put(`/reservations/${id}`, data);
+
+
+export const checkInReservation = (id: number) =>
+  api.patch(`/reservations/${id}/checkedin`);
+
 export const cancelReservation = (id: number) =>
-  api.post(`/reservations/${id}/cancel`);   
+  api.patch(`/reservations/${id}/cancel`);

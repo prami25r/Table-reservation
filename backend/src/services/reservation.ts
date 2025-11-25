@@ -58,6 +58,12 @@ export const update = (id: number, input: any) =>
     }
   });
 
+
 export const remove = (id: number) =>
   prisma.reservation.delete({ where: { id } });
 
+export const updateStatus = (id: number, status: string) =>
+  prisma.reservation.update({
+    where: { id },
+    data: { status },
+  });

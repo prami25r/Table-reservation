@@ -16,6 +16,7 @@ export const createReservation = async (req: Request, res: Response, next: NextF
   }
 };
 
+
 export const getReservations = async (_: Request, res: Response, next: NextFunction) => {
   try {
     const reservations = await service.getAll();
@@ -36,6 +37,7 @@ export const getReservation = async (req: Request, res: Response, next: NextFunc
   }
 };
 
+
 export const updateReservation = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
@@ -47,12 +49,37 @@ export const updateReservation = async (req: Request, res: Response, next: NextF
   }
 };
 
+
 export const deleteReservation = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
     const deleted = await service.remove(id);
     if (!deleted) throw notFound("Cannot delete: Reservation not found");
     res.json({ message: "Reservation deleted successfully", deleted });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+export const checkedInReservation = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+    const updated = await service.updateStatus(id, "Checked-In");
+    if (!updated) throw notFound("Reservation not found");
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+export const cancelledReservation = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+    const updated = await service.updateStatus(id, "Cancelled");
+    if (!updated) throw notFound("Reservation not found");
+    res.json(updated);
   } catch (err) {
     next(err);
   }

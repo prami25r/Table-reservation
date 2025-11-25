@@ -1,9 +1,9 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Upcoming from '../screens/upcoming/upcoming'
-import CheckedIn from '../screens/checkedIn/checkedIn'
-import Cancelled from '../screens/cancelled/cancelled'
-import NewReservation from '../screens/newreservation/newreservation'
+import Upcoming from '../screens/upcoming'
+import CheckedIn from '../screens/checkedIn'
+import Cancelled from '../screens/cancelled'
+import NewReservation from '../screens/newreservation'
 import { RootStackParamList } from './type'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
