@@ -8,10 +8,11 @@ import error from "./middleware/error";
 const app = express();
 app.use(express.json());
 
-app.use("/api/customers", customerRoutes);
-app.use("/api/restaurants", restaurantRoutes);
-app.use("/api/tables", tableRoutes);
-app.use("/api/reservations", reservationRoutes);
+app.use("/customers", customerRoutes);
+app.use("/restaurants", restaurantRoutes);
+app.use("/tables", tableRoutes);
+app.use("/reservations", reservationRoutes);
+
 app.use(error);
 
 export default app;

@@ -1,10 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import * as service from "../services/reservation";
 
+const notFound = (msg: string) => {
+  const err: any = new Error(msg);
+  err.status = 404;
+  return err;
+};
+
 export const createReservation = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await service.create(req.body);
-    res.json(result);
+    const reservation = await service.create(req.body);
+    res.json(reservation);
   } catch (err) {
     next(err);
   }
@@ -12,8 +18,8 @@ export const createReservation = async (req: Request, res: Response, next: NextF
 
 export const getReservations = async (_: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await service.getAll();
-    res.json(result);
+    const reservations = await service.getAll();
+    res.json(reservations);
   } catch (err) {
     next(err);
   }
@@ -21,15 +27,10 @@ export const getReservations = async (_: Request, res: Response, next: NextFunct
 
 export const getReservation = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await service.getOne(Number(req.params.id));
-
-    if (!result) {
-      const error = new Error("Reservation not found");
-      (error as any).status = 404;
-      throw error;
-    }
-
-    res.json(result);
+    const id = Number(req.params.id);
+    const reservation = await service.getOne(id);
+    if (!reservation) throw notFound("Reservation not found");
+    res.json(reservation);
   } catch (err) {
     next(err);
   }
@@ -37,15 +38,10 @@ export const getReservation = async (req: Request, res: Response, next: NextFunc
 
 export const updateReservation = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await service.update(Number(req.params.id), req.body);
-
-    if (!result) {
-      const error = new Error("Cannot update: Reservation not found");
-      (error as any).status = 404;
-      throw error;
-    }
-
-    res.json(result);
+    const id = Number(req.params.id);
+    const updated = await service.update(id, req.body);
+    if (!updated) throw notFound("Cannot update: Reservation not found");
+    res.json(updated);
   } catch (err) {
     next(err);
   }
@@ -53,15 +49,10 @@ export const updateReservation = async (req: Request, res: Response, next: NextF
 
 export const deleteReservation = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await service.remove(Number(req.params.id));
-
-    if (!result) {
-      const error = new Error("Cannot delete: Reservation not found");
-      (error as any).status = 404;
-      throw error;
-    }
-
-    res.json({ message: "Reservation deleted successfully", result });
+    const id = Number(req.params.id);
+    const deleted = await service.remove(id);
+    if (!deleted) throw notFound("Cannot delete: Reservation not found");
+    res.json({ message: "Reservation deleted successfully", deleted });
   } catch (err) {
     next(err);
   }
