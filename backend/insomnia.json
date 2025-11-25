@@ -1,0 +1,246 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-11-25T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app",
+  "resources": [
+    {
+      "_id": "wrk_table_reservation_api",
+      "parentId": null,
+      "_type": "workspace",
+      "name": "Table Reservation API",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_table_reservation_api",
+      "_type": "environment",
+      "name": "Base Environment",
+      "data": {
+        "BASE_URL": "http://localhost:3000"
+      }
+    },
+    {
+      "_id": "fld_customers",
+      "parentId": "wrk_table_reservation_api",
+      "_type": "request_group",
+      "name": "Customers"
+    },
+    {
+      "_id": "req_customer_create",
+      "parentId": "fld_customers",
+      "_type": "request",
+      "name": "Create Customer",
+      "method": "POST",
+      "url": "{{ _.BASE_URL }}/customers",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fullName\": \"John Doe\",\n  \"mobileNumber\": \"9876543210\",\n  \"email\": \"john@example.com\"\n}"
+      }
+    },
+    {
+      "_id": "req_customer_all",
+      "parentId": "fld_customers",
+      "_type": "request",
+      "name": "Get All Customers",
+      "method": "GET",
+      "url": "{{ _.BASE_URL }}/customers"
+    },
+    {
+      "_id": "req_customer_one",
+      "parentId": "fld_customers",
+      "_type": "request",
+      "name": "Get Customer by ID",
+      "method": "GET",
+      "url": "{{ _.BASE_URL }}/customers/1"
+    },
+    {
+      "_id": "req_customer_update",
+      "parentId": "fld_customers",
+      "_type": "request",
+      "name": "Update Customer",
+      "method": "PUT",
+      "url": "{{ _.BASE_URL }}/customers/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fullName\": \"Updated Name\",\n  \"mobileNumber\": \"9999999999\",\n  \"email\": \"updated@example.com\"\n}"
+      }
+    },
+    {
+      "_id": "req_customer_delete",
+      "parentId": "fld_customers",
+      "_type": "request",
+      "name": "Delete Customer",
+      "method": "DELETE",
+      "url": "{{ _.BASE_URL }}/customers/1"
+    },
+
+
+    {
+      "_id": "fld_restaurants",
+      "parentId": "wrk_table_reservation_api",
+      "_type": "request_group",
+      "name": "Restaurants"
+    },
+    {
+      "_id": "req_restaurant_create",
+      "parentId": "fld_restaurants",
+      "_type": "request",
+      "name": "Create Restaurant",
+      "method": "POST",
+      "url": "{{ _.BASE_URL }}/restaurants",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Golden Spoon\",\n  \"location\": \"Mumbai\"\n}"
+      }
+    },
+    {
+      "_id": "req_restaurant_all",
+      "parentId": "fld_restaurants",
+      "_type": "request",
+      "name": "Get All Restaurants",
+      "method": "GET",
+      "url": "{{ _.BASE_URL }}/restaurants"
+    },
+    {
+      "_id": "req_restaurant_one",
+      "parentId": "fld_restaurants",
+      "_type": "request",
+      "name": "Get Restaurant by ID",
+      "method": "GET",
+      "url": "{{ _.BASE_URL }}/restaurants/1"
+    },
+    {
+      "_id": "req_restaurant_update",
+      "parentId": "fld_restaurants",
+      "_type": "request",
+      "name": "Update Restaurant",
+      "method": "PUT",
+      "url": "{{ _.BASE_URL }}/restaurants/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Golden Spoon Updated\",\n  \"location\": \"Delhi\"\n}"
+      }
+    },
+    {
+      "_id": "req_restaurant_delete",
+      "parentId": "fld_restaurants",
+      "_type": "request",
+      "name": "Delete Restaurant",
+      "method": "DELETE",
+      "url": "{{ _.BASE_URL }}/restaurants/1"
+    },
+
+
+    {
+      "_id": "fld_tables",
+      "parentId": "wrk_table_reservation_api",
+      "_type": "request_group",
+      "name": "Tables"
+    },
+    {
+      "_id": "req_table_create",
+      "parentId": "fld_tables",
+      "_type": "request",
+      "name": "Create Table",
+      "method": "POST",
+      "url": "{{ _.BASE_URL }}/tables",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"tableNumber\": 1,\n  \"seatCapacity\": 4,\n  \"restaurantId\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_table_all",
+      "parentId": "fld_tables",
+      "_type": "request",
+      "name": "Get All Tables",
+      "method": "GET",
+      "url": "{{ _.BASE_URL }}/tables"
+    },
+    {
+      "_id": "req_table_one",
+      "parentId": "fld_tables",
+      "_type": "request",
+      "name": "Get Table by ID",
+      "method": "GET",
+      "url": "{{ _.BASE_URL }}/tables/1"
+    },
+    {
+      "_id": "req_table_update",
+      "parentId": "fld_tables",
+      "_type": "request",
+      "name": "Update Table",
+      "method": "PUT",
+      "url": "{{ _.BASE_URL }}/tables/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"tableNumber\": 2,\n  \"seatCapacity\": 6,\n  \"restaurantId\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_table_delete",
+      "parentId": "fld_tables",
+      "_type": "request",
+      "name": "Delete Table",
+      "method": "DELETE",
+      "url": "{{ _.BASE_URL }}/tables/1"
+    },
+
+
+    {
+      "_id": "fld_reservations",
+      "parentId": "wrk_table_reservation_api",
+      "_type": "request_group",
+      "name": "Reservations"
+    },
+    {
+      "_id": "req_reservation_create",
+      "parentId": "fld_reservations",
+      "_type": "request",
+      "name": "Create Reservation",
+      "method": "POST",
+      "url": "{{ _.BASE_URL }}/reservations",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"customerId\": 1,\n  \"restaurantId\": 1,\n  \"reservationDate\": \"2025-11-24T18:00:00.000Z\",\n  \"guestCount\": 4,\n  \"specialRequests\": \"Window seat\",\n  \"tables\": [1, 2]\n}"
+      }
+    },
+    {
+      "_id": "req_reservation_all",
+      "parentId": "fld_reservations",
+      "_type": "request",
+      "name": "Get All Reservations",
+      "method": "GET",
+      "url": "{{ _.BASE_URL }}/reservations"
+    },
+    {
+      "_id": "req_reservation_one",
+      "parentId": "fld_reservations",
+      "_type": "request",
+      "name": "Get Reservation by ID",
+      "method": "GET",
+      "url": "{{ _.BASE_URL }}/reservations/1"
+    },
+    {
+      "_id": "req_reservation_update",
+      "parentId": "fld_reservations",
+      "_type": "request",
+      "name": "Update Reservation",
+      "method": "PUT",
+      "url": "{{ _.BASE_URL }}/reservations/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"reservationDate\": \"2025-11-25T20:00:00.000Z\",\n  \"guestCount\": 6,\n  \"specialRequests\": \"Birthday setup\",\n  \"status\": \"Completed\"\n}"
+      }
+    },
+    {
+      "_id": "req_reservation_delete",
+      "parentId": "fld_reservations",
+      "_type": "request",
+      "name": "Delete Reservation",
+      "method": "DELETE",
+      "url": "{{ _.BASE_URL }}/reservations/1"
+    }
+  ]
+}
