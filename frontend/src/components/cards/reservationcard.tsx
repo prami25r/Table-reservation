@@ -1,53 +1,112 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import styles from './reservationcardstyles'
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Calendar, Clock, Users, MapPin } from "lucide-react-native";
+import { COLORS } from "../../themes/colors";
 
-
-import { Calendar, Clock, Users, MapPin } from 'lucide-react-native'
 
 
 type Props = {
-restaurant: string
-location: string
-date: string
-time: string
-guests: number
-status: string
-}
+  restaurantName: string;
+  restaurantLocation: string;
+  date: string;
+  time: string;
+  guests: number;
+  status: string;
+};
 
+const ReservationCard = ({
+  restaurantName,
+  restaurantLocation,
+  date,
+  time,
+  guests,
+  status,
+}: Props) => {
+  return (
+    <View style={styles.card}>
+      <View style={styles.headerRow}>
+        <Text style={styles.title}>{restaurantName}</Text>
 
-const ReservationCard = ({ restaurant, location, date, time, guests, status }: Props) => (
-<View style={styles.container}>
-<View style={styles.headerRow}>
-<Text style={styles.title}>{restaurant}</Text>
-<View style={styles.badge}><Text style={styles.badgeText}>{status}</Text></View>
-</View>
+        <View
+          style={[
+            styles.badge,
+            status === "Upcoming" && { backgroundColor: COLORS.badgeUpcoming },
+            status === "Checked-In" && { backgroundColor: COLORS.badgeCheckedIn },
+            status === "Cancelled" && { backgroundColor: COLORS.badgeCancelled },
+          ]}
+        >
+          <Text style={styles.badgeText}>{status}</Text>
+        </View>
+      </View>
 
+      <View style={styles.locationRow}>
+        <MapPin size={17} color={COLORS.textSecondary} />
+        <Text style={styles.locationText}>{restaurantLocation}</Text>
+      </View>
 
-<View style={styles.sub}>
-<MapPin size={18} color="#6b6b6b" />
-<Text style={styles.subText}>{location}</Text>
-</View>
+      <View style={styles.infoRow}>
+        <Calendar size={18} color={COLORS.textSecondary} />
+        <Text style={styles.infoText}>{date}</Text>
 
+        <Clock size={18} color={COLORS.textSecondary} style={{ marginLeft: 20 }} />
+        <Text style={styles.infoText}>{time}</Text>
 
-<View style={styles.row}>
-<Calendar size={18} color="#3a3a3a" />
-<Text style={styles.label}>{date}</Text>
-</View>
+        <Users size={18} color={COLORS.textSecondary} style={{ marginLeft: 20 }} />
+        <Text style={styles.infoText}>{guests} guests</Text>
+      </View>
+    </View>
+  );
+};
 
+export default ReservationCard;
 
-<View style={styles.row}>
-    <Clock size={18} color="#3a3a3a" />
-    <Text style={styles.label}>{time}</Text>
-</View>
-
-
-<View style={styles.row}>
-<Users size={18} color="#3a3a3a" />
-<Text style={styles.label}>{guests} guests</Text>
-</View>
-</View>
-)
-
-
-export default ReservationCard
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: COLORS.cardBackground,
+    padding: 18,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    marginBottom: 16,
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: COLORS.textPrimary,
+  },
+  badge: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 16,
+  },
+  badgeText: {
+    color: "#FFF",
+    fontWeight: "700",
+    fontSize: 13,
+  },
+  locationRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 6,
+  },
+  locationText: {
+    marginLeft: 6,
+    color: COLORS.textSecondary,
+    fontSize: 15,
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 14,
+  },
+  infoText: {
+    marginLeft: 6,
+    color: COLORS.textPrimary,
+    fontSize: 15,
+  },
+});

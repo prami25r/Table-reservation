@@ -1,6 +1,4 @@
 export type RootStackParamList = {
-  Upcoming: undefined
-  CheckedIn: undefined
-  Cancelled: undefined
+  Reservations: undefined
   NewReservation: undefined
 }

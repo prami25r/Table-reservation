@@ -1,24 +1,20 @@
-import api from './axiosInstance';
+import api from "./axiosInstance";
 
-export const getReservations = () => api.get('/reservations');
-export const getReservation = (id: number) => api.get(`/reservations/${id}`);
+export const getReservations = () => api.get("/reservations");
 
-export const createReservation = (data: {
-  customerId: number;
-  restaurantId: number;
-  reservationDate: string;
-  guestCount: number;
-  specialRequests?: string;
-  tableIds?: number[];
-}) => api.post('/reservations', data);
+export const createReservation = (data: any) =>
+  api.post("/reservations", data);
 
 
-export const updateReservation = (id: number, data: any) =>
-  api.put(`/reservations/${id}`, data);
+export const updateStatus = (id: number, status: string) => {
+  const mappedStatus: any = {
+    "Checked-In": "checkedin",
+    Cancelled: "cancel",
+  };
 
+  return api.patch(`/reservations/${id}/${mappedStatus[status]}`);
+};
 
-export const checkInReservation = (id: number) =>
-  api.patch(`/reservations/${id}/checkedin`);
+export const getRestaurants = () => api.get("/restaurants");
 
-export const cancelReservation = (id: number) =>
-  api.patch(`/reservations/${id}/cancel`);
+export const getCustomers = () => api.get("/customers");
