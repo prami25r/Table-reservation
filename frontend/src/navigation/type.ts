@@ -1,4 +1,5 @@
 export type RootStackParamList = {
-  Reservations: undefined
-  NewReservation: undefined
-}
+  Reservations: undefined;
+  Upcoming: undefined;
+  NewReservation: { reservation?: any };
+};

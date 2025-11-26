@@ -1,9 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Calendar, Clock, Users, MapPin } from "lucide-react-native";
 import { COLORS } from "../../themes/colors";
-
-
 
 type Props = {
   restaurantName: string;
@@ -12,18 +10,24 @@ type Props = {
   time: string;
   guests: number;
   status: string;
+  onUpdate?: () => void;
+  onCancel?: () => void;
+  onCheckIn?: () => void;
 };
 
-const ReservationCard = ({
+export default function ReservationCard({
   restaurantName,
   restaurantLocation,
   date,
   time,
   guests,
   status,
-}: Props) => {
+  onUpdate,
+  onCancel,
+  onCheckIn,
+}: Props) {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onUpdate}>
       <View style={styles.headerRow}>
         <Text style={styles.title}>{restaurantName}</Text>
 
@@ -54,11 +58,9 @@ const ReservationCard = ({
         <Users size={18} color={COLORS.textSecondary} style={{ marginLeft: 20 }} />
         <Text style={styles.infoText}>{guests} guests</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
-};
-
-export default ReservationCard;
+}
 
 const styles = StyleSheet.create({
   card: {

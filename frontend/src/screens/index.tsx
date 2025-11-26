@@ -5,8 +5,9 @@ import useNewReservation from "./useNewreservation";
 import NewReservationForm from "./newreservationform";
 import { styles } from "./styles";
 
-const NewReservation = ({ navigation }: any) => {
-  const form = useNewReservation(navigation);
+const NewReservation = ({ navigation, route }: any) => {
+  const reservation = route?.params?.reservation || null;
+  const form = useNewReservation(navigation, reservation);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -14,7 +15,9 @@ const NewReservation = ({ navigation }: any) => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.header}>New Reservation</Text>
+        <Text style={styles.header}>
+          {reservation ? "Update Reservation" : "New Reservation"}
+        </Text>
 
         <NewReservationForm {...form} />
       </ScrollView>
