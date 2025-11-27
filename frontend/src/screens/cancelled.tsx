@@ -1,34 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FlatList } from "react-native";
 import ReservationCard from "../components/cards/reservationcard";
 import { getReservations } from "../api/reservation";
 import { formatDate, formatTime } from "../utils/date";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Cancelled = ({ navigation }: any) => {
-  const [data, setData] = useState([]);
+type SortConfig = { type: "date" | "guests"; order: "asc" | "desc" };
 
-  const loadData = async () => {
+export default function Cancelled({ sort }: { sort?: SortConfig }) {
+  const [data, setData] = useState<any[]>([]);
+
+  const loadData = useCallback(async () => {
     try {
       const res = await getReservations();
-      const filtered = res.data.filter((x: any) => x.status === "Cancelled");
+      let filtered = res.data.filter((x: any) => x.status === "Cancelled");
+
+      if (sort) {
+        if (sort.type === "date") {
+          filtered = filtered.sort((a: any, b: any) => {
+            const ad = new Date(a.reservationDate).getTime();
+            const bd = new Date(b.reservationDate).getTime();
+            return sort.order === "asc" ? ad - bd : bd - ad;
+          });
+        } else {
+          filtered = filtered.sort((a: any, b: any) =>
+            sort.order === "asc" ? a.guestCount - b.guestCount : b.guestCount - a.guestCount
+          );
+        }
+      }
+
       setData(filtered);
-    } catch (err) {}
-  };
+    } catch (err) {
+      console.log("Error:", err);
+    }
+  }, [sort]);
 
   useEffect(() => {
     loadData();
-    const unsubscribe = navigation?.addListener("focus", loadData);
-    return unsubscribe;
-  }, []);
+  }, [loadData]);
 
   return (
     <SafeAreaView>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={data}
-        contentContainerStyle={{ paddingBottom: 100 }}
-        renderItem={({ item }: any) => (
+        keyExtractor={(i) => i.id.toString()}
+        contentContainerStyle={{ paddingBottom: 120 }}
+        renderItem={({ item }) => (
           <ReservationCard
             restaurantName={item.restaurant.name}
             restaurantLocation={item.restaurant.location || "Location"}
@@ -41,6 +59,4 @@ const Cancelled = ({ navigation }: any) => {
       />
     </SafeAreaView>
   );
-};
-
-export default Cancelled;
+}

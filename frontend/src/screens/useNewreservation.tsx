@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getRestaurants, createReservation, updateReservation } from "../api/reservation";
 
-export default function useNewReservation(navigation: any, reservation: any) {
+export default function useNewreservation(navigation: any, reservation: any) {
   const [fullName, setFullName] = useState(reservation?.customer?.fullName || "");
   const [mobileNumber, setMobileNumber] = useState(reservation?.customer?.mobileNumber || "");
   const [email, setEmail] = useState(reservation?.customer?.email || "");
@@ -26,26 +26,30 @@ export default function useNewReservation(navigation: any, reservation: any) {
   }, []);
 
   const save = async () => {
-    if (reservation) {
-      await updateReservation(reservation.id, {
-        guestCount: Number(guestCount),
-        specialRequests,
-      });
-    } else {
-      await createReservation({
-        fullName,
-        mobileNumber,
-        email,
-        restaurantId,
-        date: date.toISOString(),
-        time: time.toTimeString().slice(0, 5),
-        guestCount: Number(guestCount),
-        specialRequests,
-      });
-    }
+  if (reservation) {
+    await updateReservation(reservation.id, {
+      reservationDate: new Date(
+        date.toISOString().split("T")[0] + "T" + time.toTimeString().slice(0,5) + ":00"
+      ).toISOString(),
+      guestCount: Number(guestCount),
+      specialRequests
+    });
+  } else {
+    await createReservation({
+      customerId: 1,
+      restaurantId: Number(restaurantId),
+      reservationDate: new Date(
+        date.toISOString().split("T")[0] + "T" + time.toTimeString().slice(0,5) + ":00"
+      ).toISOString(),
+      guestCount: Number(guestCount),
+      specialRequests,
+      tableIds: []
+    });
+  }
 
-    navigation.goBack();
-  };
+  navigation.navigate("Reservations");
+};
+
 
   return {
     fullName,

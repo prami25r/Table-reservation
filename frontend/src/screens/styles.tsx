@@ -6,104 +6,154 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
+
   scrollContainer: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  header: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: COLORS.textPrimary,
-    marginBottom: 18,
-  },
+  paddingHorizontal: 20,
+  paddingBottom: 40, 
+}
+,
+
   card: {
     backgroundColor: COLORS.cardBackground,
+    borderRadius: 18,
     padding: 20,
-    borderRadius: 16,
     borderWidth: 1,
     borderColor: COLORS.border,
+    marginBottom: 20,
   },
+
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "700",
+    marginBottom: 4,
     color: COLORS.textPrimary,
   },
+
   sectionSubtitle: {
+    fontSize: 14,
     color: COLORS.textSecondary,
     marginBottom: 20,
-    marginTop: 4,
   },
+
   label: {
+    fontSize: 14,
+    fontWeight: "600",
     marginTop: 16,
     marginBottom: 6,
-    fontSize: 15,
-    fontWeight: "600",
     color: COLORS.textPrimary,
   },
+
   input: {
     borderWidth: 1,
     borderColor: COLORS.border,
-    backgroundColor: COLORS.cardBackground,
-    padding: 14,
-    borderRadius: 12,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     fontSize: 15,
+    color: COLORS.textPrimary,
+    backgroundColor: COLORS.cardBackground,
   },
+
+  pickerContainer: {
+  borderWidth: 1,
+  borderColor: COLORS.border,
+  borderRadius: 12,
+  paddingHorizontal: 10,
+  paddingVertical: 2,   
+  height: 48,           
+  justifyContent: "center",
+}
+,
+
+  picker: {
+    height: 50,
+    width: "100%",
+  },
+
   inputRow: {
     borderWidth: 1,
     borderColor: COLORS.border,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 15,
     backgroundColor: COLORS.cardBackground,
-    padding: 14,
-    borderRadius: 12,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  specialInput: {
-    height: 100,
-    textAlignVertical: "top",
-  },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    borderRadius: 12,
-  },
-  picker: {
-    height: 50,
-  },
-  placeholder: {
-    color: COLORS.textSecondary,
-  },
+
   inputValue: {
     color: COLORS.textPrimary,
+    fontSize: 15,
   },
+
+  placeholder: {
+    color: COLORS.textSecondary,
+    fontSize: 15,
+  },
+
+  specialInput: {
+    height: 90,
+    textAlignVertical: "top",
+  },
+
   buttonRow: {
     flexDirection: "row",
-    marginTop: 20,
+    justifyContent: "space-between",
+    marginTop: 30,
   },
+
   cancelButton: {
     flex: 1,
-    paddingVertical: 12,
-    borderRadius: 12,
-    backgroundColor: "#F0F0F0",
-    marginRight: 8,
+    paddingVertical: 14,
+    borderRadius: 10,
+    marginRight: 10,
+    backgroundColor: COLORS.border,
+    alignItems: "center",
   },
+
   cancelText: {
-    textAlign: "center",
     color: COLORS.textPrimary,
     fontWeight: "600",
-    fontSize: 16,
+    fontSize: 15,
   },
+
   confirmButton: {
-    flex: 1,
-    paddingVertical: 12,
-    borderRadius: 12,
+    flex: 1.3,
+    paddingVertical: 14,
+    borderRadius: 10,
     backgroundColor: COLORS.badgeUpcoming,
-    marginLeft: 8,
+    alignItems: "center",
   },
+
   confirmText: {
-    textAlign: "center",
     color: "#FFF",
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 15,
   },
+  header: {
+  fontSize: 26,
+  fontWeight: "700",
+  color: COLORS.textPrimary,
+  marginBottom: 16,
+},
+
+headerRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  paddingVertical: 16,
+  paddingHorizontal: 10,
+  marginBottom: 6,
+  justifyContent: "space-between",
+  backgroundColor: COLORS.background,
+},
+
+headerTitle: {
+  fontSize: 24,
+  fontWeight: "700",
+  color: COLORS.textPrimary,
+},
+
+
 });

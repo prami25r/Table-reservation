@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2025-11-25T00:00:00.000Z",
+  "__export_date": "2025-11-27T00:00:00.000Z",
   "__export_source": "insomnia.desktop.app",
   "resources": [
     {
@@ -20,12 +20,15 @@
         "BASE_URL": "http://localhost:3000"
       }
     },
+
+
     {
       "_id": "fld_customers",
       "parentId": "wrk_table_reservation_api",
       "_type": "request_group",
       "name": "Customers"
     },
+
     {
       "_id": "req_customer_create",
       "parentId": "fld_customers",
@@ -33,11 +36,15 @@
       "name": "Create Customer",
       "method": "POST",
       "url": "{{ _.BASE_URL }}/customers",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
       "body": {
         "mimeType": "application/json",
         "text": "{\n  \"fullName\": \"John Doe\",\n  \"mobileNumber\": \"9876543210\",\n  \"email\": \"john@example.com\"\n}"
       }
     },
+
     {
       "_id": "req_customer_all",
       "parentId": "fld_customers",
@@ -46,6 +53,7 @@
       "method": "GET",
       "url": "{{ _.BASE_URL }}/customers"
     },
+
     {
       "_id": "req_customer_one",
       "parentId": "fld_customers",
@@ -54,6 +62,7 @@
       "method": "GET",
       "url": "{{ _.BASE_URL }}/customers/1"
     },
+
     {
       "_id": "req_customer_update",
       "parentId": "fld_customers",
@@ -61,11 +70,15 @@
       "name": "Update Customer",
       "method": "PUT",
       "url": "{{ _.BASE_URL }}/customers/1",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
       "body": {
         "mimeType": "application/json",
         "text": "{\n  \"fullName\": \"Updated Name\",\n  \"mobileNumber\": \"9999999999\",\n  \"email\": \"updated@example.com\"\n}"
       }
     },
+
     {
       "_id": "req_customer_delete",
       "parentId": "fld_customers",
@@ -75,6 +88,7 @@
       "url": "{{ _.BASE_URL }}/customers/1"
     },
 
+   
 
     {
       "_id": "fld_restaurants",
@@ -82,6 +96,7 @@
       "_type": "request_group",
       "name": "Restaurants"
     },
+
     {
       "_id": "req_restaurant_create",
       "parentId": "fld_restaurants",
@@ -89,11 +104,15 @@
       "name": "Create Restaurant",
       "method": "POST",
       "url": "{{ _.BASE_URL }}/restaurants",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
       "body": {
         "mimeType": "application/json",
         "text": "{\n  \"name\": \"Golden Spoon\",\n  \"location\": \"Mumbai\"\n}"
       }
     },
+
     {
       "_id": "req_restaurant_all",
       "parentId": "fld_restaurants",
@@ -102,6 +121,7 @@
       "method": "GET",
       "url": "{{ _.BASE_URL }}/restaurants"
     },
+
     {
       "_id": "req_restaurant_one",
       "parentId": "fld_restaurants",
@@ -110,6 +130,7 @@
       "method": "GET",
       "url": "{{ _.BASE_URL }}/restaurants/1"
     },
+
     {
       "_id": "req_restaurant_update",
       "parentId": "fld_restaurants",
@@ -117,11 +138,15 @@
       "name": "Update Restaurant",
       "method": "PUT",
       "url": "{{ _.BASE_URL }}/restaurants/1",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
       "body": {
         "mimeType": "application/json",
         "text": "{\n  \"name\": \"Golden Spoon Updated\",\n  \"location\": \"Delhi\"\n}"
       }
     },
+
     {
       "_id": "req_restaurant_delete",
       "parentId": "fld_restaurants",
@@ -138,6 +163,7 @@
       "_type": "request_group",
       "name": "Tables"
     },
+
     {
       "_id": "req_table_create",
       "parentId": "fld_tables",
@@ -145,11 +171,15 @@
       "name": "Create Table",
       "method": "POST",
       "url": "{{ _.BASE_URL }}/tables",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
       "body": {
         "mimeType": "application/json",
         "text": "{\n  \"tableNumber\": 1,\n  \"seatCapacity\": 4,\n  \"restaurantId\": 1\n}"
       }
     },
+
     {
       "_id": "req_table_all",
       "parentId": "fld_tables",
@@ -158,6 +188,7 @@
       "method": "GET",
       "url": "{{ _.BASE_URL }}/tables"
     },
+
     {
       "_id": "req_table_one",
       "parentId": "fld_tables",
@@ -166,6 +197,7 @@
       "method": "GET",
       "url": "{{ _.BASE_URL }}/tables/1"
     },
+
     {
       "_id": "req_table_update",
       "parentId": "fld_tables",
@@ -173,11 +205,15 @@
       "name": "Update Table",
       "method": "PUT",
       "url": "{{ _.BASE_URL }}/tables/1",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
       "body": {
         "mimeType": "application/json",
         "text": "{\n  \"tableNumber\": 2,\n  \"seatCapacity\": 6,\n  \"restaurantId\": 1\n}"
       }
     },
+
     {
       "_id": "req_table_delete",
       "parentId": "fld_tables",
@@ -194,6 +230,7 @@
       "_type": "request_group",
       "name": "Reservations"
     },
+
     {
       "_id": "req_reservation_create",
       "parentId": "fld_reservations",
@@ -201,11 +238,15 @@
       "name": "Create Reservation",
       "method": "POST",
       "url": "{{ _.BASE_URL }}/reservations",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"customerId\": 1,\n  \"restaurantId\": 1,\n  \"reservationDate\": \"2025-11-24T18:00:00.000Z\",\n  \"guestCount\": 4,\n  \"specialRequests\": \"Window seat\",\n  \"tables\": [1, 2]\n}"
+        "text": "{\n  \"customerId\": 1,\n  \"restaurantId\": 1,\n  \"reservationDate\": \"2025-11-28T18:00:00.000Z\",\n  \"guestCount\": 4,\n  \"specialRequests\": \"Window seat\",\n  \"tableIds\": [1, 2]\n}"
       }
     },
+
     {
       "_id": "req_reservation_all",
       "parentId": "fld_reservations",
@@ -214,6 +255,7 @@
       "method": "GET",
       "url": "{{ _.BASE_URL }}/reservations"
     },
+
     {
       "_id": "req_reservation_one",
       "parentId": "fld_reservations",
@@ -222,6 +264,7 @@
       "method": "GET",
       "url": "{{ _.BASE_URL }}/reservations/1"
     },
+
     {
       "_id": "req_reservation_update",
       "parentId": "fld_reservations",
@@ -229,11 +272,33 @@
       "name": "Update Reservation",
       "method": "PUT",
       "url": "{{ _.BASE_URL }}/reservations/1",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"reservationDate\": \"2025-11-25T20:00:00.000Z\",\n  \"guestCount\": 6,\n  \"specialRequests\": \"Birthday setup\",\n  \"status\": \"Completed\"\n}"
+        "text": "{\n  \"reservationDate\": \"2025-11-29T20:00:00.000Z\",\n  \"guestCount\": 6,\n  \"specialRequests\": \"Birthday setup\",\n  \"status\": \"Upcoming\"\n}"
       }
     },
+
+    {
+      "_id": "req_reservation_checkin",
+      "parentId": "fld_reservations",
+      "_type": "request",
+      "name": "Mark as Checked-In",
+      "method": "PATCH",
+      "url": "{{ _.BASE_URL }}/reservations/1/checkedin"
+    },
+
+    {
+      "_id": "req_reservation_cancel",
+      "parentId": "fld_reservations",
+      "_type": "request",
+      "name": "Cancel Reservation",
+      "method": "PATCH",
+      "url": "{{ _.BASE_URL }}/reservations/1/cancel"
+    },
+
     {
       "_id": "req_reservation_delete",
       "parentId": "fld_reservations",

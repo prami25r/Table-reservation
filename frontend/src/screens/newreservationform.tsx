@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Calendar, Clock } from "lucide-react-native";
@@ -33,132 +33,140 @@ const NewReservationForm = ({
   navigation,
 }: any) => {
   return (
-    <SafeAreaView>
-    <View style={styles.card}>
-      <Text style={styles.sectionTitle}>Reserve Your Table</Text>
-      <Text style={styles.sectionSubtitle}>
-        Fill in the details below to make a reservation
-      </Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Reserve Your Table</Text>
+          <Text style={styles.sectionSubtitle}>
+            Fill in the details below to make a reservation
+          </Text>
 
-      <Text style={styles.label}>Full Name *</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter full name"
-        placeholderTextColor={COLORS.textSecondary}
-        value={fullName}
-        onChangeText={setFullName}
-      />
+          <Text style={styles.label}>Full Name *</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter full name"
+            placeholderTextColor={COLORS.textSecondary}
+            value={fullName}
+            onChangeText={setFullName}
+          />
 
-      <Text style={styles.label}>Mobile Number *</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter mobile number"
-        placeholderTextColor={COLORS.textSecondary}
-        keyboardType="phone-pad"
-        value={mobileNumber}
-        onChangeText={setMobileNumber}
-      />
+          <Text style={styles.label}>Mobile Number *</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter mobile number"
+            placeholderTextColor={COLORS.textSecondary}
+            keyboardType="phone-pad"
+            value={mobileNumber}
+            onChangeText={setMobileNumber}
+          />
 
-      <Text style={styles.label}>Email Address</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter email"
-        placeholderTextColor={COLORS.textSecondary}
-        value={email}
-        onChangeText={setEmail}
-      />
+          <Text style={styles.label}>Email Address</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter email"
+            placeholderTextColor={COLORS.textSecondary}
+            value={email}
+            onChangeText={setEmail}
+          />
 
-      <Text style={styles.label}>Restaurant *</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={restaurantId}
-          onValueChange={setRestaurantId}
-          style={styles.picker}
-        >
-          <Picker.Item label="Select a restaurant" value="" />
-          {restaurants.map((r: any) => (
-            <Picker.Item key={r.id} label={r.name} value={r.id} />
-          ))}
-        </Picker>
-      </View>
+          <Text style={styles.label}>Restaurant *</Text>
+          <View style={styles.pickerContainer}>
+            <Picker
+  selectedValue={restaurantId}
+  onValueChange={setRestaurantId}
+  style={[styles.picker, { color: COLORS.textPrimary }]}
+>
 
-      <Text style={styles.label}>Date *</Text>
-      <TouchableOpacity
-        style={styles.inputRow}
-        onPress={() => setShowDatePicker(true)}
-      >
-        <Text style={date ? styles.inputValue : styles.placeholder}>
-          {date ? date.toLocaleDateString() : "Select date"}
-        </Text>
-        <Calendar size={20} color={COLORS.textSecondary} />
-      </TouchableOpacity>
+              <Picker.Item label="Select a restaurant" value="" />
+              {restaurants.map((r: any) => (
+                <Picker.Item key={r.id} label={r.name} value={r.id} />
+              ))}
+            </Picker>
+          </View>
 
-      {showDatePicker && (
-        <DateTimePicker
-          value={date || new Date()}
-          mode="date"
-          onChange={(_: any, d: any) => {
-            setShowDatePicker(false);
-            if (d) setDate(d);
-          }}
-        />
-      )}
+          <Text style={styles.label}>Date *</Text>
+          <TouchableOpacity
+            style={styles.inputRow}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text style={date ? styles.inputValue : styles.placeholder}>
+              {date ? date.toLocaleDateString() : "Select date"}
+            </Text>
+            <Calendar size={20} color={COLORS.textSecondary} />
+          </TouchableOpacity>
 
-      <Text style={styles.label}>Time *</Text>
-      <TouchableOpacity
-        style={styles.inputRow}
-        onPress={() => setShowTimePicker(true)}
-      >
-        <Text style={time ? styles.inputValue : styles.placeholder}>
-          {time ? time.toLocaleTimeString().slice(0, 5) : "Select time"}
-        </Text>
-        <Clock size={20} color={COLORS.textSecondary} />
-      </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={date || new Date()}
+              mode="date"
+              onChange={(_: any, d: any) => {
+                setShowDatePicker(false);
+                if (d) setDate(d);
+              }}
+            />
+          )}
 
-      {showTimePicker && (
-        <DateTimePicker
-          value={time || new Date()}
-          mode="time"
-          onChange={(_: any, t: any) => {
-            setShowTimePicker(false);
-            if (t) setTime(t);
-          }}
-        />
-      )}
+          <Text style={styles.label}>Time *</Text>
+          <TouchableOpacity
+            style={styles.inputRow}
+            onPress={() => setShowTimePicker(true)}
+          >
+            <Text style={time ? styles.inputValue : styles.placeholder}>
+              {time
+                ? time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                : "Select time"}
+            </Text>
+            <Clock size={20} color={COLORS.textSecondary} />
+          </TouchableOpacity>
 
-      <Text style={styles.label}>Number of Guests *</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter guest count"
-        placeholderTextColor={COLORS.textSecondary}
-        keyboardType="numeric"
-        value={String(guestCount)}
-        onChangeText={(v) =>setGuestCount(v)}
-      />
+          {showTimePicker && (
+            <DateTimePicker
+              value={time || new Date()}
+              mode="time"
+              onChange={(_: any, t: any) => {
+                setShowTimePicker(false);
+                if (t) setTime(t);
+              }}
+            />
+          )}
 
-      <Text style={styles.label}>Special Requests</Text>
-      <TextInput
-        style={[styles.input, styles.specialInput]}
-        placeholder="Any special notes..."
-        placeholderTextColor={COLORS.textSecondary}
-        multiline
-        value={specialRequests}
-        onChangeText={setSpecialRequests}
-      />
+          <Text style={styles.label}>Number of Guests *</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter guest count"
+            placeholderTextColor={COLORS.textSecondary}
+            keyboardType="numeric"
+            value={String(guestCount)}
+            onChangeText={(v) => setGuestCount(v)}
+          />
 
-      <View style={styles.buttonRow}>
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.cancelText}>Cancel</Text>
-        </TouchableOpacity>
+          <Text style={styles.label}>Special Requests</Text>
+          <TextInput
+            style={[styles.input, styles.specialInput]}
+            placeholder="Any special notes..."
+            placeholderTextColor={COLORS.textSecondary}
+            multiline
+            value={specialRequests}
+            onChangeText={setSpecialRequests}
+          />
 
-        <TouchableOpacity style={styles.confirmButton} onPress={save}>
-          <Text style={styles.confirmText}>Confirm Reservation</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Text style={styles.cancelText}>Cancel</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={() => save(() => navigation.navigate("Upcoming"))}
+            >
+              <Text style={styles.confirmText}>Confirm Reservation</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

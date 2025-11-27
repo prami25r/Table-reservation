@@ -9,12 +9,20 @@ export const createReservation = async (req: Request, res: Response) => {
       reservationDate,
       guestCount,
       specialRequests,
-      tableIds
+      tableIds,
+      tables
     } = req.body;
 
     if (!customerId || !restaurantId || !reservationDate || !guestCount) {
       return res.status(400).json({ error: "Missing required fields" });
     }
+
+    const finalTableIds =
+      Array.isArray(tableIds)
+        ? tableIds
+        : Array.isArray(tables)
+        ? tables
+        : [];
 
     const result = await ReservationService.create({
       customerId: Number(customerId),
@@ -22,7 +30,7 @@ export const createReservation = async (req: Request, res: Response) => {
       reservationDate,
       guestCount: Number(guestCount),
       specialRequests: specialRequests || null,
-      tableIds: Array.isArray(tableIds) ? tableIds.map(Number) : []
+      tableIds: finalTableIds.map(Number)
     });
 
     return res.status(201).json(result);

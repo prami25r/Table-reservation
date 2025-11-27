@@ -1,32 +1,33 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Upcoming from "./upcoming";
 import CheckedIn from "./checkedIn";
 import Cancelled from "./cancelled";
+import SortFilterBar from "../components/sortfilterbar";
 import { COLORS } from "../themes/colors";
 import { Plus } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const TABS = ["Upcoming", "Checked-In", "Cancelled"] as const;
 
-const TABS = ["Upcoming", "Checked-In", "Cancelled"];
-
-const ReservationsScreen = ({ navigation }: any) => {
-  const [active, setActive] = useState("Upcoming");
+export default function ReservationsScreen({ navigation }: any) {
+  const [active, setActive] = useState<string>("Upcoming");
+  const [sortConfig, setSortConfig] = useState<{ type: "date" | "guests"; order: "asc" | "desc"; }>({
+    type: "date",
+    order: "desc",
+  });
 
   const renderScreen = () => {
-    if (active === "Checked-In") return <CheckedIn />;
-    if (active === "Cancelled") return <Cancelled />;
-    return <Upcoming />;
+    if (active === "Checked-In") return <CheckedIn sort={sortConfig} />;
+    if (active === "Cancelled") return <Cancelled sort={sortConfig} />;
+    return <Upcoming sort={sortConfig} />;
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <Text style={styles.header}>My Reservations</Text>
+
+      <SortFilterBar onSort={(t, o) => setSortConfig({ type: t, order: o })} initial={sortConfig} />
 
       <View style={styles.tabs}>
         {TABS.map((tab) => (
@@ -35,9 +36,7 @@ const ReservationsScreen = ({ navigation }: any) => {
             style={[styles.tab, active === tab && styles.activeTab]}
             onPress={() => setActive(tab)}
           >
-            <Text
-              style={[styles.tabText, active === tab && styles.activeTabText]}
-            >
+            <Text style={[styles.tabText, active === tab && styles.activeTabText]}>
               {tab}
             </Text>
           </TouchableOpacity>
@@ -54,9 +53,7 @@ const ReservationsScreen = ({ navigation }: any) => {
       </TouchableOpacity>
     </SafeAreaView>
   );
-};
-
-export default ReservationsScreen;
+}
 
 const styles = StyleSheet.create({
   safeArea: {
