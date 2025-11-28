@@ -26,30 +26,31 @@ export default function useNewreservation(navigation: any, reservation: any) {
   }, []);
 
   const save = async () => {
-  if (reservation) {
-    await updateReservation(reservation.id, {
-      reservationDate: new Date(
-        date.toISOString().split("T")[0] + "T" + time.toTimeString().slice(0,5) + ":00"
-      ).toISOString(),
-      guestCount: Number(guestCount),
-      specialRequests
-    });
-  } else {
-    await createReservation({
-      customerId: 1,
-      restaurantId: Number(restaurantId),
-      reservationDate: new Date(
-        date.toISOString().split("T")[0] + "T" + time.toTimeString().slice(0,5) + ":00"
-      ).toISOString(),
-      guestCount: Number(guestCount),
-      specialRequests,
-      tableIds: []
-    });
-  }
+    if (reservation) {
+      await updateReservation(reservation.id, {
+        reservationDate: new Date(
+          date.toISOString().split("T")[0] + "T" + time.toTimeString().slice(0, 5) + ":00"
+        ).toISOString(),
+        guestCount: Number(guestCount),
+        specialRequests
+      });
+    } else {
+      await createReservation({
+  fullName,
+  mobileNumber,
+  email,
+  restaurantId: Number(restaurantId),
+  reservationDate: new Date(
+    date.toISOString().split("T")[0] + "T" + time.toTimeString().slice(0, 5) + ":00"
+  ).toISOString(),
+  guestCount: Number(guestCount),
+  specialRequests
+});
 
-  navigation.navigate("Reservations");
-};
+    }
 
+    navigation.navigate("Reservations");
+  };
 
   return {
     fullName,

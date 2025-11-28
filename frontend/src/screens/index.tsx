@@ -5,7 +5,7 @@ import useNewReservation from "./useNewreservation";
 import NewReservationForm from "./newreservationform";
 import { styles } from "./styles";
 
-const NewReservation = ({ navigation, route }: any) => {
+export default function NewReservationIndex({ navigation, route }: any) {
   const reservation = route?.params?.reservation || null;
   const form = useNewReservation(navigation, reservation);
 
@@ -23,6 +23,4 @@ const NewReservation = ({ navigation, route }: any) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
-
-export default NewReservation;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Upcoming from "./upcoming";
 import CheckedIn from "./checkedIn";
@@ -7,27 +7,85 @@ import SortFilterBar from "../components/sortfilterbar";
 import { COLORS } from "../themes/colors";
 import { Plus } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getRestaurants, getReservations } from "../api/reservation";
+
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setReservations } from "../redux/slices/reservationslice";
 
 const TABS = ["Upcoming", "Checked-In", "Cancelled"] as const;
 
 export default function ReservationsScreen({ navigation }: any) {
+  const dispatch = useAppDispatch();
+  const reservations = useAppSelector((s) => s.reservation.list);
+
   const [active, setActive] = useState<string>("Upcoming");
-  const [sortConfig, setSortConfig] = useState<{ type: "date" | "guests"; order: "asc" | "desc"; }>({
+  const [sortConfig, setSortConfig] = useState<{ type: "date" | "guests"; order: "asc" | "desc" }>({
     type: "date",
     order: "desc",
   });
 
+  const [restaurants, setRestaurants] = useState<any[]>([]);
+  const [restaurantFilter, setRestaurantFilter] = useState<number | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getRestaurants();
+        setRestaurants(res.data || []);
+      } catch (e) {
+        setRestaurants([]);
+      }
+    })();
+  }, []);
+
+  // Load all reservations into Redux ***ADDED***
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getReservations();
+        dispatch(setReservations(res.data));
+      } catch (err) {
+        console.log("Reservation load error:", err);
+      }
+    })();
+  }, []);
+
   const renderScreen = () => {
-    if (active === "Checked-In") return <CheckedIn sort={sortConfig} />;
-    if (active === "Cancelled") return <Cancelled sort={sortConfig} />;
-    return <Upcoming sort={sortConfig} />;
+    if (active === "Checked-In")
+      return (
+        <CheckedIn
+          data={reservations}
+          sort={sortConfig}
+          restaurantFilter={restaurantFilter}
+        />
+      );
+
+    if (active === "Cancelled")
+      return (
+        <Cancelled
+          data={reservations}
+          sort={sortConfig}
+          restaurantFilter={restaurantFilter}
+        />
+      );
+
+    return (
+      <Upcoming
+        data={reservations}
+        sort={sortConfig}
+        restaurantFilter={restaurantFilter}
+      />
+    );
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Text style={styles.header}>My Reservations</Text>
-
-      <SortFilterBar onSort={(t, o) => setSortConfig({ type: t, order: o })} initial={sortConfig} />
+      <SortFilterBar
+        onSort={(t, o) => setSortConfig({ type: t, order: o })}
+        onFilterRestaurant={(id) => setRestaurantFilter(id)}
+        restaurants={restaurants}
+        initial={sortConfig}
+      />
 
       <View style={styles.tabs}>
         {TABS.map((tab) => (
@@ -36,9 +94,7 @@ export default function ReservationsScreen({ navigation }: any) {
             style={[styles.tab, active === tab && styles.activeTab]}
             onPress={() => setActive(tab)}
           >
-            <Text style={[styles.tabText, active === tab && styles.activeTabText]}>
-              {tab}
-            </Text>
+            <Text style={[styles.tabText, active === tab && styles.activeTabText]}>{tab}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -61,12 +117,6 @@ const styles = StyleSheet.create({
     padding: 18,
     paddingBottom: 60,
     backgroundColor: COLORS.background,
-  },
-  header: {
-    fontSize: 26,
-    fontWeight: "700",
-    marginBottom: 18,
-    color: COLORS.textPrimary,
   },
   tabs: {
     flexDirection: "row",
@@ -94,7 +144,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    bottom: 25,
+    bottom: 65,
     right: 25,
     backgroundColor: COLORS.primaryButton,
     padding: 18,

@@ -4,40 +4,32 @@ import * as ReservationService from "../services/reservation";
 export const createReservation = async (req: Request, res: Response) => {
   try {
     const {
-      customerId,
+      fullName,
+      mobileNumber,
+      email,
       restaurantId,
       reservationDate,
       guestCount,
-      specialRequests,
-      tableIds,
-      tables
+      specialRequests
     } = req.body;
 
-    if (!customerId || !restaurantId || !reservationDate || !guestCount) {
+    if (!fullName || !mobileNumber || !restaurantId || !reservationDate || !guestCount) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const finalTableIds =
-      Array.isArray(tableIds)
-        ? tableIds
-        : Array.isArray(tables)
-        ? tables
-        : [];
-
     const result = await ReservationService.create({
-      customerId: Number(customerId),
+      fullName,
+      mobileNumber,
+      email,
       restaurantId: Number(restaurantId),
       reservationDate,
       guestCount: Number(guestCount),
-      specialRequests: specialRequests || null,
-      tableIds: finalTableIds.map(Number)
+      specialRequests: specialRequests || null
     });
 
     return res.status(201).json(result);
-
-  } catch (error) {
-    console.error("Create reservation error:", error);
-    return res.status(500).json({ error: "Server error" });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message || "Server error" });
   }
 };
 

@@ -1,34 +1,23 @@
 import React from "react";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView, View, Text, TouchableOpacity } from "react-native";
-import { ArrowLeft } from "lucide-react-native";
 import useNewreservation from "./useNewreservation";
 import NewReservationForm from "./newreservationform";
-import { styles } from "./styles";
 import { COLORS } from "../themes/colors";
+import { styles as formStyles } from "./styles";
 
-export default function NewReservation({ navigation }: any) {
-  const form = useNewreservation(navigation, null);
+export default function NewReservation({ navigation, route }: any) {
+  const reservation = route?.params?.reservation || null;
+  const form = useNewreservation(navigation, reservation);
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.headerRow}>
-  <TouchableOpacity onPress={() => navigation.goBack()}>
-    <ArrowLeft size={26} color={COLORS.textPrimary} />
-  </TouchableOpacity>
-
-  <Text style={styles.headerTitle}>New Reservation</Text>
-
-  <View style={{ width: 26 }} />
-</View>
-
-
+    // <SafeAreaView style={{ flex: 1, backgroundColor: "red" }}>
       <ScrollView
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={formStyles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <NewReservationForm {...form} />
       </ScrollView>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 }

@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
 
   scrollContainer: {
   paddingHorizontal: 20,
-  paddingBottom: 40, 
+  paddingBottom: 60,
+  paddingTop:20,
 }
 ,
 
@@ -19,7 +20,7 @@ export const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 1,
     borderColor: COLORS.border,
-    marginBottom: 20,
+    marginBottom: 10,
   },
 
   sectionTitle: {
@@ -145,14 +146,15 @@ headerRow: {
   paddingVertical: 16,
   paddingHorizontal: 10,
   marginBottom: 6,
-  justifyContent: "space-between",
   backgroundColor: COLORS.background,
+  justifyContent: "flex-start",
 },
 
 headerTitle: {
   fontSize: 24,
   fontWeight: "700",
   color: COLORS.textPrimary,
+  marginLeft: 12,
 },
 
 

@@ -1,56 +1,59 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { FlatList, Alert } from "react-native";
 import ReservationCard from "../components/cards/reservationcard";
-import { getReservations, updateStatus } from "../api/reservation";
+import { updateStatus } from "../api/reservation";
 import { formatDate, formatTime } from "../utils/date";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useFocusEffect } from "@react-navigation/native";
+
 
 type SortConfig = { type: "date" | "guests"; order: "asc" | "desc" };
 
-export default function Upcoming({ sort }: { sort?: SortConfig }) {
-  const [data, setData] = useState<any[]>([]);
+export default function Upcoming({
+  data,
+  sort,
+  restaurantFilter,
+}: {
+  data: any[];
+  sort?: SortConfig;
+  restaurantFilter?: number | null;
+}) {
+  const [localData, setLocalData] = useState<any[]>([]);
 
-  const loadData = useCallback(async () => {
-    try {
-      const res = await getReservations();
-      let filtered = res.data.filter((x: any) => x.status === "Upcoming");
+  const loadData = useCallback(() => {
+    let filtered = data.filter((x: any) => x.status === "Upcoming");
 
-      if (sort) {
-        if (sort.type === "date") {
-          filtered = filtered.sort((a: any, b: any) => {
-            const ad = new Date(a.reservationDate).getTime();
-            const bd = new Date(b.reservationDate).getTime();
-            return sort.order === "asc" ? ad - bd : bd - ad;
-          });
-        } else {
-          filtered = filtered.sort((a: any, b: any) =>
-            sort.order === "asc" ? a.guestCount - b.guestCount : b.guestCount - a.guestCount
-          );
-        }
-      } else {
+    if (restaurantFilter != null) {
+      filtered = filtered.filter((x: any) => x.restaurantId === restaurantFilter);
+    }
+
+    if (sort) {
+      if (sort.type === "date") {
         filtered = filtered.sort((a: any, b: any) => {
           const ad = new Date(a.reservationDate).getTime();
           const bd = new Date(b.reservationDate).getTime();
-          return bd - ad;
+          return sort.order === "asc" ? ad - bd : bd - ad;
         });
+      } else {
+        filtered = filtered.sort((a: any, b: any) =>
+          sort.order === "asc" ? a.guestCount - b.guestCount : b.guestCount - a.guestCount
+        );
       }
-
-      setData(filtered);
-    } catch (err) {
-      console.log("Error:", err);
     }
-  }, [sort]);
 
-  useEffect(() => {
+    setLocalData(filtered);
+  }, [data, sort, restaurantFilter]);
+  
+  useFocusEffect(
+  useCallback(() => {
     loadData();
-  }, [loadData]);
+  }, [])
+);
 
   const handleCancel = async (id: number) => {
     try {
       await updateStatus(id, "Cancelled");
-      loadData();
     } catch (err) {
-      console.log("Cancel error:", err);
       Alert.alert("Error", "Unable to cancel reservation");
     }
   };
@@ -58,7 +61,6 @@ export default function Upcoming({ sort }: { sort?: SortConfig }) {
   const handleCheckIn = async (id: number) => {
     try {
       await updateStatus(id, "Checked-In");
-      loadData();
     } catch (err) {
       console.log("Check-in error:", err);
     }
@@ -67,8 +69,8 @@ export default function Upcoming({ sort }: { sort?: SortConfig }) {
   return (
     <SafeAreaView>
       <FlatList
+        data={localData}
         showsVerticalScrollIndicator={false}
-        data={data}
         keyExtractor={(i) => i.id.toString()}
         contentContainerStyle={{ paddingBottom: 120 }}
         renderItem={({ item }) => (

@@ -1,18 +1,51 @@
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import ReservationsScreen from '../screens/reservation'
-import NewReservation from '../screens/newreservation'
-import Upcoming from "../screens/upcoming";
-import { RootStackParamList } from './type'
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SplashScreen from "../screens/splashscreen";
+import ReservationsScreen from "../screens/reservation";
+import NewReservation from "../screens/newreservation";
+import { StyleSheet } from "react-native";
 
-const Stack = createNativeStackNavigator<RootStackParamList>()
+const Stack = createNativeStackNavigator();
 
-const RootStack = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Reservations" component={ReservationsScreen} />
-    <Stack.Screen name="Upcoming" component={Upcoming} />
-    <Stack.Screen name="NewReservation" component={NewReservation} />
-  </Stack.Navigator>
-)
+export default function RootStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerTitleAlign: "left",
+        headerShadowVisible: false,
+        headerTitleStyle: {
+          fontSize: 24,
+          fontWeight: "700",
+        },
+      }}
+    >
+      <Stack.Screen
+        name="Splash"
+        component={SplashScreen}
+        options={{ headerShown: false }}
+      />
 
-export default RootStack
+      <Stack.Screen
+        name="Reservations"
+        component={ReservationsScreen}
+        options={{ title: "My Reservations" }}
+      />
+
+      <Stack.Screen
+        name="NewReservation"
+        component={NewReservation}
+        options={{
+          title: "New Reservation",
+          headerTitleStyle: styles.newReservationTitle,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+const styles = StyleSheet.create({
+  newReservationTitle: {
+    fontSize: 24,
+    fontWeight: "700",
+  },
+});

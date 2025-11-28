@@ -1,11 +1,14 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import RootStack from './src/navigation/rootstack';
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
+import AppNavigation from "./src/navigation/appnavigation";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <RootStack />
-    </NavigationContainer>
+    <SafeAreaProvider>
+    <Provider store={store}>
+      <AppNavigation />
+    </Provider>
+    </SafeAreaProvider>
   );
 }
