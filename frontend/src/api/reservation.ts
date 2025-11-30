@@ -11,7 +11,7 @@ export const updateReservation = (id: number, data: any) =>
 export const updateStatus = (id: number, status: string) => {
   const mapped: any = {
     "Checked-In": "checkedin",
-    Cancelled: "cancel",
+    "Cancelled" : "cancel",
   };
 
   return api.patch(`/reservations/${id}/${mapped[status]}`);

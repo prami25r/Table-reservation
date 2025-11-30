@@ -11,9 +11,7 @@ type Props = {
   time: string;
   guests: number;
   status: string;
-  onUpdate?: () => void;
   onCancel?: () => void;
-  onCheckIn?: () => void;
 };
 
 export default function ReservationCard({
@@ -23,26 +21,28 @@ export default function ReservationCard({
   time,
   guests,
   status,
-  onUpdate,
   onCancel,
-  onCheckIn,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
 
+  const badgeStyle = [
+    styles.badge,
+    status === "Upcoming" && { backgroundColor: COLORS.badgeUpcoming },
+    status === "Checked-In" && { backgroundColor: COLORS.badgeCheckedIn },
+    status === "Cancelled" && { backgroundColor: COLORS.badgeCancelled },
+  ];
+  const clockIconStyle = { marginLeft: 20 };
+  const guestsIconStyle = { marginLeft: 20 };
+
   return (
     <View>
-      <TouchableOpacity style={styles.card} onPress={() => setExpanded(!expanded)}>
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => setExpanded((prev) => !prev)}
+        >
         <View style={styles.headerRow}>
           <Text style={styles.title}>{restaurantName}</Text>
-
-          <View
-            style={[
-              styles.badge,
-              status === "Upcoming" && { backgroundColor: COLORS.badgeUpcoming },
-              status === "Checked-In" && { backgroundColor: COLORS.badgeCheckedIn },
-              status === "Cancelled" && { backgroundColor: COLORS.badgeCancelled },
-            ]}
-          >
+          <View style={badgeStyle}>
             <Text style={styles.badgeText}>{status}</Text>
           </View>
         </View>
@@ -56,14 +56,17 @@ export default function ReservationCard({
           <Calendar size={18} color={COLORS.textSecondary} />
           <Text style={styles.infoText}>{date}</Text>
 
-          <Clock size={18} color={COLORS.textSecondary} style={{ marginLeft: 20 }} />
+          <Clock size={18} color={COLORS.textSecondary} style={clockIconStyle} />
           <Text style={styles.infoText}>{time}</Text>
 
-          <Users size={18} color={COLORS.textSecondary} style={{ marginLeft: 20 }} />
+          <Users
+            size={18}
+            color={COLORS.textSecondary}
+            style={guestsIconStyle}
+          />
           <Text style={styles.infoText}>{guests} guests</Text>
         </View>
       </TouchableOpacity>
-
       {expanded && status === "Upcoming" && (
         <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
           <Text style={styles.cancelText}>Cancel Reservation</Text>
@@ -72,3 +75,4 @@ export default function ReservationCard({
     </View>
   );
 }
+

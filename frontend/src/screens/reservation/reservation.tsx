@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import Upcoming from "./upcoming";
 import CheckedIn from "./checkedIn";
 import Cancelled from "./cancelled";
@@ -18,48 +18,41 @@ export default function ReservationsScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
   const reservations = useAppSelector((s) => s.reservation.list);
 
-  const [active, setActive] = useState<string>("Upcoming");
-  const [sortConfig, setSortConfig] = useState<{ type: "date" | "guests"; order: "asc" | "desc" }>({
-    type: "date",
-    order: "desc",
+  const [active, setActive] = useState("Upcoming");
+  const [sortConfig, setSortConfig] = useState({
+    type: "date" as "date" | "guests",
+    order: "desc" as "asc" | "desc",
   });
-
   const [restaurants, setRestaurants] = useState<any[]>([]);
   const [restaurantFilter, setRestaurantFilter] = useState<number | null>(null);
+  const loadRestaurants = async () => {
+    try {
+      const res = await getRestaurants();
+      setRestaurants(res.data || []);
+    } catch {
+      setRestaurants([]);
+    }
+  };
+  const loadReservations = async () => {
+    try {
+      const res = await getReservations();
+      dispatch(setReservations(res.data));
+    } catch (err) {
+      console.log("Reservation load error:", err);
+    }
+  };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await getRestaurants();
-        setRestaurants(res.data || []);
-      } catch (e) {
-        setRestaurants([]);
-      }
-    })();
+    loadRestaurants();
   }, []);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await getReservations();
-        dispatch(setReservations(res.data));
-      } catch (err) {
-        console.log("Reservation load error:", err);
-      }
-    })();
+    loadReservations();
   }, []);
 
   useFocusEffect(
-    React.useCallback(() => {
-      console.log("FOCUSED");
-      (async () => {
-        try {
-          const res = await getReservations();
-          dispatch(setReservations(res.data));
-        } catch (err) {
-          console.log("Reservation reload error:", err);
-        }
-      })();
+    useCallback(() => {
+      loadReservations();
     }, [])
   );
 
@@ -91,15 +84,19 @@ export default function ReservationsScreen({ navigation }: any) {
     );
   };
 
+  const handleSort = (t: "date" | "guests", o: "asc" | "desc") =>
+    setSortConfig({ type: t, order: o });
+
+  const handleFilter = (id: number | null) => setRestaurantFilter(id);
+
   return (
-  
-    <SafeAreaView style={styles.safeArea}>   
-       <SortFilterBar
-    onSort={(t, o) => setSortConfig({ type: t, order: o })}
-    onFilterRestaurant={(id) => setRestaurantFilter(id)}
-    restaurants={restaurants}
-    initial={sortConfig}
-  />
+    <SafeAreaView style={styles.safeArea}>
+      <SortFilterBar
+        onSort={handleSort}
+        onFilterRestaurant={handleFilter}
+        restaurants={restaurants}
+        initial={sortConfig}
+      />
 
       <View style={styles.tabs}>
         {TABS.map((tab) => (
@@ -126,7 +123,5 @@ export default function ReservationsScreen({ navigation }: any) {
         <Plus color="#FFF" size={30} />
       </TouchableOpacity>
     </SafeAreaView>
-);
-
+  );
 }
-

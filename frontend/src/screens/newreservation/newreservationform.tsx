@@ -64,7 +64,17 @@ export default function NewReservationForm({
 
     return true;
   };
+  
+  const handleDateChange = (_: any, selectedDate: Date | undefined) => {
+  setShowDatePicker(false);
+  if (selectedDate) setDate(selectedDate);
+};
 
+const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
+  setShowTimePicker(false);
+  if (selectedTime) setTime(selectedTime);
+};
+ 
   const handleSubmit = async () => {
     if (!validate()) return;
 
@@ -88,6 +98,7 @@ export default function NewReservationForm({
           Fill in the details below to make a reservation
         </Text>
 
+     
         <Text style={styles.label}>Full Name *</Text>
         <TextInput
           style={[styles.input, errors.fullName && { borderColor: "red" }]}
@@ -96,7 +107,8 @@ export default function NewReservationForm({
           value={fullName}
           onChangeText={setFullName}
         />
-        
+
+      
         <Text style={styles.label}>Mobile Number *</Text>
         <TextInput
           style={[styles.input, errors.mobileNumber && { borderColor: "red" }]}
@@ -107,6 +119,7 @@ export default function NewReservationForm({
           onChangeText={setMobileNumber}
         />
 
+      
         <Text style={styles.label}>Email Address *</Text>
         <TextInput
           style={[styles.input, errors.email && { borderColor: "red" }]}
@@ -135,6 +148,7 @@ export default function NewReservationForm({
           </Picker>
         </View>
 
+      
         <Text style={styles.label}>Date *</Text>
         <TouchableOpacity
           style={[
@@ -153,13 +167,11 @@ export default function NewReservationForm({
           <DateTimePicker
             value={date || new Date()}
             mode="date"
-            onChange={(_, d) => {
-              setShowDatePicker(false);
-              if (d) setDate(d);
-            }}
+            onChange={handleDateChange}
           />
         )}
 
+      
         <Text style={styles.label}>Time *</Text>
         <TouchableOpacity
           style={[
@@ -183,13 +195,11 @@ export default function NewReservationForm({
           <DateTimePicker
             value={time || new Date()}
             mode="time"
-            onChange={(_, t) => {
-              setShowTimePicker(false);
-              if (t) setTime(t);
-            }}
+            onChange={handleTimeChange}
           />
         )}
 
+      
         <Text style={styles.label}>Number of Guests *</Text>
         <TextInput
           style={[styles.input, errors.guestCount && { borderColor: "red" }]}
@@ -200,6 +210,7 @@ export default function NewReservationForm({
           onChangeText={setGuestCount}
         />
 
+       
         <Text style={styles.label}>Special Requests</Text>
         <TextInput
           style={[styles.input, styles.specialInput]}
@@ -210,6 +221,7 @@ export default function NewReservationForm({
           onChangeText={setSpecialRequests}
         />
 
+        
         <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.cancelButton}

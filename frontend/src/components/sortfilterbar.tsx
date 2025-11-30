@@ -37,6 +37,16 @@ export default function SortFilterBar({
     onSort?.(sortType, newOrder);
   };
 
+  const toggleSortMenu = () => {
+    setShowSortMenu((v) => !v);
+    setShowRestaurantMenu(false);
+  };
+
+  const toggleRestaurantMenu = () => {
+    setShowRestaurantMenu((v) => !v);
+    setShowSortMenu(false);
+  };
+
   const selectSortType = (type: SortType) => {
     setSortType(type);
     onSort?.(type, order);
@@ -61,17 +71,11 @@ export default function SortFilterBar({
         <TouchableOpacity onPress={toggleOrder} style={styles.orderToggle}>
           <ArrowUpDown size={18} color={COLORS.textPrimary} />
         </TouchableOpacity>
-
         <View style={styles.sortBoxWrapper}>
-          <TouchableOpacity
-            style={styles.sortBox}
-            onPress={() => {
-              setShowSortMenu((v) => !v);
-              setShowRestaurantMenu(false);
-            }}
-          >
+          <TouchableOpacity style={styles.sortBox} onPress={toggleSortMenu}>
             <Text numberOfLines={1} style={styles.boxText}>
-              {sortLabel}
+              
+            {sortLabel}
             </Text>
             <ChevronDown size={16} color={COLORS.textSecondary} />
           </TouchableOpacity>
@@ -87,15 +91,8 @@ export default function SortFilterBar({
             </View>
           )}
         </View>
-
         <View style={styles.restaurantBoxWrapper}>
-          <TouchableOpacity
-            style={styles.box}
-            onPress={() => {
-              setShowRestaurantMenu((v) => !v);
-              setShowSortMenu(false);
-            }}
-          >
+          <TouchableOpacity style={styles.box} onPress={toggleRestaurantMenu}>
             <Text numberOfLines={1} style={styles.boxText}>
               {selectedRestaurant ? selectedRestaurant.name : "All Restaurants"}
             </Text>
