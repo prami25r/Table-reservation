@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { FlatList } from "react-native";
-import ReservationCard from "../components/cards/reservationcard";
-import { formatDate, formatTime } from "../utils/date";
+import ReservationCard from "../../components/cards/reservationcard";
+import { formatDate, formatTime } from "../../utils/date";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 
 type SortConfig = { type: "date" | "guests"; order: "asc" | "desc" };
 
-export default function CheckedIn({
+export default function Cancelled({
   data,
   sort,
   restaurantFilter,
@@ -18,7 +19,7 @@ export default function CheckedIn({
   const [localData, setLocalData] = useState<any[]>([]);
 
   const loadData = useCallback(() => {
-    let filtered = data.filter((x: any) => x.status === "Checked-In");
+    let filtered = data.filter((x: any) => x.status === "Cancelled");
 
     if (restaurantFilter != null) {
       filtered = filtered.filter((x: any) => x.restaurantId === restaurantFilter);
@@ -43,7 +44,7 @@ export default function CheckedIn({
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [data, sort, restaurantFilter]);
 
   return (
     <SafeAreaView>
@@ -51,7 +52,7 @@ export default function CheckedIn({
         data={localData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(i) => i.id.toString()}
-        contentContainerStyle={{ paddingBottom: 120 }}
+        contentContainerStyle={{ paddingBottom: 120, paddingTop:4 }}
         renderItem={({ item }) => (
           <ReservationCard
             restaurantName={item.restaurant.name}
@@ -63,6 +64,6 @@ export default function CheckedIn({
           />
         )}
       />
-    </SafeAreaView>
+      </SafeAreaView>
   );
 }

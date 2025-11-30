@@ -157,5 +157,4 @@ headerTitle: {
   marginLeft: 12,
 },
 
-
 });

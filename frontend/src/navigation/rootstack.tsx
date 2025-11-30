@@ -1,8 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SplashScreen from "../screens/splashscreen";
-import ReservationsScreen from "../screens/reservation";
-import NewReservation from "../screens/newreservation";
+import ReservationsScreen from "../screens/reservation/reservation";
+import NewReservation from "../screens/newreservation/newreservation";
 import { StyleSheet } from "react-native";
 
 const Stack = createNativeStackNavigator();
@@ -15,7 +15,7 @@ export default function RootStack() {
         headerShadowVisible: false,
         headerTitleStyle: {
           fontSize: 24,
-          fontWeight: "700",
+          fontWeight: "700"
         },
       }}
     >
@@ -47,5 +47,7 @@ const styles = StyleSheet.create({
   newReservationTitle: {
     fontSize: 24,
     fontWeight: "700",
+     paddingTop: 0
   },
+  
 });

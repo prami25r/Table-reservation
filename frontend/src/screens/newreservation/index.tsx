@@ -1,9 +1,9 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, Text } from "react-native";
-import useNewReservation from "./useNewreservation";
+import useNewReservation from "./hooks";
 import NewReservationForm from "./newreservationform";
-import { styles } from "./styles";
+import { styles } from "../styles";
 
 export default function NewReservationIndex({ navigation, route }: any) {
   const reservation = route?.params?.reservation || null;

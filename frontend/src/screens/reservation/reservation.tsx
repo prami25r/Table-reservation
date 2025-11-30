@@ -3,14 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Upcoming from "./upcoming";
 import CheckedIn from "./checkedIn";
 import Cancelled from "./cancelled";
-import SortFilterBar from "../components/sortfilterbar";
-import { COLORS } from "../themes/colors";
+import SortFilterBar from "../../components/sortfilterbar";
 import { Plus } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getRestaurants, getReservations } from "../api/reservation";
-
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { setReservations } from "../redux/slices/reservationslice";
+import { getRestaurants, getReservations } from "../../api/reservation";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setReservations } from "../../redux/slices/reservationslice";
+import { useFocusEffect } from "@react-navigation/native";
+import { styles } from "./styles";
 
 const TABS = ["Upcoming", "Checked-In", "Cancelled"] as const;
 
@@ -38,7 +38,6 @@ export default function ReservationsScreen({ navigation }: any) {
     })();
   }, []);
 
-  // Load all reservations into Redux ***ADDED***
   useEffect(() => {
     (async () => {
       try {
@@ -49,6 +48,20 @@ export default function ReservationsScreen({ navigation }: any) {
       }
     })();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log("FOCUSED");
+      (async () => {
+        try {
+          const res = await getReservations();
+          dispatch(setReservations(res.data));
+        } catch (err) {
+          console.log("Reservation reload error:", err);
+        }
+      })();
+    }, [])
+  );
 
   const renderScreen = () => {
     if (active === "Checked-In")
@@ -79,13 +92,14 @@ export default function ReservationsScreen({ navigation }: any) {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <SortFilterBar
-        onSort={(t, o) => setSortConfig({ type: t, order: o })}
-        onFilterRestaurant={(id) => setRestaurantFilter(id)}
-        restaurants={restaurants}
-        initial={sortConfig}
-      />
+  
+    <SafeAreaView style={styles.safeArea}>   
+       <SortFilterBar
+    onSort={(t, o) => setSortConfig({ type: t, order: o })}
+    onFilterRestaurant={(id) => setRestaurantFilter(id)}
+    restaurants={restaurants}
+    initial={sortConfig}
+  />
 
       <View style={styles.tabs}>
         {TABS.map((tab) => (
@@ -94,7 +108,11 @@ export default function ReservationsScreen({ navigation }: any) {
             style={[styles.tab, active === tab && styles.activeTab]}
             onPress={() => setActive(tab)}
           >
-            <Text style={[styles.tabText, active === tab && styles.activeTabText]}>{tab}</Text>
+            <Text
+              style={[styles.tabText, active === tab && styles.activeTabText]}
+            >
+              {tab}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -108,46 +126,7 @@ export default function ReservationsScreen({ navigation }: any) {
         <Plus color="#FFF" size={30} />
       </TouchableOpacity>
     </SafeAreaView>
-  );
+);
+
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    padding: 18,
-    paddingBottom: 60,
-    backgroundColor: COLORS.background,
-  },
-  tabs: {
-    flexDirection: "row",
-    backgroundColor: COLORS.tabBackground,
-    borderRadius: 14,
-    padding: 4,
-    marginBottom: 20,
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    borderRadius: 12,
-  },
-  activeTab: {
-    backgroundColor: COLORS.tabActive,
-  },
-  tabText: {
-    textAlign: "center",
-    color: COLORS.textSecondary,
-    fontWeight: "600",
-  },
-  activeTabText: {
-    color: COLORS.textPrimary,
-    fontWeight: "700",
-  },
-  fab: {
-    position: "absolute",
-    bottom: 65,
-    right: 25,
-    backgroundColor: COLORS.primaryButton,
-    padding: 18,
-    borderRadius: 50,
-  },
-});

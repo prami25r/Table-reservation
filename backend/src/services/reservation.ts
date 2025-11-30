@@ -28,7 +28,7 @@ export const create = async (input: any) => {
     data: {
       customerId: customer.id,
       restaurantId: input.restaurantId,
-      reservationDate: new Date(input.reservationDate),
+      reservationDate: input.reservationDate,
       guestCount: input.guestCount,
       specialRequests: input.specialRequests,
       tables: {

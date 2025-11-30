@@ -22,7 +22,9 @@ export const createReservation = async (req: Request, res: Response) => {
       mobileNumber,
       email,
       restaurantId: Number(restaurantId),
-      reservationDate,
+
+      reservationDate: new Date(reservationDate),
+
       guestCount: Number(guestCount),
       specialRequests: specialRequests || null
     });
@@ -46,7 +48,14 @@ export const getReservation = async (req: Request, res: Response) => {
 
 export const updateReservation = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
-  const result = await ReservationService.update(id, req.body);
+  const body = { ...req.body };
+
+  
+  if (body.reservationDate) {
+    body.reservationDate = new Date(body.reservationDate);
+  }
+
+  const result = await ReservationService.update(id, body);
   return res.json(result);
 };
 

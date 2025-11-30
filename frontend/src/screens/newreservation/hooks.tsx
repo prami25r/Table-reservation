@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getRestaurants, createReservation, updateReservation } from "../api/reservation";
+import { getRestaurants, createReservation, updateReservation } from "../../api/reservation";
 
 export default function useNewreservation(navigation: any, reservation: any) {
   const [fullName, setFullName] = useState(reservation?.customer?.fullName || "");
@@ -25,32 +25,38 @@ export default function useNewreservation(navigation: any, reservation: any) {
     })();
   }, []);
 
-  const save = async () => {
-    if (reservation) {
-      await updateReservation(reservation.id, {
-        reservationDate: new Date(
-          date.toISOString().split("T")[0] + "T" + time.toTimeString().slice(0, 5) + ":00"
-        ).toISOString(),
-        guestCount: Number(guestCount),
-        specialRequests
-      });
-    } else {
-      await createReservation({
-  fullName,
-  mobileNumber,
-  email,
-  restaurantId: Number(restaurantId),
-  reservationDate: new Date(
-    date.toISOString().split("T")[0] + "T" + time.toTimeString().slice(0, 5) + ":00"
-  ).toISOString(),
-  guestCount: Number(guestCount),
-  specialRequests
-});
+const save = async () => {
+  const mergedDate = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    time.getHours(),
+    time.getMinutes(),
+    0,
+    0
+  );
 
-    }
+  if (reservation) {
+    await updateReservation(reservation.id, {
+      reservationDate: mergedDate,
+      guestCount: Number(guestCount),
+      specialRequests
+    });
+  } else {
+    await createReservation({
+      fullName,
+      mobileNumber,
+      email,
+      restaurantId: Number(restaurantId),
+      reservationDate: mergedDate,
+      guestCount: Number(guestCount),
+      specialRequests
+    });
+  }
 
-    navigation.navigate("Reservations");
-  };
+  navigation.navigate("Reservations");
+};
+
 
   return {
     fullName,
