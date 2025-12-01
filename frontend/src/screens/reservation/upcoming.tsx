@@ -6,7 +6,6 @@ import { formatDate, formatTime } from "../../utils/date";
 import { useFocusEffect } from "@react-navigation/native";
 import { useAppDispatch } from "../../redux/hooks";
 import { updateStatus as updateStatusRedux } from "../../redux/slices/reservationslice";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 type SortConfig = { type: "date" | "guests"; order: "asc" | "desc" };
 
@@ -60,28 +59,18 @@ export default function Upcoming({
     try {
       await updateStatus(id, "Cancelled");
       dispatch(updateStatusRedux({ id, status: "Cancelled" }));
-    } catch (err) {
+    } catch {
       Alert.alert("Error", "Unable to cancel reservation");
-    }
-  };
-
-  const handleCheckIn = async (id: number) => {
-    try {
-      await updateStatus(id, "Checked-In");
-      dispatch(updateStatusRedux({ id, status: "Checked-In" }));
-    } catch (err) {
-      console.log("Check-in error:", err);
     }
   };
 
   return (
     <>
-    <SafeAreaView>
       <FlatList
         data={localData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(i) => i.id.toString()}
-        contentContainerStyle={{ paddingBottom: 120, paddingTop:4 }}
+        contentContainerStyle={{ paddingBottom: 120, paddingTop: 4 }}
         renderItem={({ item }) => (
           <ReservationCard
             restaurantName={item.restaurant.name}
@@ -91,12 +80,9 @@ export default function Upcoming({
             time={formatTime(item.reservationDate)}
             status={item.status}
             onCancel={() => handleCancel(item.id)}
-            onCheckIn={() => handleCheckIn(item.id)}
-            onUpdate={() => {}}
           />
         )}
       />
-   </SafeAreaView>
     </>
   );
 }

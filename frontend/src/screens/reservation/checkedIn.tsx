@@ -46,7 +46,7 @@ export default function CheckedIn({
   }, []);
 
   return (
-    <SafeAreaView>
+
       <FlatList
         data={localData}
         showsVerticalScrollIndicator={false}
@@ -63,6 +63,6 @@ export default function CheckedIn({
           />
         )}
       />
-      </SafeAreaView>
+    
   );
 }

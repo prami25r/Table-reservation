@@ -47,7 +47,6 @@ export default function Cancelled({
   }, [data, sort, restaurantFilter]);
 
   return (
-    <SafeAreaView>
       <FlatList
         data={localData}
         showsVerticalScrollIndicator={false}
@@ -64,6 +63,5 @@ export default function Cancelled({
           />
         )}
       />
-      </SafeAreaView>
   );
 }

@@ -1,29 +1,38 @@
 import { prisma } from "../prisma";
 
 export const create = async (input: any) => {
-  const existingTables = await prisma.table.findMany({
-    where: { restaurantId: input.restaurantId },
+  // Fetch all tables for this restaurant (your seeded 10)
+  const allTables = await prisma.table.findMany({
+    where: { restaurantId: input.restaurantId }
   });
 
-  if (existingTables.length >= 10) {
+  if (allTables.length < 10) {
+    throw new Error("Restaurant tables not fully configured");
+  }
+
+  const usedTables = await prisma.reservationTable.findMany({
+    where: {
+      reservation: { restaurantId: input.restaurantId }
+    },
+    select: { tableId: true }
+  });
+
+  const availableTable = allTables.find(
+    (t) => !usedTables.some((u) => u.tableId === t.id)
+  );
+
+  if (!availableTable) {
     throw new Error("No tables available for this restaurant");
   }
+
 
   const customer = await prisma.customer.create({
     data: {
       fullName: input.fullName,
       mobileNumber: input.mobileNumber,
-      email: input.email,
-    },
+      email: input.email
+    }
   });
-
-  const table = await prisma.table.create({
-    data: {
-      tableNumber: existingTables.length + 1,
-      restaurantId: input.restaurantId,
-    },
-  });
-
   return prisma.reservation.create({
     data: {
       customerId: customer.id,
@@ -33,15 +42,15 @@ export const create = async (input: any) => {
       specialRequests: input.specialRequests,
       tables: {
         create: {
-          tableId: table.id,
-        },
-      },
+          tableId: availableTable.id
+        }
+      }
     },
     include: {
       customer: true,
       restaurant: true,
-      tables: { include: { table: true } },
-    },
+      tables: { include: { table: true } }
+    }
   });
 };
 
@@ -50,9 +59,9 @@ export const getAll = () =>
     include: {
       customer: true,
       restaurant: true,
-      tables: { include: { table: true } },
+      tables: { include: { table: true } }
     },
-    orderBy: { reservationDate: "asc" },
+    orderBy: { reservationDate: "asc" }
   });
 
 export const getOne = (id: number) =>
@@ -61,8 +70,8 @@ export const getOne = (id: number) =>
     include: {
       customer: true,
       restaurant: true,
-      tables: { include: { table: true } },
-    },
+      tables: { include: { table: true } }
+    }
   });
 
 export const update = (id: number, input: any) =>
@@ -74,8 +83,8 @@ export const update = (id: number, input: any) =>
         : undefined,
       guestCount: input.guestCount,
       specialRequests: input.specialRequests,
-      status: input.status,
-    },
+      status: input.status
+    }
   });
 
 export const remove = (id: number) =>
@@ -84,5 +93,5 @@ export const remove = (id: number) =>
 export const updateStatus = (id: number, status: string) =>
   prisma.reservation.update({
     where: { id },
-    data: { status },
+    data: { status }
   });
