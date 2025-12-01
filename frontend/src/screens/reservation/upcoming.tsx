@@ -22,24 +22,24 @@ export default function Upcoming({
   const dispatch = useAppDispatch();
 
   const loadData = useCallback(() => {
-    let filtered = data.filter((x: any) => x.status === "Upcoming");
+    let filtered = data.filter((x) => x.status === "Upcoming");
 
     if (restaurantFilter != null) {
-      filtered = filtered.filter((x: any) => x.restaurantId === restaurantFilter);
+      filtered = filtered.filter((x) => x.restaurantId === restaurantFilter);
     }
 
-    if (sort) {
-      if (sort.type === "date") {
-        filtered = filtered.sort((a: any, b: any) => {
-          const ad = new Date(a.reservationDate).getTime();
-          const bd = new Date(b.reservationDate).getTime();
-          return sort.order === "asc" ? ad - bd : bd - ad;
-        });
-      } else {
-        filtered = filtered.sort((a: any, b: any) =>
-          sort.order === "asc" ? a.guestCount - b.guestCount : b.guestCount - a.guestCount
-        );
-      }
+    if (sort?.type === "date") {
+      filtered = filtered.sort((a, b) => {
+        const ad = new Date(a.reservationDate).getTime();
+        const bd = new Date(b.reservationDate).getTime();
+        return sort.order === "asc" ? ad - bd : bd - ad;
+      });
+    } else if (sort?.type === "guests") {
+      filtered = filtered.sort((a, b) =>
+        sort.order === "asc"
+          ? a.guestCount - b.guestCount
+          : b.guestCount - a.guestCount
+      );
     }
 
     setLocalData(filtered);
@@ -47,12 +47,12 @@ export default function Upcoming({
 
   useEffect(() => {
     loadData();
-  }, [data, sort, restaurantFilter]);
+  }, [loadData]);
 
   useFocusEffect(
     useCallback(() => {
       loadData();
-    }, [data, sort, restaurantFilter])
+    }, [loadData])
   );
 
   const handleCancel = async (id: number) => {
@@ -65,24 +65,22 @@ export default function Upcoming({
   };
 
   return (
-    <>
-      <FlatList
-        data={localData}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(i) => i.id.toString()}
-        contentContainerStyle={{ paddingBottom: 120, paddingTop: 4 }}
-        renderItem={({ item }) => (
-          <ReservationCard
-            restaurantName={item.restaurant.name}
-            restaurantLocation={item.restaurant.location || "Location"}
-            guests={item.guestCount}
-            date={formatDate(item.reservationDate)}
-            time={formatTime(item.reservationDate)}
-            status={item.status}
-            onCancel={() => handleCancel(item.id)}
-          />
-        )}
-      />
-    </>
+    <FlatList
+      data={localData}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={(i) => i.id.toString()}
+      contentContainerStyle={{ paddingBottom: 120, paddingTop: 4 }}
+      renderItem={({ item }) => (
+        <ReservationCard
+          restaurantName={item.restaurant.name}
+          restaurantLocation={item.restaurant.location || "Location"}
+          guests={item.guestCount}
+          date={formatDate(item.reservationDate)}
+          time={formatTime(item.reservationDate)}
+          status={item.status}
+          onCancel={() => handleCancel(item.id)}
+        />
+      )}
+    />
   );
 }

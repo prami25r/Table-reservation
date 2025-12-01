@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Calendar, Clock, Users, MapPin } from "lucide-react-native";
 import { COLORS } from "../../themes/colors";
@@ -23,40 +23,58 @@ export default function ReservationCard({
   status,
   onCancel,
 }: Props) {
+  
   const [expanded, setExpanded] = useState(false);
 
-  const badgeStyle = [
-    styles.badge,
-    status === "Upcoming" && { backgroundColor: COLORS.badgeUpcoming },
-    status === "Checked-In" && { backgroundColor: COLORS.badgeCheckedIn },
-    status === "Cancelled" && { backgroundColor: COLORS.badgeCancelled },
-  ];
+ 
+  const toggleExpand = useCallback(() => {
+    setExpanded((prev) => !prev);
+  }, []);
+
+  
+  const badgeStyle = useMemo(
+    () => [
+      styles.badge,
+      status === "Upcoming" && { backgroundColor: COLORS.badgeUpcoming },
+      status === "Checked-In" && { backgroundColor: COLORS.badgeCheckedIn },
+      status === "Cancelled" && { backgroundColor: COLORS.badgeCancelled },
+    ],
+    [status]
+  );
+
+
   const clockIconStyle = { marginLeft: 20 };
   const guestsIconStyle = { marginLeft: 20 };
 
+  
   return (
     <View>
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => setExpanded((prev) => !prev)}
-        >
+      <TouchableOpacity style={styles.card} onPress={toggleExpand}>
+       
         <View style={styles.headerRow}>
           <Text style={styles.title}>{restaurantName}</Text>
+
           <View style={badgeStyle}>
             <Text style={styles.badgeText}>{status}</Text>
           </View>
         </View>
 
+    
         <View style={styles.locationRow}>
           <MapPin size={17} color={COLORS.textSecondary} />
           <Text style={styles.locationText}>{restaurantLocation}</Text>
         </View>
 
+        
         <View style={styles.infoRow}>
           <Calendar size={18} color={COLORS.textSecondary} />
           <Text style={styles.infoText}>{date}</Text>
 
-          <Clock size={18} color={COLORS.textSecondary} style={clockIconStyle} />
+          <Clock
+            size={18}
+            color={COLORS.textSecondary}
+            style={clockIconStyle}
+          />
           <Text style={styles.infoText}>{time}</Text>
 
           <Users
@@ -67,6 +85,8 @@ export default function ReservationCard({
           <Text style={styles.infoText}>{guests} guests</Text>
         </View>
       </TouchableOpacity>
+
+      
       {expanded && status === "Upcoming" && (
         <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
           <Text style={styles.cancelText}>Cancel Reservation</Text>
@@ -75,4 +95,3 @@ export default function ReservationCard({
     </View>
   );
 }
-

@@ -18,6 +18,7 @@ export default function ReservationsScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
   const reservations = useAppSelector((s) => s.reservation.list);
 
+ 
   const [active, setActive] = useState("Upcoming");
   const [sortConfig, setSortConfig] = useState({
     type: "date" as "date" | "guests",
@@ -25,64 +26,73 @@ export default function ReservationsScreen({ navigation }: any) {
   });
   const [restaurants, setRestaurants] = useState<any[]>([]);
   const [restaurantFilter, setRestaurantFilter] = useState<number | null>(null);
-  const loadRestaurants = async () => {
+
+
+  const loadRestaurants = useCallback(async () => {
     try {
       const res = await getRestaurants();
       setRestaurants(res.data || []);
     } catch {
       setRestaurants([]);
     }
-  };
-  const loadReservations = async () => {
+  }, []);
+
+
+  const loadReservations = useCallback(async () => {
     try {
       const res = await getReservations();
       dispatch(setReservations(res.data));
     } catch (err) {
       console.log("Reservation load error:", err);
     }
-  };
+  }, [dispatch]);
+
 
   useEffect(() => {
     loadRestaurants();
-  }, []);
+  }, [loadRestaurants]);
 
   useEffect(() => {
     loadReservations();
-  }, []);
+  }, [loadReservations]);
+
 
   useFocusEffect(
     useCallback(() => {
       loadReservations();
-    }, [])
+    }, [loadReservations])
   );
 
+
   const renderScreen = () => {
-    if (active === "Checked-In")
-      return (
-        <CheckedIn
-          data={reservations}
-          sort={sortConfig}
-          restaurantFilter={restaurantFilter}
-        />
-      );
-
-    if (active === "Cancelled")
-      return (
-        <Cancelled
-          data={reservations}
-          sort={sortConfig}
-          restaurantFilter={restaurantFilter}
-        />
-      );
-
-    return (
-      <Upcoming
-        data={reservations}
-        sort={sortConfig}
-        restaurantFilter={restaurantFilter}
-      />
-    );
+    switch (active) {
+      case "Checked-In":
+        return (
+          <CheckedIn
+            data={reservations}
+            sort={sortConfig}
+            restaurantFilter={restaurantFilter}
+          />
+        );
+      case "Cancelled":
+        return (
+          <Cancelled
+            data={reservations}
+            sort={sortConfig}
+            restaurantFilter={restaurantFilter}
+          />
+        );
+      default:
+        return (
+          <Upcoming
+            data={reservations}
+            sort={sortConfig}
+            restaurantFilter={restaurantFilter}
+          />
+        );
+    }
   };
+
 
   const handleSort = (t: "date" | "guests", o: "asc" | "desc") =>
     setSortConfig({ type: t, order: o });

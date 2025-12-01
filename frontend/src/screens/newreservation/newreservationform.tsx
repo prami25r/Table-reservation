@@ -11,7 +11,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Calendar, Clock } from "lucide-react-native";
 import Toast from "react-native-toast-message";
 import { COLORS } from "../../themes/colors";
-import { styles } from "../styles";
+import { styles } from "./styles";
 
 
 export default function NewReservationForm({
