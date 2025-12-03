@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getRestaurants, getReservations } from "../../api/reservation";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setReservations } from "../../redux/slices/reservationslice";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "../../../mocks/navigation.web";
 import { styles } from "./styles";
 
 const TABS = ["Upcoming", "Checked-In", "Cancelled"] as const;
@@ -57,11 +57,11 @@ export default function ReservationsScreen({ navigation }: any) {
   }, [loadReservations]);
 
 
-  useFocusEffect(
-    useCallback(() => {
-      loadReservations();
-    }, [loadReservations])
-  );
+  //  useFocusEffect(
+  //    useCallback(() => {
+  //      loadReservations();
+  //  }, [loadReservations])
+  //   );
 
 
   const renderScreen = () => {

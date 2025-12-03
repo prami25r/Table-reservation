@@ -12,7 +12,7 @@ import { Calendar, Clock } from "lucide-react-native";
 import Toast from "react-native-toast-message";
 import { COLORS } from "../../themes/colors";
 import { styles } from "./styles";
-
+import { useNavigation } from "@react-navigation/native";
 
 export default function NewReservationForm({
   fullName,
@@ -37,10 +37,10 @@ export default function NewReservationForm({
   specialRequests,
   setSpecialRequests,
   save,
-  navigation,
+  // navigation,
 }: any) {
   const [errors, setErrors] = React.useState<any>({});
-
+  const navigation= useNavigation<any>();
   const validate = () => {
     const e: any = {};
     if (!fullName.trim()) e.fullName = true;
@@ -89,6 +89,10 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
       });
     }
   };
+
+  const handleCancel = () => {
+    navigation.navigate("Reservations");
+  }
 
   return (
     <ScrollView>
@@ -225,7 +229,7 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
         <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.cancelButton}
-            onPress={() => navigation.goBack()}
+            onPress={handleCancel}
           >
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
