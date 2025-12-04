@@ -2,23 +2,23 @@ import { StyleSheet, Platform } from "react-native";
 import { COLORS } from "../../themes/colors";
 
 export const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: COLORS.background,
+ safe: {
+  flex: 1,
+  backgroundColor: COLORS.background,
+  width: "100%", // ⭐ ensures full screen width on web + mobile
+  alignItems: Platform.OS === "web" ? "center" : "stretch",
+},
 
-    // ⭐ Only center on Web
-    alignItems: Platform.OS === "web" ? "center" : "flex-start",
-  },
+scrollContainer: {
+  paddingHorizontal: 20,
+  paddingBottom: 60,
+  paddingTop: 20,
 
-  // ⭐ Web-only content wrapper (Google Forms style)
-  scrollContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 60,
-    paddingTop: 20,
+  width: "100%", // ⭐ fill space properly
+  maxWidth: Platform.OS === "web" ? 900 : "100%", // ⭐ center target width
+  alignSelf: "center", // ⭐ always center
+},
 
-    width: Platform.OS === "web" ? 900 : "100%",
-    alignSelf: Platform.OS === "web" ? "center" : "flex-start",
-  },
 
   card: {
     backgroundColor: COLORS.cardBackground,
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
     marginBottom: 10,
-    width: "100%", // ⭐ prevents shrink on web
+    width: "100%",
   },
 
   sectionTitle: {
@@ -185,4 +185,5 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
     color: COLORS.textPrimary,
   },
+  
 });

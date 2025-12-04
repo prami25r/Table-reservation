@@ -126,6 +126,7 @@ export default function ReservationsScreen({ navigation }: any) {
       </View>
 
       <View style={{ flex: 1 }}>{renderScreen()}</View>
+      
       </View>
       <TouchableOpacity
         style={styles.fab}

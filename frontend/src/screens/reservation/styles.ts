@@ -9,6 +9,13 @@ export const useStyles = () => {
   const tabPadding = isDesktop ? 16 : isTablet ? 14 : 12;
   const fabSize = isDesktop ? 26 : isTablet ? 22 : 18;
 
+  // Responsive columns for web grid (if/when you use it)
+  const webGridColumns = isDesktop
+    ? "repeat(4, 1fr)"
+    : isTablet
+    ? "repeat(2, 1fr)"
+    : "repeat(1, 1fr)";
+
   return StyleSheet.create({
     safeArea: {
       flex: 1,
@@ -17,15 +24,21 @@ export const useStyles = () => {
       paddingTop: Platform.OS === "ios" ? 10 : 1,
       backgroundColor: COLORS.background,
 
-      // 🔥 FIX: Only center on Web. Mobile stays normal.
-      alignItems: Platform.OS === "web" ? "center" : "flex-start",
+      // Tablets should center like desktop; phones stretch
+      alignItems:
+        Platform.OS === "web"
+          ? "center"
+          : isTablet
+          ? "center"
+          : "stretch",
     },
 
+    // ✅ This was missing – screen is using styles.contentWrapper
     contentWrapper: {
-      // 🔥 FIX: Only apply width constraint on Web
-      width: Platform.OS === "web" ? (isDesktop ? 1100 : isTablet ? 900 : "100%") : "100%",
-      alignSelf: Platform.OS === "web" ? "center" : "flex-start",
-      flex: 1, // ensures your lists render correctly on mobile
+      width: isDesktop ? 1100 : isTablet ? 900 : "100%",
+      alignSelf:
+        Platform.OS === "web" || isTablet ? "center" : "flex-start",
+      flex: 1,
     },
 
     tabs: {
@@ -34,7 +47,7 @@ export const useStyles = () => {
       borderRadius: isDesktop ? 18 : 14,
       padding: isTablet ? 6 : 4,
       marginBottom: isDesktop ? 20 : 16,
-      width: "100%", // ensures stretching on mobile
+      width: "100%",
     },
 
     tab: {
@@ -72,7 +85,30 @@ export const useStyles = () => {
     filterContainer: {
       marginTop: isDesktop ? 12 : 8,
       marginBottom: isDesktop ? 20 : 16,
-      width: "100%", // ensures mobile layout consistency
+      width: "100%",
+    },
+
+    listContainer: {
+      flex: 1,
+      width: "100%",
+    },
+
+    listWrapper: {
+      width: "100%",
+      flexDirection: "column",
+    },
+
+    // Optional responsive grid for web – safe with `as any`
+    grid: {
+      width: "100%",
+      ...(Platform.OS === "web"
+        ? ({
+            display: "grid",
+            gridTemplateColumns: webGridColumns,
+            columnGap: 20,
+            rowGap: 20,
+          } as any)
+        : {}),
     },
   });
 };

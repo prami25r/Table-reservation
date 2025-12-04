@@ -74,8 +74,8 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: COLORS.border,
-    zIndex: Platform.OS === "web" ? 9999 : 99, // extreme priority for web
-    elevation: 10,                              // ensures it floats on Android
+    zIndex: Platform.OS === "web" ? 9999 : 99, 
+    elevation: 10,                           
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
