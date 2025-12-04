@@ -1,18 +1,24 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { COLORS } from "../../themes/colors";
 
 export const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: COLORS.background,
+
+    // ⭐ Only center on Web
+    alignItems: Platform.OS === "web" ? "center" : "flex-start",
   },
 
+  // ⭐ Web-only content wrapper (Google Forms style)
   scrollContainer: {
-  paddingHorizontal: 20,
-  paddingBottom: 60,
-  paddingTop:20,
-}
-,
+    paddingHorizontal: 20,
+    paddingBottom: 60,
+    paddingTop: 20,
+
+    width: Platform.OS === "web" ? 900 : "100%",
+    alignSelf: Platform.OS === "web" ? "center" : "flex-start",
+  },
 
   card: {
     backgroundColor: COLORS.cardBackground,
@@ -21,23 +27,24 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
     marginBottom: 10,
+    width: "100%", // ⭐ prevents shrink on web
   },
 
   sectionTitle: {
-    fontSize: 22,
+    fontSize: Platform.OS === "web" ? 24 : 22,
     fontWeight: "700",
     marginBottom: 4,
     color: COLORS.textPrimary,
   },
 
   sectionSubtitle: {
-    fontSize: 14,
+    fontSize: Platform.OS === "web" ? 15 : 14,
     color: COLORS.textSecondary,
     marginBottom: 20,
   },
 
   label: {
-    fontSize: 14,
+    fontSize: Platform.OS === "web" ? 15 : 14,
     fontWeight: "600",
     marginTop: 16,
     marginBottom: 6,
@@ -50,21 +57,17 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    fontSize: 15,
+    fontSize: Platform.OS === "web" ? 16 : 15,
     color: COLORS.textPrimary,
     backgroundColor: COLORS.cardBackground,
+    width: "100%",
   },
 
   pickerContainer: {
-  borderWidth: 1,
-  borderColor: COLORS.border,
-  borderRadius: 12,
-  paddingHorizontal: 10,
-  paddingVertical: 2,   
-  height: 48,           
-  justifyContent: "center",
-}
-,
+    position: "relative",
+    width: "100%",
+    zIndex: Platform.OS === "web" ? 20 : 1,
+  },
 
   picker: {
     height: 50,
@@ -77,21 +80,22 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    fontSize: 15,
+    fontSize: Platform.OS === "web" ? 16 : 15,
     backgroundColor: COLORS.cardBackground,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
   },
 
   inputValue: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: Platform.OS === "web" ? 16 : 15,
   },
 
   placeholder: {
     color: COLORS.textSecondary,
-    fontSize: 15,
+    fontSize: Platform.OS === "web" ? 16 : 15,
   },
 
   specialInput: {
@@ -103,6 +107,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 30,
+    width: "100%",
   },
 
   cancelButton: {
@@ -117,7 +122,7 @@ export const styles = StyleSheet.create({
   cancelText: {
     color: COLORS.textPrimary,
     fontWeight: "600",
-    fontSize: 15,
+    fontSize: Platform.OS === "web" ? 16 : 15,
   },
 
   confirmButton: {
@@ -131,30 +136,53 @@ export const styles = StyleSheet.create({
   confirmText: {
     color: "#FFF",
     fontWeight: "700",
-    fontSize: 15,
+    fontSize: Platform.OS === "web" ? 16 : 15,
   },
+
   header: {
-  fontSize: 26,
-  fontWeight: "700",
-  color: COLORS.textPrimary,
-  marginBottom: 16,
-},
+    fontSize: Platform.OS === "web" ? 28 : 26,
+    fontWeight: "700",
+    color: COLORS.textPrimary,
+    marginBottom: 16,
+  },
 
-headerRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  paddingVertical: 16,
-  paddingHorizontal: 10,
-  marginBottom: 6,
-  backgroundColor: COLORS.background,
-  justifyContent: "flex-start",
-},
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 10,
+    marginBottom: 6,
+    backgroundColor: COLORS.background,
+    justifyContent: "flex-start",
+    width: "100%",
+  },
 
-headerTitle: {
-  fontSize: 24,
-  fontWeight: "700",
-  color: COLORS.textPrimary,
-  marginLeft: 12,
-},
+  headerTitle: {
+    fontSize: Platform.OS === "web" ? 26 : 24,
+    fontWeight: "700",
+    color: COLORS.textPrimary,
+    marginLeft: 12,
+  },
 
+  dropdown: {
+    position: "absolute",
+    top: 52,
+    left: 0,
+    right: 0,
+    backgroundColor: COLORS.cardBackground,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    zIndex: Platform.OS === "web" ? 9999 : 99,
+    elevation: 10,
+    width: "100%",
+  },
+
+  dropdownItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    fontSize: Platform.OS === "web" ? 16 : 15,
+    fontWeight: "500",
+    color: COLORS.textPrimary,
+  },
 });

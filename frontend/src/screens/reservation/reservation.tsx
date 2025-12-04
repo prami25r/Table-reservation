@@ -10,14 +10,14 @@ import { getRestaurants, getReservations } from "../../api/reservation";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setReservations } from "../../redux/slices/reservationslice";
 import { useFocusEffect } from "../../../mocks/navigation.web";
-import { styles } from "./styles";
+import { useStyles } from "./styles";
 
 const TABS = ["Upcoming", "Checked-In", "Cancelled"] as const;
 
 export default function ReservationsScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
   const reservations = useAppSelector((s) => s.reservation.list);
-
+    const styles = useStyles();
  
   const [active, setActive] = useState("Upcoming");
   const [sortConfig, setSortConfig] = useState({
@@ -101,6 +101,7 @@ export default function ReservationsScreen({ navigation }: any) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <View style={styles.contentWrapper}>
       <SortFilterBar
         onSort={handleSort}
         onFilterRestaurant={handleFilter}
@@ -125,7 +126,7 @@ export default function ReservationsScreen({ navigation }: any) {
       </View>
 
       <View style={{ flex: 1 }}>{renderScreen()}</View>
-
+      </View>
       <TouchableOpacity
         style={styles.fab}
         onPress={() => navigation.navigate("NewReservation")}
