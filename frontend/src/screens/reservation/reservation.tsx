@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setReservations } from "../../redux/slices/reservationslice";
 
 import { useStyles } from "./styles";
-import { useResponsive } from "../../utils/responsive"; // <-- NEW
+import { useResponsive } from "../../utils/responsive"; 
 
 const TABS = ["Upcoming", "Checked-In", "Cancelled"] as const;
 
@@ -23,7 +23,7 @@ export default function ReservationsScreen({ navigation }: any) {
   const reservations = useAppSelector((s) => s.reservation.list);
   const styles = useStyles();
 
-  const { isPhone, isTablet, isDesktop } = useResponsive(); // <-- NEW
+  const { isPhone, isTablet, isDesktop } = useResponsive();
 
   const [active, setActive] = useState("Upcoming");
 
@@ -94,7 +94,7 @@ export default function ReservationsScreen({ navigation }: any) {
         }
         fab={
           <TouchableOpacity
-            style={[styles.webFab, { bottom: isTablet ? 40 : 30 }]} // responsive tweak
+            style={[styles.webFab, { bottom: isTablet ? 40 : 30 }]} 
             onPress={() => navigation.navigate("NewReservation")}
           >
             <Plus color="#FFF" size={24} />
@@ -103,7 +103,7 @@ export default function ReservationsScreen({ navigation }: any) {
       >
         <SafeAreaView style={[styles.safeArea, { paddingHorizontal: isTablet ? 24 : 16 }]}>
           <View style={styles.contentWrapper}>
-            <View style={[styles.tabs, { marginBottom: isTablet ? 14 : 10 }]}>
+            <View style={[styles.tabs, { marginBottom: isTablet ? 14 : 10 ,paddingHorizontal:25}]}>
               {TABS.map((tab) => (
                 <TouchableOpacity
                   key={tab}
@@ -123,7 +123,7 @@ export default function ReservationsScreen({ navigation }: any) {
               ))}
             </View>
 
-            <View style={{ flex: 1 }}>{renderScreen()}</View>
+            <View style={{ flex: 1,paddingHorizontal:25}}>{renderScreen()}</View>
           </View>
         </SafeAreaView>
       </WebLayout>
@@ -147,7 +147,7 @@ export default function ReservationsScreen({ navigation }: any) {
             initial={sortConfig}
           />
 
-          <View style={[styles.tabs, { marginTop: isTablet ? 12 : 8 }]}>
+          <View style={[styles.tabs, { marginTop: isTablet ? 12 : 8}]}>
             {TABS.map((tab) => (
               <TouchableOpacity
                 key={tab}
@@ -168,7 +168,7 @@ export default function ReservationsScreen({ navigation }: any) {
           </View>
         </View>
 
-        <View style={{ flex: 1 }}>{renderScreen()}</View>
+        <View style={{ flex: 1 , paddingHorizontal:25}}>{renderScreen()}</View>
       </View>
 
       <TouchableOpacity
