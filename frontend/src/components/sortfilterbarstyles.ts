@@ -1,17 +1,13 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { COLORS } from "../themes/colors";
 
 export const styles = StyleSheet.create({
-  wrapper: {
-    marginBottom: 12,
-    zIndex: Platform.OS === "web" ? 20 : 1,     
-  },
+  wrapper: { marginBottom: 12 },
 
   row: {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    zIndex: Platform.OS === "web" ? 20 : 1,
   },
 
   orderToggle: {
@@ -25,13 +21,11 @@ export const styles = StyleSheet.create({
   sortBoxWrapper: {
     width: 120,
     position: "relative",
-    zIndex: Platform.OS === "web" ? 999 : 1,    
   },
 
   restaurantBoxWrapper: {
     flex: 1,
     position: "relative",
-    zIndex: Platform.OS === "web" ? 999 : 1,
   },
 
   sortBox: {
@@ -60,7 +54,7 @@ export const styles = StyleSheet.create({
 
   boxText: {
     flex: 1,
-    fontSize: Platform.OS === "web" ? 15 : 16, 
+    fontSize: 14,
     fontWeight: "600",
     color: COLORS.textPrimary,
   },
@@ -74,18 +68,13 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: COLORS.border,
-    zIndex: Platform.OS === "web" ? 9999 : 99, 
-    elevation: 10,                           
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
+    zIndex: 999,
   },
 
   dropdownItem: {
     paddingVertical: 12,
     paddingHorizontal: 14,
-    fontSize: Platform.OS === "web" ? 15 : 16,
+    fontSize: 15,
     fontWeight: "500",
     color: COLORS.textPrimary,
   },

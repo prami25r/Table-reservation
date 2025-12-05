@@ -9,7 +9,7 @@ export const useStyles = () => {
   const tabPadding = isDesktop ? 16 : isTablet ? 14 : 12;
   const fabSize = isDesktop ? 26 : isTablet ? 22 : 18;
 
-  // Responsive columns for web grid (if/when you use it)
+
   const webGridColumns = isDesktop
     ? "repeat(4, 1fr)"
     : isTablet
@@ -24,7 +24,7 @@ export const useStyles = () => {
       paddingTop: Platform.OS === "ios" ? 10 : 1,
       backgroundColor: COLORS.background,
 
-      // Tablets should center like desktop; phones stretch
+
       alignItems:
         Platform.OS === "web"
           ? "center"
@@ -33,7 +33,6 @@ export const useStyles = () => {
           : "stretch",
     },
 
-    // ✅ This was missing – screen is using styles.contentWrapper
     contentWrapper: {
       width: isDesktop ? 1100 : isTablet ? 900 : "100%",
       alignSelf:
@@ -89,16 +88,16 @@ export const useStyles = () => {
     },
 
     listContainer: {
-      flex: 1,
-      width: "100%",
-    },
+  flex: 1,
+  width: "100%",
+  paddingHorizontal: Platform.OS === "web" ? 24 : 16,
+},
 
     listWrapper: {
       width: "100%",
       flexDirection: "column",
     },
 
-    // Optional responsive grid for web – safe with `as any`
     grid: {
       width: "100%",
       ...(Platform.OS === "web"
@@ -110,5 +109,23 @@ export const useStyles = () => {
           } as any)
         : {}),
     },
+
+ stickyHeader: {
+  position: Platform.OS === "web" ? ("sticky" as any) : "relative",
+  top: 0,
+  zIndex: 999,
+  backgroundColor: COLORS.background,
+  paddingBottom: 8,
+},
+webFab: {
+  backgroundColor: COLORS.primaryButton,
+  padding: 16,
+  borderRadius: 50,
+  boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+},
+
+
+
   });
+  
 };

@@ -3,12 +3,20 @@
   "compilerOptions": {
     "types": ["node"],
     "baseUrl": "./src",
+
+    // ⭐ CRITICAL FIX → allows HTMLInputElement, .value, DOM events
+    "lib": ["ESNext", "DOM"],
+
     "paths": {
       "@components/*": ["components/*"],
       "@screens/*": ["screens/*"],
       "@api/*": ["api/*"],
       "@utils/*": ["utils/*"]
-    }
+    },
+
+    // Optional but useful for web hybrid projects
+    "allowJs": true,
+    "skipLibCheck": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "Pods"]

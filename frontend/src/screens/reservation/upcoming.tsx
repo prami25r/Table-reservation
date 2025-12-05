@@ -3,7 +3,7 @@ import { FlatList, Alert } from "react-native";
 import ReservationCard from "../../components/cards/reservationcard";
 import { updateStatus } from "../../api/reservation";
 import { formatDate, formatTime } from "../../utils/date";
-import { useFocusEffect } from "../../../mocks/navigation.web";
+// import { useFocusEffect } from "../../../mocks/navigation.web";
 import { useAppDispatch } from "../../redux/hooks";
 import { updateStatus as updateStatusRedux } from "../../redux/slices/reservationslice";
 
