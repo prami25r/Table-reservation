@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,13 +6,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Calendar, Clock } from "lucide-react-native";
+import { Calendar, Clock, ChevronDown } from "lucide-react-native";
 import Toast from "react-native-toast-message";
 import { COLORS } from "../../themes/colors";
 import { styles } from "./styles";
-
+import { useNavigation } from "@react-navigation/native";
 
 export default function NewReservationForm({
   fullName,
@@ -37,9 +36,11 @@ export default function NewReservationForm({
   specialRequests,
   setSpecialRequests,
   save,
-  navigation,
 }: any) {
   const [errors, setErrors] = React.useState<any>({});
+  const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
+
+  const navigation = useNavigation<any>();
 
   const validate = () => {
     const e: any = {};
@@ -64,17 +65,17 @@ export default function NewReservationForm({
 
     return true;
   };
-  
-  const handleDateChange = (_: any, selectedDate: Date | undefined) => {
-  setShowDatePicker(false);
-  if (selectedDate) setDate(selectedDate);
-};
 
-const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
-  setShowTimePicker(false);
-  if (selectedTime) setTime(selectedTime);
-};
- 
+  const handleDateChange = (_: any, selectedDate: Date | undefined) => {
+    setShowDatePicker(false);
+    if (selectedDate) setDate(selectedDate);
+  };
+
+  const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
+    setShowTimePicker(false);
+    if (selectedTime) setTime(selectedTime);
+  };
+
   const handleSubmit = async () => {
     if (!validate()) return;
 
@@ -90,6 +91,12 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
     }
   };
 
+  const handleCancel = () => {
+    navigation.navigate("Reservations");
+  };
+
+  const selectedRestaurantObj = restaurants.find((r: any) => r.id === restaurantId);
+
   return (
     <ScrollView>
       <View style={styles.card}>
@@ -98,7 +105,6 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
           Fill in the details below to make a reservation
         </Text>
 
-     
         <Text style={styles.label}>Full Name *</Text>
         <TextInput
           style={[styles.input, errors.fullName && { borderColor: "red" }]}
@@ -108,7 +114,6 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
           onChangeText={setFullName}
         />
 
-      
         <Text style={styles.label}>Mobile Number *</Text>
         <TextInput
           style={[styles.input, errors.mobileNumber && { borderColor: "red" }]}
@@ -119,7 +124,6 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
           onChangeText={setMobileNumber}
         />
 
-      
         <Text style={styles.label}>Email Address *</Text>
         <TextInput
           style={[styles.input, errors.email && { borderColor: "red" }]}
@@ -130,25 +134,43 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
         />
 
         <Text style={styles.label}>Restaurant *</Text>
+
         <View
           style={[
             styles.pickerContainer,
             errors.restaurantId && { borderColor: "red", borderWidth: 1 },
           ]}
         >
-          <Picker
-            selectedValue={restaurantId}
-            onValueChange={setRestaurantId}
-            style={[styles.picker, { color: COLORS.textPrimary }]}
+          <TouchableOpacity
+            style={styles.inputRow}
+            onPress={() => setShowRestaurantMenu((prev) => !prev)}
           >
-            <Picker.Item label="Select a restaurant" value="" />
-            {restaurants.map((r: any) => (
-              <Picker.Item key={r.id} label={r.name} value={r.id} />
-            ))}
-          </Picker>
+            <Text
+              numberOfLines={1}
+              style={restaurantId ? styles.inputValue : styles.placeholder}
+            >
+              {selectedRestaurantObj ? selectedRestaurantObj.name : "Select a restaurant"}
+            </Text>
+            <ChevronDown size={18} color={COLORS.textSecondary} />
+          </TouchableOpacity>
+
+          {showRestaurantMenu && (
+            <View style={styles.dropdown}>
+              {restaurants.map((r: any) => (
+                <TouchableOpacity
+                  key={r.id}
+                  onPress={() => {
+                    setRestaurantId(r.id);
+                    setShowRestaurantMenu(false);
+                  }}
+                >
+                  <Text style={styles.dropdownItem}>{r.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         </View>
 
-      
         <Text style={styles.label}>Date *</Text>
         <TouchableOpacity
           style={[
@@ -171,7 +193,6 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
           />
         )}
 
-      
         <Text style={styles.label}>Time *</Text>
         <TouchableOpacity
           style={[
@@ -199,7 +220,6 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
           />
         )}
 
-      
         <Text style={styles.label}>Number of Guests *</Text>
         <TextInput
           style={[styles.input, errors.guestCount && { borderColor: "red" }]}
@@ -210,7 +230,6 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
           onChangeText={setGuestCount}
         />
 
-       
         <Text style={styles.label}>Special Requests</Text>
         <TextInput
           style={[styles.input, styles.specialInput]}
@@ -221,19 +240,12 @@ const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
           onChangeText={setSpecialRequests}
         />
 
-        
         <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={() => navigation.goBack()}
-          >
+          <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.confirmButton}
-            onPress={handleSubmit}
-          >
+          <TouchableOpacity style={styles.confirmButton} onPress={handleSubmit}>
             <Text style={styles.confirmText}>Confirm Reservation</Text>
           </TouchableOpacity>
         </View>

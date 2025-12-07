@@ -1,55 +1,139 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { COLORS } from "../../themes/colors";
+import { useResponsive } from "../../utils/responsive";
 
-export const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    padding: 20,
-    paddingBottom: 10,
-    paddingTop: 1,
-    backgroundColor: COLORS.background,
-  },
+export const useStyles = () => {
+  const { isTablet, isDesktop } = useResponsive();
 
-  tabs: {
-    flexDirection: "row",
-    backgroundColor: COLORS.tabBackground,
-    borderRadius: 14,
-    padding: 4,
-    marginBottom: 16,
-  },
+ 
+  const uniformPadding = 20;
 
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    borderRadius: 12,
-  },
+  const tabPadding = isDesktop ? 16 : isTablet ? 14 : 12;
+  const fabSize = isDesktop ? 26 : isTablet ? 22 : 18;
 
-  activeTab: {
-    backgroundColor: COLORS.tabActive,
-  },
+  const maxWidth = isDesktop ? 1100 : isTablet ? 900 : "100%";
 
-  tabText: {
-    textAlign: "center",
-    color: COLORS.textSecondary,
-    fontWeight: "700",
-  },
+  const webGridColumns = isDesktop
+    ? "repeat(4, 1fr)"
+    : isTablet
+    ? "repeat(2, 1fr)"
+    : "repeat(1, 1fr)";
 
-  activeTabText: {
-    color: COLORS.textPrimary,
-    fontWeight: "700",
-  },
+  return StyleSheet.create({
 
-  fab: {
-    position: "absolute",
-    bottom: 65,
-    right: 25,
-    backgroundColor: COLORS.primaryButton,
-    padding: 18,
-    borderRadius: 50,
-  },
+    safeArea: {
+      flex: 1,
+      backgroundColor: COLORS.background,
+      width: "100%",
 
-  filterContainer: {
-    marginTop: 8,
-    marginBottom: 16,
-  },
-});
+      paddingHorizontal: uniformPadding,
+      paddingBottom: uniformPadding,
+
+      
+      paddingTop: Platform.OS === "ios" ? uniformPadding + 4 : uniformPadding,
+
+      alignItems: Platform.OS === "web" ? "center" : "stretch",
+    },
+
+    
+    contentWrapper: {
+      width: maxWidth,
+      flex: 1,
+      alignSelf: Platform.OS === "web" ? "center" : "stretch",
+    },
+
+  
+    tabs: {
+      flexDirection: "row",
+      backgroundColor: COLORS.tabBackground,
+      borderRadius: isDesktop ? 18 : 14,
+      padding: isTablet ? 6 : 4,
+      marginBottom: 16,
+      width: "100%",
+      paddingHorizontal:25,
+    },
+
+    tab: {
+      flex: 1,
+      paddingVertical: tabPadding,
+      borderRadius: isTablet ? 14 : 12,
+    },
+
+    activeTab: {
+      backgroundColor: COLORS.tabActive,
+    },
+
+    tabText: {
+      textAlign: "center",
+      color: COLORS.textSecondary,
+      fontWeight: "700",
+      fontSize: isDesktop ? 18 : isTablet ? 16 : 14,
+    },
+
+    activeTabText: {
+      color: COLORS.textPrimary,
+      fontWeight: "700",
+      fontSize: isDesktop ? 18 : isTablet ? 16 : 14,
+    },
+
+
+    fab: {
+      position: "absolute",
+      bottom: isTablet ? 40 : 24,
+      right: isTablet ? 40 : 24,
+      backgroundColor: COLORS.primaryButton,
+      padding: fabSize,
+      borderRadius: 50,
+    },
+
+    webFab: {
+      backgroundColor: COLORS.primaryButton,
+      padding: 16,
+      borderRadius: 50,
+      boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+      zIndex: 1,
+    },
+
+    
+    stickyHeader: {
+      position: Platform.OS === "web" ? ("sticky" as any) : "relative",
+      top: 0,
+      zIndex: 999,
+      backgroundColor: COLORS.background,
+      paddingBottom: 8,
+      width: "100%",
+      paddingHorizontal:25,
+      paddingVertical:10,
+    },
+
+    filterContainer: {
+      marginTop: 8,
+      marginBottom: 16,
+      width: "100%",
+    },
+
+  
+    listContainer: {
+      flex: 1,
+      width: "100%",
+      
+    },
+
+    listWrapper: {
+      width: "100%",
+      flexDirection: "column",
+    },
+
+    grid: {
+      width: "100%",
+      ...(Platform.OS === "web"
+        ? ({
+            display: "grid",
+            gridTemplateColumns: webGridColumns,
+            columnGap: 20,
+            rowGap: 20,
+          } as any)
+        : {}),
+    },
+  });
+};
