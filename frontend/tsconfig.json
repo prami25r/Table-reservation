@@ -4,7 +4,7 @@
     "types": ["node"],
     "baseUrl": "./src",
 
-    // ⭐ CRITICAL FIX → allows HTMLInputElement, .value, DOM events
+    
     "lib": ["ESNext", "DOM"],
 
     "paths": {
@@ -14,7 +14,7 @@
       "@utils/*": ["utils/*"]
     },
 
-    // Optional but useful for web hybrid projects
+   
     "allowJs": true,
     "skipLibCheck": true
   },

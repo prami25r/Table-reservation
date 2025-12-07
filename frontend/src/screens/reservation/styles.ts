@@ -5,9 +5,7 @@ import { useResponsive } from "../../utils/responsive";
 export const useStyles = () => {
   const { isTablet, isDesktop } = useResponsive();
 
- 
   const uniformPadding = 20;
-
   const tabPadding = isDesktop ? 16 : isTablet ? 14 : 12;
   const fabSize = isDesktop ? 26 : isTablet ? 22 : 18;
 
@@ -24,25 +22,16 @@ export const useStyles = () => {
     safeArea: {
       flex: 1,
       backgroundColor: COLORS.background,
-      width: "100%",
-
-      paddingHorizontal: uniformPadding,
-      paddingBottom: uniformPadding,
-
-      
       paddingTop: Platform.OS === "ios" ? uniformPadding + 4 : uniformPadding,
-
-      alignItems: Platform.OS === "web" ? "center" : "stretch",
+      position: "relative",
     },
 
-    
     contentWrapper: {
-      width: maxWidth,
       flex: 1,
+      width: Platform.OS === "web" ? maxWidth : "100%",
       alignSelf: Platform.OS === "web" ? "center" : "stretch",
     },
 
-  
     tabs: {
       flexDirection: "row",
       backgroundColor: COLORS.tabBackground,
@@ -50,7 +39,7 @@ export const useStyles = () => {
       padding: isTablet ? 6 : 4,
       marginBottom: 16,
       width: "100%",
-      paddingHorizontal:25,
+      paddingHorizontal: 25,
     },
 
     tab: {
@@ -76,25 +65,26 @@ export const useStyles = () => {
       fontSize: isDesktop ? 18 : isTablet ? 16 : 14,
     },
 
-
     fab: {
       position: "absolute",
-      bottom: isTablet ? 40 : 24,
-      right: isTablet ? 40 : 24,
       backgroundColor: COLORS.primaryButton,
       padding: fabSize,
       borderRadius: 50,
+      right: isTablet ? 40 : 24,
+      bottom: isTablet ? 40 : 24,
     },
 
     webFab: {
+      position: "absolute",
+      bottom: isTablet ? 40 : 30,
+      right: isTablet ? 40 : 30,
       backgroundColor: COLORS.primaryButton,
       padding: 16,
       borderRadius: 50,
       boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
-      zIndex: 1,
+      zIndex: 9999,
     },
 
-    
     stickyHeader: {
       position: Platform.OS === "web" ? ("sticky" as any) : "relative",
       top: 0,
@@ -102,8 +92,8 @@ export const useStyles = () => {
       backgroundColor: COLORS.background,
       paddingBottom: 8,
       width: "100%",
-      paddingHorizontal:25,
-      paddingVertical:10,
+      paddingHorizontal: 25,
+      paddingVertical: 10,
     },
 
     filterContainer: {
@@ -112,11 +102,9 @@ export const useStyles = () => {
       width: "100%",
     },
 
-  
     listContainer: {
       flex: 1,
       width: "100%",
-      
     },
 
     listWrapper: {

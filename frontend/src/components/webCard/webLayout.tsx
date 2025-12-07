@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 
 interface WebLayoutProps {
   sidebar?: ReactNode;
-  fab?: ReactNode;      // 👈 NEW
+  fab?: ReactNode;     
   children: ReactNode;
 }
 
@@ -22,13 +22,12 @@ export default function WebLayout({ sidebar, fab, children }: WebLayoutProps) {
         position: "relative",
       }}
     >
-      {/* LEFT SIDEBAR */}
+      
       <div style={stylesWeb.sidebar}>{sidebar}</div>
 
-      {/* MAIN CONTENT */}
+      
       <div style={stylesWeb.main}>{children}</div>
 
-      {/* RIGHT-SIDE FLOATING FAB (Sticky) */}
       {fab && (
         <div style={stylesWeb.fabWrapper}>
           {fab}
@@ -57,7 +56,7 @@ const stylesWeb: Record<string, React.CSSProperties> = {
 
   fabWrapper: {
     position: "sticky",
-    top: 120,             // stays visible while scrolling
+    top: 120,             
     marginLeft: 20,
     height: 0,
     alignSelf: "flex-start",

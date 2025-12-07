@@ -36,12 +36,11 @@ export default function WebSortSidebar({
       <View style={styles.mainCard}>
         <Text style={styles.heading}>Filters</Text>
 
-        {/* SORT SECTION */}
         <View style={styles.sectionCard}>
           <Text style={styles.sectionLabel}>Sort By</Text>
 
           <View style={styles.row}>
-            {/* Guests */}
+           
             <TouchableOpacity
               style={[
                 styles.chip,
@@ -59,7 +58,6 @@ export default function WebSortSidebar({
               </Text>
             </TouchableOpacity>
 
-            {/* Date */}
             <TouchableOpacity
               style={[
                 styles.chip,
@@ -77,7 +75,7 @@ export default function WebSortSidebar({
               </Text>
             </TouchableOpacity>
 
-            {/* ASC / DESC */}
+           
             <TouchableOpacity
               style={[
                 styles.iconButton,
@@ -99,11 +97,11 @@ export default function WebSortSidebar({
           </View>
         </View>
 
-        {/* RESTAURANT SECTION */}
+       
         <View style={[styles.sectionCard, { marginTop: 14 }]}>
           <Text style={styles.sectionLabel}>Restaurants</Text>
 
-          {/* Search Bar */}
+        
           <View style={styles.searchWrapper}>
   <Search
     size={20}
@@ -123,7 +121,7 @@ export default function WebSortSidebar({
 
 
           <View style={styles.filterColumn}>
-            {/* ALL RESTAURANTS */}
+           
             {restaurants.length > 0 && (
               <TouchableOpacity
                 style={[
@@ -146,12 +144,12 @@ export default function WebSortSidebar({
               </TouchableOpacity>
             )}
 
-            {/* No matches */}
+           
             {filtered.length === 0 && (
               <Text style={styles.noData}>restaurants not found</Text>
             )}
 
-            {/* Render list */}
+            
             {filtered.slice(0, 20).map((r) => (
               <TouchableOpacity
                 key={r.id}

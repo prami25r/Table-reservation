@@ -80,7 +80,6 @@ export default function ReservationsScreen({ navigation }: any) {
 
   const handleFilter = (id: number | null) => setRestaurantFilter(id);
 
-
   if (Platform.OS === "web" && isDesktop) {
     return (
       <WebLayout
@@ -93,17 +92,21 @@ export default function ReservationsScreen({ navigation }: any) {
           />
         }
         fab={
-          <TouchableOpacity
-            style={[styles.webFab, { bottom: isTablet ? 40 : 30 }]} 
-            onPress={() => navigation.navigate("NewReservation")}
-          >
-            <Plus color="#FFF" size={24} />
-          </TouchableOpacity>
-        }
+  <TouchableOpacity
+    style={[
+      styles.webFab,
+      Platform.OS === "web" ? ({ position: "fixed" } as any) : {}
+    ]}
+    onPress={() => navigation.navigate("NewReservation")}
+  >
+    <Plus color="#FFF" size={24} />
+  </TouchableOpacity>
+}
+
       >
         <SafeAreaView style={[styles.safeArea, { paddingHorizontal: isTablet ? 24 : 16 }]}>
           <View style={styles.contentWrapper}>
-            <View style={[styles.tabs, { marginBottom: isTablet ? 14 : 10 ,paddingHorizontal:25}]}>
+            <View style={[styles.tabs, { marginBottom: isTablet ? 14 : 10, paddingHorizontal: 25 }]}>
               {TABS.map((tab) => (
                 <TouchableOpacity
                   key={tab}
@@ -123,21 +126,16 @@ export default function ReservationsScreen({ navigation }: any) {
               ))}
             </View>
 
-            <View style={{ flex: 1,paddingHorizontal:25}}>{renderScreen()}</View>
+            <View style={{ flex: 1, paddingHorizontal: 25 }}>{renderScreen()}</View>
           </View>
         </SafeAreaView>
       </WebLayout>
     );
   }
 
-  
   return (
-    <SafeAreaView
-      style={[
-        styles.safeArea,
-        { paddingHorizontal: isTablet ? 22 : 12 }, 
-      ]}
-    >
+  <View style={{ flex: 1, position: "relative" }}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.contentWrapper}>
         <View style={styles.stickyHeader}>
           <SortFilterBar
@@ -147,7 +145,7 @@ export default function ReservationsScreen({ navigation }: any) {
             initial={sortConfig}
           />
 
-          <View style={[styles.tabs, { marginTop: isTablet ? 12 : 8}]}>
+          <View style={styles.tabs}>
             {TABS.map((tab) => (
               <TouchableOpacity
                 key={tab}
@@ -158,7 +156,6 @@ export default function ReservationsScreen({ navigation }: any) {
                   style={[
                     styles.tabText,
                     active === tab && styles.activeTabText,
-                    { fontSize: isTablet ? 16 : 14 },
                   ]}
                 >
                   {tab}
@@ -168,21 +165,18 @@ export default function ReservationsScreen({ navigation }: any) {
           </View>
         </View>
 
-        <View style={{ flex: 1 , paddingHorizontal:25}}>{renderScreen()}</View>
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          {renderScreen()}
+        </View>
       </View>
-
-      <TouchableOpacity
-        style={[
-          styles.fab,
-          {
-            bottom: isTablet ? 40 : 24,
-            right: isTablet ? 40 : 24,
-          },
-        ]}
-        onPress={() => navigation.navigate("NewReservation")}
-      >
-        <Plus color="#FFF" size={30} />
-      </TouchableOpacity>
     </SafeAreaView>
-  );
+
+    <TouchableOpacity
+      style={styles.fab}
+      onPress={() => navigation.navigate("NewReservation")}
+    >
+      <Plus color="#FFF" size={30} />
+    </TouchableOpacity>
+  </View>
+);
 }

@@ -4,12 +4,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: "./index.web.js",
 
-  // ❌ NO EXPERIMENTS
+
   experiments: {},
 
   output: {
-    // ❌ NO module: true
-    // ❌ NO script type module
+    
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
     publicPath: "/",
@@ -42,7 +41,7 @@ module.exports = {
 
   "lucide-react-native$": "lucide-react",
 
-  // other mocks...
+
 },
     fallback: {
       process: require.resolve("process/browser"),
@@ -88,7 +87,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
-      // ❌ REMOVE scriptLoading: "module"
+   
     }),
   ],
 
