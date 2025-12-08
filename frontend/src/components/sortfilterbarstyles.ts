@@ -2,7 +2,10 @@ import { StyleSheet } from "react-native";
 import { COLORS } from "../themes/colors";
 
 export const styles = StyleSheet.create({
-  wrapper: { marginBottom: 12 },
+  wrapper: { marginBottom: 12,
+    position:"relative",
+    zIndex:9999
+   },
 
   row: {
     flexDirection: "row",

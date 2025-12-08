@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 
 interface WebLayoutProps {
   sidebar?: ReactNode;
-  fab?: ReactNode;     
+  fab?: ReactNode;
   children: ReactNode;
 }
 
@@ -22,17 +22,15 @@ export default function WebLayout({ sidebar, fab, children }: WebLayoutProps) {
         position: "relative",
       }}
     >
-      
+
       <div style={stylesWeb.sidebar}>{sidebar}</div>
 
       
+      
       <div style={stylesWeb.main}>{children}</div>
 
-      {fab && (
-        <div style={stylesWeb.fabWrapper}>
-          {fab}
-        </div>
-      )}
+    
+      {fab}
     </div>
   );
 }

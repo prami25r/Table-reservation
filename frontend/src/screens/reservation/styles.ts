@@ -39,7 +39,8 @@ export const useStyles = () => {
       padding: isTablet ? 6 : 4,
       marginBottom: 16,
       width: "100%",
-      paddingHorizontal: 25,
+      paddingHorizontal:5,
+      paddingVertical:5,
     },
 
     tab: {
@@ -50,7 +51,7 @@ export const useStyles = () => {
 
     activeTab: {
       backgroundColor: COLORS.tabActive,
-    },
+    },   
 
     tabText: {
       textAlign: "center",
@@ -75,16 +76,19 @@ export const useStyles = () => {
     },
 
     webFab: {
-      position: "absolute",
-      bottom: isTablet ? 40 : 30,
-      right: isTablet ? 40 : 30,
-      backgroundColor: COLORS.primaryButton,
-      padding: 16,
-      borderRadius: 50,
-      boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
-      zIndex: 9999,
-    },
+  ...({
+    position: "fixed",
+  } as any),
+  bottom: 40,
+  right: 40,
+  backgroundColor: COLORS.primaryButton,
+  padding: 16,
+  borderRadius: 50,
+  boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+  zIndex: 9999,
+},
 
+    
     stickyHeader: {
       position: Platform.OS === "web" ? ("sticky" as any) : "relative",
       top: 0,

@@ -145,10 +145,12 @@ export default function WebSortSidebar({
             )}
 
            
+           
             {filtered.length === 0 && (
               <Text style={styles.noData}>restaurants not found</Text>
             )}
 
+            
             
             {filtered.slice(0, 20).map((r) => (
               <TouchableOpacity
