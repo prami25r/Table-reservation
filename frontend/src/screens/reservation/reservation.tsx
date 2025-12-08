@@ -103,7 +103,7 @@ export default function ReservationsScreen({ navigation }: any) {
       >
         <SafeAreaView style={[styles.safeArea, { paddingHorizontal: isTablet ? 24 : 16 }]}>
           <View style={styles.contentWrapper}>
-            <View style={[styles.tabs, { marginBottom: isTablet ? 14 : 10 ,paddingHorizontal:25}]}>
+            <View style={[styles.tabs, { marginBottom: isTablet ? 14 : 10}]}>
               {TABS.map((tab) => (
                 <TouchableOpacity
                   key={tab}
