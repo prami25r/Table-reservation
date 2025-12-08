@@ -6,7 +6,10 @@ import {
   updateReservation,
   deleteReservation,
   checkedInReservation,
-  cancelledReservation
+  cancelledReservation,
+  getUpcomingReservations,
+  getCheckedInReservations,
+  getCancelledReservations
 } from "../controllers/reservation";
 
 
@@ -19,5 +22,8 @@ router.put("/:id", updateReservation);
 router.delete("/:id", deleteReservation);
 router.patch("/:id/checkedin", checkedInReservation);
 router.patch("/:id/cancel", cancelledReservation);
+router.get("/status/upcoming", getUpcomingReservations);
+router.get("/status/checkedin", getCheckedInReservations);
+router.get("/status/cancelled", getCancelledReservations);
 
 export default router;

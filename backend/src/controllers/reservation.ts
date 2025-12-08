@@ -76,3 +76,18 @@ export const cancelledReservation = async (req: Request, res: Response) => {
   const updated = await ReservationService.updateStatus(id, "Cancelled");
   return res.json(updated);
 };
+
+export const getUpcomingReservations = async (_req, res) => {
+  const data = await ReservationService.getUpcoming();
+  res.json(data);
+};
+
+export const getCheckedInReservations = async (_req, res) => {
+  const data = await ReservationService.getCheckedIn();
+  res.json(data);
+};
+
+export const getCancelledReservations = async (_req, res) => {
+  const data = await ReservationService.getCancelled();
+  res.json(data);
+};

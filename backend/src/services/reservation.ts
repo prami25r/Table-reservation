@@ -1,7 +1,7 @@
 import { prisma } from "../prisma";
 
 export const create = async (input: any) => {
-  // Fetch all tables for this restaurant (your seeded 10)
+ 
   const allTables = await prisma.table.findMany({
     where: { restaurantId: input.restaurantId }
   });
@@ -94,4 +94,37 @@ export const updateStatus = (id: number, status: string) =>
   prisma.reservation.update({
     where: { id },
     data: { status }
+  });
+
+export const getUpcoming = () =>
+  prisma.reservation.findMany({
+    where: { status: "Upcoming" },
+    include: {
+      customer: true,
+      restaurant: true,
+      tables: { include: { table: true } }
+    },
+    orderBy: { reservationDate: "asc" }
+  });
+
+export const getCheckedIn = () =>
+  prisma.reservation.findMany({
+    where: { status: "Checked-In" },
+    include: {
+      customer: true,
+      restaurant: true,
+      tables: { include: { table: true } }
+    },
+    orderBy: { reservationDate: "asc" }
+  });
+
+export const getCancelled = () =>
+  prisma.reservation.findMany({
+    where: { status: "Cancelled" },
+    include: {
+      customer: true,
+      restaurant: true,
+      tables: { include: { table: true } }
+    },
+    orderBy: { reservationDate: "asc" }
   });
