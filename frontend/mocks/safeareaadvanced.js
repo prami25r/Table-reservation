@@ -8,7 +8,7 @@ export const useSafeAreaInsets = () => ({
   right: 0,
 });
 
-// New placeholders expected by React Navigation v6+
+
 export const initialWindowMetrics = null;
 
 export const SafeAreaInsetsContext = {

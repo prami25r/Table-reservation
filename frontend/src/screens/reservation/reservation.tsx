@@ -165,7 +165,7 @@ export default function ReservationsScreen({ navigation }: any) {
           </View>
         </View>
 
-        <View style={{ flex: 1, overflow: "hidden" }}>
+        <View style={{ flex: 1, paddingHorizontal:25}}>
           {renderScreen()}
         </View>
       </View>

@@ -1,11 +1,11 @@
-let webNavigate = null; // RootStackWeb will register this
+let webNavigate = null; 
 
-// Called by RootStackWeb to register its goTo() handler
+
 export function registerWebNavigation(fn) {
   webNavigate = fn;
 }
 
-// Mocked hooks for the app
+
 export function useNavigation() {
   return {
     navigate: (screen, params) => {
