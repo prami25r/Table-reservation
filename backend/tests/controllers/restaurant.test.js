@@ -4,9 +4,9 @@ import {
   getRestaurant,
   updateRestaurant,
   deleteRestaurant,
-} from "../controllers/restaurant";
+} from "../../src/controllers/restaurant";
 
-import * as service from "../services/restaurant";
+import * as service from "../../src/services/restaurant";
 
 describe("Restaurant Controller", () => {
   let req, res, next;

@@ -1,11 +1,23 @@
 const { createDefaultPreset } = require("ts-jest");
 
-const tsJestTransformCfg = createDefaultPreset().transform;
+const preset = createDefaultPreset();
 
-/** @type {import("jest").Config} **/
 module.exports = {
+  preset: "ts-jest",
   testEnvironment: "node",
   transform: {
-    ...tsJestTransformCfg,
+    "^.+\\.(ts|js)$": "ts-jest"
   },
+  moduleFileExtensions: ["ts", "js"],
+  testMatch: ["**/*.test.ts", "**/*.test.js"],
+  clearMocks: true,
+  coveragePathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/prisma/"],
+  coverageDirectory: "coverage",
+  collectCoverage: true,
+  collectCoverageFrom: ["src/**/*.ts"],
+  globals: {
+    "ts-jest": {
+      isolatedModules: true
+    }
+  }
 };

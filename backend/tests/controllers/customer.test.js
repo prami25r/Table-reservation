@@ -4,9 +4,9 @@ import {
   getCustomer,
   updateCustomer,
   deleteCustomer
-} from "../controllers/customer";
+} from "../../src/controllers/customer";
 
-import * as service from "../services/customer";
+import * as service from "../../src/services/customer";
 
 describe("Customer Controller", () => {
   let req, res, next;
@@ -117,4 +117,20 @@ describe("Customer Controller", () => {
     const err = next.mock.calls[0][0];
     expect(err.status).toBe(404);
   });
+
+ test("getCustomers → should hit line 15 even when service.getAll throws", async () => {
+  const error = new Error("Failed");
+
+  service.getAll = jest.fn().mockImplementation(async () => {
+    throw error; 
+  });
+
+  await getCustomers(req, res, next);
+
+  expect(service.getAll).toHaveBeenCalled();
+  expect(next).toHaveBeenCalledWith(error);
+});
+
+
+
 });

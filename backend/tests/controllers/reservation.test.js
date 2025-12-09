@@ -9,9 +9,9 @@ import {
   getUpcomingReservations,
   getCheckedInReservations,
   getCancelledReservations
-} from "../controllers/reservation";
+} from "../../src/controllers/reservation";
 
-import * as ReservationService from "../services/reservation";
+import * as ReservationService from "../../src/services/reservation";
 
 describe("Reservation Controller", () => {
   let req, res;
@@ -24,9 +24,7 @@ describe("Reservation Controller", () => {
     };
   });
 
-  // -------------------------------------------------------
-  // CREATE
-  // -------------------------------------------------------
+  
   test("createReservation → returns 201 + created data", async () => {
     const mockData = { id: 1, fullName: "Sunshine" };
 
@@ -178,4 +176,19 @@ describe("Reservation Controller", () => {
 
     expect(res.json).toHaveBeenCalledWith(list);
   });
+
+test("getReservation → should execute return json(null) (cover line 55)", async () => {
+  ReservationService.getOne = jest.fn().mockImplementation(async () => null);
+
+  req.params.id = "999";
+
+  await getReservation(req, res);
+
+  expect(ReservationService.getOne).toHaveBeenCalledWith(999); 
+  expect(res.json).toHaveBeenCalledTimes(1);                   
+  expect(res.json).toHaveBeenCalledWith(null);              
+});
+
+
+
 });

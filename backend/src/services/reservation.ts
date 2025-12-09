@@ -1,14 +1,9 @@
 import { prisma } from "../prisma";
 
 export const create = async (input: any) => {
- 
   const allTables = await prisma.table.findMany({
     where: { restaurantId: input.restaurantId }
   });
-
-  if (allTables.length < 10) {
-    throw new Error("Restaurant tables not fully configured");
-  }
 
   const usedTables = await prisma.reservationTable.findMany({
     where: {
@@ -25,7 +20,6 @@ export const create = async (input: any) => {
     throw new Error("No tables available for this restaurant");
   }
 
-
   const customer = await prisma.customer.create({
     data: {
       fullName: input.fullName,
@@ -33,6 +27,7 @@ export const create = async (input: any) => {
       email: input.email
     }
   });
+
   return prisma.reservation.create({
     data: {
       customerId: customer.id,
