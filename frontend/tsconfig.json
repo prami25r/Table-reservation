@@ -1,23 +1,18 @@
 {
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["node", "jest"],
     "baseUrl": "./src",
-
-    
     "lib": ["ESNext", "DOM"],
-
     "paths": {
       "@components/*": ["components/*"],
       "@screens/*": ["screens/*"],
       "@api/*": ["api/*"],
       "@utils/*": ["utils/*"]
     },
-
-   
     "allowJs": true,
     "skipLibCheck": true
   },
-  "include": ["src"],
+  "include": ["src", "jest.setup.ts", "__mocks__/**/*", "tests/**/*"],
   "exclude": ["node_modules", "Pods"]
 }

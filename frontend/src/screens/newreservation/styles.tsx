@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
  safe: {
   flex: 1,
   backgroundColor: COLORS.background,
-  width: "100%", // ⭐ ensures full screen width on web + mobile
+  width: "100%",
   alignItems: Platform.OS === "web" ? "center" : "stretch",
 },
 
@@ -14,9 +14,9 @@ scrollContainer: {
   paddingBottom: 60,
   paddingTop: 20,
 
-  width: "100%", // ⭐ fill space properly
-  maxWidth: Platform.OS === "web" ? 900 : "100%", // ⭐ center target width
-  alignSelf: "center", // ⭐ always center
+  width: "100%", 
+  maxWidth: Platform.OS === "web" ? 900 : "100%",
+  alignSelf: "center", 
 },
 
 
