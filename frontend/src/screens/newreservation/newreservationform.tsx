@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -8,93 +8,47 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Calendar, Clock, ChevronDown } from "lucide-react-native";
-import Toast from "react-native-toast-message";
 import { COLORS } from "../../themes/colors";
 import { styles } from "./styles";
-import { useNavigation } from "@react-navigation/native";
 
-export default function NewReservationForm({
+export default function NewReservationFormUI({
   fullName,
   setFullName,
+
   mobileNumber,
   setMobileNumber,
+
   email,
   setEmail,
+
   restaurantId,
   setRestaurantId,
+
   restaurants,
+
   date,
   time,
   showDatePicker,
   showTimePicker,
-  setDate,
-  setTime,
   setShowDatePicker,
   setShowTimePicker,
+
   guestCount,
   setGuestCount,
+
   specialRequests,
   setSpecialRequests,
-  save,
+
+  showRestaurantMenu,
+  setShowRestaurantMenu,
+
+  errors,
+
+  handleSubmit,
+  handleCancel,
+  handleDateChange,
+  handleTimeChange,
 }: any) {
-  const [errors, setErrors] = React.useState<any>({});
-  const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
-
-  const navigation = useNavigation<any>();
-
-  const validate = () => {
-    const e: any = {};
-    if (!fullName.trim()) e.fullName = true;
-    if (!mobileNumber.trim()) e.mobileNumber = true;
-    if (!email.trim()) e.email = true;
-    if (!restaurantId) e.restaurantId = true;
-    if (!date) e.date = true;
-    if (!time) e.time = true;
-    if (!guestCount) e.guestCount = true;
-
-    setErrors(e);
-
-    if (Object.keys(e).length > 0) {
-      Toast.show({
-        type: "error",
-        text1: "Missing required fields",
-        text2: "Please fill all mandatory details",
-      });
-      return false;
-    }
-
-    return true;
-  };
-
-  const handleDateChange = (_: any, selectedDate: Date | undefined) => {
-    setShowDatePicker(false);
-    if (selectedDate) setDate(selectedDate);
-  };
-
-  const handleTimeChange = (_: any, selectedTime: Date | undefined) => {
-    setShowTimePicker(false);
-    if (selectedTime) setTime(selectedTime);
-  };
-
-  const handleSubmit = async () => {
-    if (!validate()) return;
-
-    try {
-      await save();
-      navigation.navigate("Reservations");
-    } catch (error: any) {
-      Toast.show({
-        type: "error",
-        text1: "No available tables",
-        text2: "This restaurant has reached max reservations",
-      });
-    }
-  };
-
-  const handleCancel = () => {
-    navigation.navigate("Reservations");
-  };
-
   const selectedRestaurantObj = restaurants.find((r: any) => r.id === restaurantId);
 
   return (
@@ -107,16 +61,17 @@ export default function NewReservationForm({
 
         <Text style={styles.label}>Full Name *</Text>
         <TextInput
-          style={[styles.input, errors.fullName && { borderColor: "red" }]}
+          style={[styles.input, errors.fullName && styles.errorBorder]}
           placeholder="Enter full name"
           placeholderTextColor={COLORS.textSecondary}
           value={fullName}
           onChangeText={setFullName}
         />
 
+
         <Text style={styles.label}>Mobile Number *</Text>
         <TextInput
-          style={[styles.input, errors.mobileNumber && { borderColor: "red" }]}
+          style={[styles.input, errors.mobileNumber && styles.errorBorder]}
           placeholder="Enter mobile number"
           placeholderTextColor={COLORS.textSecondary}
           keyboardType="phone-pad"
@@ -126,30 +81,31 @@ export default function NewReservationForm({
 
         <Text style={styles.label}>Email Address *</Text>
         <TextInput
-          style={[styles.input, errors.email && { borderColor: "red" }]}
+          style={[styles.input, errors.email && styles.errorBorder]}
           placeholder="Enter email"
           placeholderTextColor={COLORS.textSecondary}
           value={email}
           onChangeText={setEmail}
         />
 
+
         <Text style={styles.label}>Restaurant *</Text>
 
         <View
           style={[
             styles.pickerContainer,
-            errors.restaurantId && { borderColor: "red", borderWidth: 1 },
+            errors.restaurantId && styles.errorBorder,
           ]}
         >
           <TouchableOpacity
             style={styles.inputRow}
-            onPress={() => setShowRestaurantMenu((prev) => !prev)}
+            onPress={() => setShowRestaurantMenu((prev: any) => !prev)}
           >
             <Text
               numberOfLines={1}
               style={restaurantId ? styles.inputValue : styles.placeholder}
             >
-              {selectedRestaurantObj ? selectedRestaurantObj.name : "Select a restaurant"}
+              {selectedRestaurantObj?.name ?? "Select a restaurant"}
             </Text>
             <ChevronDown size={18} color={COLORS.textSecondary} />
           </TouchableOpacity>
@@ -157,13 +113,7 @@ export default function NewReservationForm({
           {showRestaurantMenu && (
             <View style={styles.dropdown}>
               {restaurants.map((r: any) => (
-                <TouchableOpacity
-                  key={r.id}
-                  onPress={() => {
-                    setRestaurantId(r.id);
-                    setShowRestaurantMenu(false);
-                  }}
-                >
+                <TouchableOpacity key={r.id} onPress={() => setRestaurantId(r.id)}>
                   <Text style={styles.dropdownItem}>{r.name}</Text>
                 </TouchableOpacity>
               ))}
@@ -171,12 +121,10 @@ export default function NewReservationForm({
           )}
         </View>
 
+ 
         <Text style={styles.label}>Date *</Text>
         <TouchableOpacity
-          style={[
-            styles.inputRow,
-            errors.date && { borderColor: "red", borderWidth: 1 },
-          ]}
+          style={[styles.inputRow, errors.date && styles.errorBorder]}
           onPress={() => setShowDatePicker(true)}
         >
           <Text style={date ? styles.inputValue : styles.placeholder}>
@@ -195,10 +143,7 @@ export default function NewReservationForm({
 
         <Text style={styles.label}>Time *</Text>
         <TouchableOpacity
-          style={[
-            styles.inputRow,
-            errors.time && { borderColor: "red", borderWidth: 1 },
-          ]}
+          style={[styles.inputRow, errors.time && styles.errorBorder]}
           onPress={() => setShowTimePicker(true)}
         >
           <Text style={time ? styles.inputValue : styles.placeholder}>
@@ -222,12 +167,12 @@ export default function NewReservationForm({
 
         <Text style={styles.label}>Number of Guests *</Text>
         <TextInput
-          style={[styles.input, errors.guestCount && { borderColor: "red" }]}
+          style={[styles.input, errors.guestCount && styles.errorBorder]}
           placeholder="Enter guest count"
           placeholderTextColor={COLORS.textSecondary}
           keyboardType="numeric"
           value={String(guestCount)}
-          onChangeText={setGuestCount}
+          onChangeText={(v) => setGuestCount(Number(v))}
         />
 
         <Text style={styles.label}>Special Requests</Text>
@@ -239,6 +184,7 @@ export default function NewReservationForm({
           value={specialRequests}
           onChangeText={setSpecialRequests}
         />
+
 
         <View style={styles.buttonRow}>
           <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>

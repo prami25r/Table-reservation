@@ -2,6 +2,11 @@ import { StyleSheet, Platform } from "react-native";
 import { COLORS } from "../../themes/colors";
 
 export const styles = StyleSheet.create({
+  errorBorder: {
+  borderColor: "red",
+  borderWidth: 1,
+},
+
  safe: {
   flex: 1,
   backgroundColor: COLORS.background,

@@ -13,6 +13,6 @@
     "allowJs": true,
     "skipLibCheck": true
   },
-  "include": ["src", "jest.setup.ts", "__mocks__/**/*", "tests/**/*"],
+  "include": ["src", "jest.setup.js", "__mocks__/**/*", "__tests__/**/*"],
   "exclude": ["node_modules", "Pods"]
 }

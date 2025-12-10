@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import Upcoming from "./upcoming";
 import CheckedIn from "./checkedIn";
@@ -9,61 +9,30 @@ import WebSortSidebar from "../../components/webCard/webSortsidebar";
 import { Plus } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { getRestaurants, getReservations } from "../../api/reservation";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { setReservations } from "../../redux/slices/reservationslice";
-
+import { useResponsive } from "../../utils/responsive";
 import { useStyles } from "./styles";
-import { useResponsive } from "../../utils/responsive"; 
+import { useReservationsLogic } from "./useReservationhooks";
 
 const TABS = ["Upcoming", "Checked-In", "Cancelled"] as const;
 
 export default function ReservationsScreen({ navigation }: any) {
-  const dispatch = useAppDispatch();
-  const reservations = useAppSelector((s) => s.reservation.list);
   const styles = useStyles();
+  const { isTablet, isDesktop } = useResponsive();
 
-  const { isPhone, isTablet, isDesktop } = useResponsive();
+  const {
+    reservations,
+    active,
+    setActive,
+    sortConfig,
+    restaurants,
+    restaurantFilter,
+    handleSort,
+    handleFilter,
+  } = useReservationsLogic();
 
-  const [active, setActive] = useState("Upcoming");
-
-  const [sortConfig, setSortConfig] = useState({
-    type: "date" as "date" | "guests",
-    order: "desc" as "asc" | "desc",
-  });
-
-  const [restaurants, setRestaurants] = useState<any[]>([]);
-  const [restaurantFilter, setRestaurantFilter] = useState<number | null>(null);
-
-  const loadRestaurants = useCallback(async () => {
-    try {
-      const res = await getRestaurants();
-      setRestaurants(res.data || []);
-    } catch {
-      setRestaurants([]);
-    }
-  }, []);
-
-  const loadReservations = useCallback(async () => {
-    try {
-      const res = await getReservations();
-      dispatch(setReservations(res.data));
-    } catch (err) {
-      console.log("Reservation load error:", err);
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    loadRestaurants();
-    loadReservations();
-  }, [loadRestaurants, loadReservations]);
 
   const renderScreen = () => {
-    const props = {
-      data: reservations,
-      sort: sortConfig,
-      restaurantFilter,
-    };
+    const props = { data: reservations, sort: sortConfig, restaurantFilter };
 
     switch (active) {
       case "Checked-In":
@@ -75,10 +44,19 @@ export default function ReservationsScreen({ navigation }: any) {
     }
   };
 
-  const handleSort = (type: "date" | "guests", order: "asc" | "desc") =>
-    setSortConfig({ type, order });
 
-  const handleFilter = (id: number | null) => setRestaurantFilter(id);
+  const FabButton = (
+    <TouchableOpacity
+      style={
+        Platform.OS === "web"
+          ? [styles.webFab, { position: "fixed" }]
+          : styles.fab
+      }
+      onPress={() => navigation.navigate("NewReservation")}
+    >
+      <Plus color="#FFF" size={Platform.OS === "web" ? 24 : 30} />
+    </TouchableOpacity>
+  );
 
   if (Platform.OS === "web" && isDesktop) {
     return (
@@ -91,22 +69,22 @@ export default function ReservationsScreen({ navigation }: any) {
             initial={sortConfig}
           />
         }
-        fab={
-  <TouchableOpacity
-    style={[
-      styles.webFab,
-      Platform.OS === "web" ? ({ position: "fixed" } as any) : {}
-    ]}
-    onPress={() => navigation.navigate("NewReservation")}
-  >
-    <Plus color="#FFF" size={24} />
-  </TouchableOpacity>
-}
-
+        fab={FabButton}
       >
-        <SafeAreaView style={[styles.safeArea, { paddingHorizontal: isTablet ? 24 : 16 }]}>
+        <SafeAreaView
+          style={[
+            styles.safeArea,
+            { paddingHorizontal: isTablet ? 24 : 16 },
+          ]}
+        >
           <View style={styles.contentWrapper}>
-            <View style={[styles.tabs, { marginBottom: isTablet ? 14 : 10}]}>
+            
+            <View
+              style={[
+                styles.tabs,
+                { marginBottom: isTablet ? 14 : 10 },
+              ]}
+            >
               {TABS.map((tab) => (
                 <TouchableOpacity
                   key={tab}
@@ -117,7 +95,6 @@ export default function ReservationsScreen({ navigation }: any) {
                     style={[
                       styles.tabText,
                       active === tab && styles.activeTabText,
-                      { fontSize: isTablet ? 17 : 15 },
                     ]}
                   >
                     {tab}
@@ -126,57 +103,55 @@ export default function ReservationsScreen({ navigation }: any) {
               ))}
             </View>
 
-            <View style={{ flex: 1, paddingHorizontal: 25 }}>{renderScreen()}</View>
+           
+            <View style={styles.content}>{renderScreen()}</View>
           </View>
         </SafeAreaView>
       </WebLayout>
     );
   }
 
+
   return (
-  <View style={{ flex: 1, position: "relative" }}>
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.contentWrapper}>
-        <View style={styles.stickyHeader}>
-          <SortFilterBar
-            onSort={handleSort}
-            onFilterRestaurant={handleFilter}
-            restaurants={restaurants}
-            initial={sortConfig}
-          />
+    <View style={styles.container}>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.contentWrapper}>
+     
+          <View style={styles.stickyHeader}>
+            <SortFilterBar
+              onSort={handleSort}
+              onFilterRestaurant={handleFilter}
+              restaurants={restaurants}
+              initial={sortConfig}
+            />
 
-          <View style={styles.tabs}>
-            {TABS.map((tab) => (
-              <TouchableOpacity
-                key={tab}
-                style={[styles.tab, active === tab && styles.activeTab]}
-                onPress={() => setActive(tab)}
-              >
-                <Text
-                  style={[
-                    styles.tabText,
-                    active === tab && styles.activeTabText,
-                  ]}
+            
+            <View style={styles.tabs}>
+              {TABS.map((tab) => (
+                <TouchableOpacity
+                  key={tab}
+                  style={[styles.tab, active === tab && styles.activeTab]}
+                  onPress={() => setActive(tab)}
                 >
-                  {tab}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  <Text
+                    style={[
+                      styles.tabText,
+                      active === tab && styles.activeTabText,
+                    ]}
+                  >
+                    {tab}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
-        </View>
 
-        <View style={{ flex: 1, paddingHorizontal:25}}>
-          {renderScreen()}
+          
+          <View style={styles.content}>{renderScreen()}</View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
 
-    <TouchableOpacity
-      style={styles.fab}
-      onPress={() => navigation.navigate("NewReservation")}
-    >
-      <Plus color="#FFF" size={30} />
-    </TouchableOpacity>
-  </View>
-);
+      {FabButton}
+    </View>
+  );
 }

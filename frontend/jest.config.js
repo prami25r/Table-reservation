@@ -1,55 +1,62 @@
 module.exports = {
   testEnvironment: "jsdom",
 
-  transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
-  },
-
-  moduleNameMapper: {
-    "\\.(css|scss)$": "identity-obj-proxy",
-    "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
-
-    "^react-native$": "<rootDir>/mocks/reactNativeMock.js",
-
-    "@react-native-community/datetimepicker":
-      "<rootDir>/mocks/datetimepicker.js",
-
-    "react-native-gesture-handler":
-      "<rootDir>/mocks/gesturehandler.js",
-
-    "react-native-safe-area-context":
-      "<rootDir>/mocks/safearea.js",
-
-    "react-native-screens":
-      "<rootDir>/mocks/nativescreen.js",
-
-    "@react-navigation/native":
-      "<rootDir>/mocks/navigation.web.js",
-
-    "@react-navigation/native-stack":
-      "<rootDir>/mocks/nativeStack.js",
-
-    "lucide-react-native":
-      "<rootDir>/mocks/lucide.js",
-  },
-
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-
-  transformIgnorePatterns: [
-    "node_modules/(?!(react-native" +
-      "|@react-native" +
-      "|react-native-reanimated" +
-      "|lucide-react-native" +
-      ")/)"
+  // Tell Jest EXACTLY which test files to run
+  testMatch: [
+    "<rootDir>/__tests__/**/*.test.(ts|tsx|js|jsx)",
+    "<rootDir>/tests/**/*.test.(ts|tsx|js|jsx)",
+    "<rootDir>/src/**/*.test.(ts|tsx|js|jsx)",
   ],
+
+  // Tell Jest EXACTLY which source files must be counted for coverage
+  collectCoverageFrom: [
+    "src/api/**/*.{ts,tsx,js,jsx}",
+    "src/redux/**/*.{ts,tsx,js,jsx}",
+    "src/redux/slices/**/*.{ts,tsx,js,jsx}",
+    "src/screens/reservation/useReservationhooks.tsx",
+    "src/screens/reservation/upcoming.tsx",
+    "src/screens/reservation/cancelled.tsx",
+    "src/screens/reservation/checkedIn.tsx",
+    "src/screens/newreservation/hooks.tsx",
+    "src/screens/newreservation/logic.tsx",
+    "src/screens/newreservation/newreservation.tsx",
+    "src/utils/breakpoint.ts",
+    "src/utils/date.ts",
+    "src/utils/responsive.ts",
+  ],
+
+  transform: {
+    "^.+\\.[jt]sx?$": [
+      "babel-jest",
+      { presets: ["module:@react-native/babel-preset"] },
+    ],
+  },
 
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
 
-  collectCoverage: true,
-  collectCoverageFrom: [
-    "src/**/*.{ts,tsx}",
-    "!src/**/index.ts",
-    "!src/**/*.styles.ts",
-    "!src/**/types.ts",
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/jest/fileMock.js",
+    "^@jest/test-sequencer$": "<rootDir>/jest/testSequencerMock.js",
+    "^react-native$": "<rootDir>/mocks/reactNativeMock.js",
+    "^react-native/Libraries/Animated/NativeAnimatedHelper$": "<rootDir>/mocks/animated.js",
+  },
+
+  transformIgnorePatterns: [
+    "node_modules/(?!(react-native"
+      + "|@react-native"
+      + "|@react-navigation"
+      + "|react-native-reanimated"
+      + ")/)",
   ],
+
+  setupFiles: ["<rootDir>/jest.globals.js"],
+
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+
+  watchman: false,
+
+  testSequencer: "<rootDir>/jest/testSequencerMock.js",
+
+  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
 };

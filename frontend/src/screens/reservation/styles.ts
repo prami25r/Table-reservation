@@ -8,16 +8,15 @@ export const useStyles = () => {
   const uniformPadding = 20;
   const tabPadding = isDesktop ? 16 : isTablet ? 14 : 12;
   const fabSize = isDesktop ? 26 : isTablet ? 22 : 18;
-
   const maxWidth = isDesktop ? 1100 : isTablet ? 900 : "100%";
 
-  const webGridColumns = isDesktop
-    ? "repeat(4, 1fr)"
-    : isTablet
-    ? "repeat(2, 1fr)"
-    : "repeat(1, 1fr)";
-
   return StyleSheet.create({
+   
+    container: {
+      flex: 1,
+      backgroundColor: COLORS.background,
+      position: "relative",
+    },
 
     safeArea: {
       flex: 1,
@@ -32,6 +31,13 @@ export const useStyles = () => {
       alignSelf: Platform.OS === "web" ? "center" : "stretch",
     },
 
+    content: {
+      flex: 1,
+      paddingHorizontal: 25,
+      width: "100%",
+    },
+
+ 
     tabs: {
       flexDirection: "row",
       backgroundColor: COLORS.tabBackground,
@@ -39,8 +45,8 @@ export const useStyles = () => {
       padding: isTablet ? 6 : 4,
       marginBottom: 16,
       width: "100%",
-      paddingHorizontal:5,
-      paddingVertical:5,
+      paddingHorizontal: 5,
+      paddingVertical: 5,
     },
 
     tab: {
@@ -51,7 +57,7 @@ export const useStyles = () => {
 
     activeTab: {
       backgroundColor: COLORS.tabActive,
-    },   
+    },
 
     tabText: {
       textAlign: "center",
@@ -66,6 +72,7 @@ export const useStyles = () => {
       fontSize: isDesktop ? 18 : isTablet ? 16 : 14,
     },
 
+   
     fab: {
       position: "absolute",
       backgroundColor: COLORS.primaryButton,
@@ -75,20 +82,23 @@ export const useStyles = () => {
       bottom: isTablet ? 40 : 24,
     },
 
+    /** WEB FAB */
     webFab: {
-  ...({
-    position: "fixed",
-  } as any),
-  bottom: 40,
-  right: 40,
-  backgroundColor: COLORS.primaryButton,
-  padding: 16,
-  borderRadius: 50,
-  boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
-  zIndex: 9999,
-},
+      ...(Platform.OS === "web"
+        ? ({
+            position: "fixed",
+          } as any)
+        : {}),
+      bottom: 40,
+      right: 40,
+      backgroundColor: COLORS.primaryButton,
+      padding: 16,
+      borderRadius: 50,
+      boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+      zIndex: 9999,
+    },
 
-    
+
     stickyHeader: {
       position: Platform.OS === "web" ? ("sticky" as any) : "relative",
       top: 0,
@@ -98,34 +108,6 @@ export const useStyles = () => {
       width: "100%",
       paddingHorizontal: 25,
       paddingVertical: 10,
-    },
-
-    filterContainer: {
-      marginTop: 8,
-      marginBottom: 16,
-      width: "100%",
-    },
-
-    listContainer: {
-      flex: 1,
-      width: "100%",
-    },
-
-    listWrapper: {
-      width: "100%",
-      flexDirection: "column",
-    },
-
-    grid: {
-      width: "100%",
-      ...(Platform.OS === "web"
-        ? ({
-            display: "grid",
-            gridTemplateColumns: webGridColumns,
-            columnGap: 20,
-            rowGap: 20,
-          } as any)
-        : {}),
     },
   });
 };
