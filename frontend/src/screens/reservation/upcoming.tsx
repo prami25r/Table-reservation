@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { FlatList, Alert } from "react-native";
+import { FlatList } from "react-native";
 import ReservationCard from "../../components/cards/reservationcard";
 import { updateStatus } from "../../api/reservation";
 import { formatDate, formatTime } from "../../utils/date";
 // import { useFocusEffect } from "../../../mocks/navigation.web";
 import { useAppDispatch } from "../../redux/hooks";
 import { updateStatus as updateStatusRedux } from "../../redux/slices/reservationslice";
+import Toast from "react-native-toast-message";
 
 type SortConfig = { type: "date" | "guests"; order: "asc" | "desc" };
 
@@ -60,7 +61,11 @@ export default function Upcoming({
       await updateStatus(id, "Cancelled");
       dispatch(updateStatusRedux({ id, status: "Cancelled" }));
     } catch {
-      Alert.alert("Error", "Unable to cancel reservation");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Unable to cancel reservation",
+      });
     }
   };
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import { Text } from "react-native";
 import CheckedIn from "../../../src/screens/reservation/checkedIn";
 
 
@@ -10,12 +9,12 @@ jest.mock("../../../src/utils/date", () => ({
 }));
 
 
-jest.mock("../../../src/components/cards/reservationcard", () => {
-  const { Text } = require("react-native");
-  return function MockReservationCard(props: any) {
-    return <Text>{JSON.stringify(props)}</Text>;
-  };
-});
+jest.mock("../../../src/components/cards/reservationcard", () => ({
+  __esModule: true,
+  default: jest.fn(() => null),
+}));
+
+import ReservationCardMock from "../../../src/components/cards/reservationcard";
 
 describe("CheckedIn Screen", () => {
   const sampleData = [
@@ -45,68 +44,76 @@ describe("CheckedIn Screen", () => {
     },
   ];
 
-  beforeEach(() => jest.clearAllMocks());
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (ReservationCardMock as jest.Mock).mockClear();
+  });
 
   test("renders only Checked-In items", () => {
-    const { getByText } = render(<CheckedIn data={sampleData} />);
+    render(<CheckedIn data={sampleData} />);
 
-    expect(getByText(/"restaurantName":"A"/)).toBeTruthy();
-    expect(getByText(/"restaurantName":"C"/)).toBeTruthy();
+    const names = (ReservationCardMock as jest.Mock).mock.calls.map(
+      (c: any[]) => c[0].restaurantName
+    );
 
-    // Should NOT render Upcoming items
-    expect(() => getByText(/"restaurantName":"B"/)).toThrow();
+    expect(names).toEqual(["A", "C"]);
   });
 
   test("filters by restaurantFilter", () => {
-    const { getByText, queryByText } = render(
-      <CheckedIn data={sampleData} restaurantFilter={10} />
+    render(<CheckedIn data={sampleData} restaurantFilter={10} />);
+
+    const names = (ReservationCardMock as jest.Mock).mock.calls.map(
+      (c: any[]) => c[0].restaurantName
     );
 
-    expect(getByText(/"restaurantName":"A"/)).toBeTruthy();
-    expect(queryByText(/"restaurantName":"C"/)).toBeNull();
+    expect(names).toEqual(["A"]);
   });
 
   test("sorts by date ASC", () => {
     const sort = { type: "date", order: "asc" } as const;
 
-    const { getAllByText } = render(<CheckedIn data={sampleData} sort={sort} />);
+    render(<CheckedIn data={sampleData} sort={sort} />);
 
-    const items = getAllByText(/restaurantName/).map((n) => n.props.children);
+    const names = (ReservationCardMock as jest.Mock).mock.calls.map(
+      (c: any[]) => c[0].restaurantName
+    );
 
-    expect(items[0]).toContain('"id":1'); 
-    expect(items[1]).toContain('"id":3'); 
+    expect(names).toEqual(["A", "C"]);
   });
 
   test("sorts by date DESC", () => {
     const sort = { type: "date", order: "desc" } as const;
 
-    const { getAllByText } = render(<CheckedIn data={sampleData} sort={sort} />);
+    render(<CheckedIn data={sampleData} sort={sort} />);
 
-    const items = getAllByText(/restaurantName/).map((n) => n.props.children);
+    const names = (ReservationCardMock as jest.Mock).mock.calls.map(
+      (c: any[]) => c[0].restaurantName
+    );
 
-    expect(items[0]).toContain('"id":3');
-    expect(items[1]).toContain('"id":1');
+    expect(names).toEqual(["C", "A"]);
   });
 
   test("sorts by guests DESC", () => {
     const sort = { type: "guests", order: "desc" } as const;
 
-    const { getAllByText } = render(<CheckedIn data={sampleData} sort={sort} />);
+    render(<CheckedIn data={sampleData} sort={sort} />);
 
-    const items = getAllByText(/guestCount/).map((n) => n.props.children);
+    const guests = (ReservationCardMock as jest.Mock).mock.calls.map(
+      (c: any[]) => c[0].guests
+    );
 
-    expect(items[0]).toContain('"guestCount":2'); 
-    expect(items[1]).toContain('"guestCount":1');
+    expect(guests).toEqual([2, 1]);
   });
 
   test("sorts by guests ASC", () => {
     const sort = { type: "guests", order: "asc" } as const;
 
-    const { getAllByText } = render(<CheckedIn data={sampleData} sort={sort} />);
+    render(<CheckedIn data={sampleData} sort={sort} />);
 
-    const items = getAllByText(/guestCount/).map((n) => n.props.children);
+    const guests = (ReservationCardMock as jest.Mock).mock.calls.map(
+      (c: any[]) => c[0].guests
+    );
 
-    expect(items[0]).toContain('"guestCount":1');
-    expect(items[1]).toContain('"guestCount":2');
+    expect(guests).toEqual([1, 2]);
   });
 });

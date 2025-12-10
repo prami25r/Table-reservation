@@ -1,14 +1,13 @@
 module.exports = {
   testEnvironment: "jsdom",
 
-  // Tell Jest EXACTLY which test files to run
+  
   testMatch: [
     "<rootDir>/__tests__/**/*.test.(ts|tsx|js|jsx)",
     "<rootDir>/tests/**/*.test.(ts|tsx|js|jsx)",
     "<rootDir>/src/**/*.test.(ts|tsx|js|jsx)",
   ],
 
-  // Tell Jest EXACTLY which source files must be counted for coverage
   collectCoverageFrom: [
     "src/api/**/*.{ts,tsx,js,jsx}",
     "src/redux/**/*.{ts,tsx,js,jsx}",

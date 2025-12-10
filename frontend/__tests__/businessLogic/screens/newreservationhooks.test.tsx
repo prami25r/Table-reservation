@@ -43,8 +43,8 @@ describe("NewReservation Screen", () => {
 
    
     expect(NewReservationForm).toHaveBeenCalledWith(
-      hookReturn,
-      {}
+      expect.objectContaining(hookReturn),
+      undefined
     );
   });
 

@@ -1,15 +1,16 @@
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import useNewReservation from "../../../src/screens/newreservation/hooks";
-import {
-  getRestaurants,
-  createReservation,
-  updateReservation,
-} from "../../../src/api/reservation";
+
+const mockGetRestaurants = jest.fn();
+const mockCreateReservation = jest.fn();
+const mockUpdateReservation = jest.fn();
 
 jest.mock("../../../src/api/reservation", () => ({
-  getRestaurants: jest.fn(),
-  createReservation: jest.fn(),
-  updateReservation: jest.fn(),
+  __esModule: true,
+  default: {},
+  getRestaurants: mockGetRestaurants,
+  createReservation: mockCreateReservation,
+  updateReservation: mockUpdateReservation,
 }));
 
 const mockNavigate = jest.fn();
@@ -18,6 +19,9 @@ const mockNavigation = { navigate: mockNavigate };
 describe("useNewReservation Hook", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockGetRestaurants.mockResolvedValue({ data: [] });
+    mockCreateReservation.mockResolvedValue({});
+    mockUpdateReservation.mockResolvedValue({});
   });
 
   test("initializes state correctly WITHOUT reservation", () => {
@@ -63,7 +67,7 @@ describe("useNewReservation Hook", () => {
   });
 
   test("fetches restaurants successfully", async () => {
-    (getRestaurants as jest.Mock).mockResolvedValueOnce({
+    mockGetRestaurants.mockResolvedValueOnce({
       data: [{ id: 1, name: "Test Resto" }],
     });
 
@@ -77,11 +81,11 @@ describe("useNewReservation Hook", () => {
       ]);
     });
 
-    expect(getRestaurants).toHaveBeenCalled();
+    expect(mockGetRestaurants).toHaveBeenCalled();
   });
 
   test("handles restaurant fetch error", async () => {
-    (getRestaurants as jest.Mock).mockRejectedValueOnce("Network error");
+    mockGetRestaurants.mockRejectedValueOnce("Network error");
 
     const { result } = renderHook(() =>
       useNewReservation(mockNavigation, null)
@@ -93,8 +97,8 @@ describe("useNewReservation Hook", () => {
   });
 
   test("creates a reservation when no reservation exists", async () => {
-    (createReservation as jest.Mock).mockResolvedValueOnce({});
-    (getRestaurants as jest.Mock).mockResolvedValueOnce({ data: [] });
+    mockCreateReservation.mockResolvedValueOnce({});
+    mockGetRestaurants.mockResolvedValueOnce({ data: [] });
 
     const { result } = renderHook(() =>
       useNewReservation(mockNavigation, null)
@@ -117,7 +121,7 @@ describe("useNewReservation Hook", () => {
       await result.current.save();
     });
 
-    expect(createReservation).toHaveBeenCalledTimes(1);
+    expect(mockCreateReservation).toHaveBeenCalledTimes(1);
     expect(mockNavigate).toHaveBeenCalledWith("Reservations");
   });
 
@@ -131,8 +135,8 @@ describe("useNewReservation Hook", () => {
       customer: {},
     };
 
-    (updateReservation as jest.Mock).mockResolvedValueOnce({});
-    (getRestaurants as jest.Mock).mockResolvedValueOnce({ data: [] });
+    mockUpdateReservation.mockResolvedValueOnce({});
+    mockGetRestaurants.mockResolvedValueOnce({ data: [] });
 
     const { result } = renderHook(() =>
       useNewReservation(mockNavigation, reservation)
@@ -151,8 +155,8 @@ describe("useNewReservation Hook", () => {
       await result.current.save();
     });
 
-    expect(updateReservation).toHaveBeenCalledTimes(1);
-    expect(updateReservation).toHaveBeenCalledWith(5, {
+    expect(mockUpdateReservation).toHaveBeenCalledTimes(1);
+    expect(mockUpdateReservation).toHaveBeenCalledWith(5, {
       reservationDate: expect.any(Date),
       guestCount: 6,
       specialRequests: "Birthday",
@@ -162,8 +166,8 @@ describe("useNewReservation Hook", () => {
   });
 
   test("save handles API errors without crashing", async () => {
-    (createReservation as jest.Mock).mockRejectedValueOnce("ERROR");
-    (getRestaurants as jest.Mock).mockResolvedValueOnce({ data: [] });
+    mockCreateReservation.mockRejectedValueOnce("ERROR");
+    mockGetRestaurants.mockResolvedValueOnce({ data: [] });
 
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
 

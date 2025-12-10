@@ -1,23 +1,23 @@
 import React from "react";
 import { render, fireEvent, act } from "@testing-library/react-native";
 import Upcoming from "../../../src/screens/reservation/upcoming";
-import { Alert } from "react-native";
+import Toast from "react-native-toast-message";
 
 const mockDispatch = jest.fn();
 jest.mock("../../../src/redux/hooks", () => ({
   useAppDispatch: () => mockDispatch,
 }));
 
+const mockUpdateStatus = jest.fn();
 jest.mock("../../../src/api/reservation", () => ({
-  updateStatus: jest.fn(),
+  __esModule: true,
+  updateStatus: mockUpdateStatus,
 }));
 
 jest.mock("../../../src/utils/date", () => ({
   formatDate: jest.fn(() => "01 Dec"),
   formatTime: jest.fn(() => "10:00 AM"),
 }));
-
-const mockUpdateStatus = require("../../../src/api/reservation").updateStatus;
 
 jest.mock("../../../src/components/cards/reservationcard", () => ({
   __esModule: true,
@@ -129,13 +129,12 @@ describe("Upcoming Screen", () => {
   });
 
   test("calls updateStatus & dispatch on cancel success", async () => {
-    const { getByText } = render(<Upcoming data={sampleData} />);
+    render(<Upcoming data={sampleData} />);
 
-    const card = getByText(/"id":1/);
-    const parsed = JSON.parse(card.props.children);
+    const firstCallProps = (ReservationCardMock as jest.Mock).mock.calls[0][0];
 
     await act(async () => {
-      await parsed.onCancel();
+      await firstCallProps.onCancel();
     });
 
     expect(mockUpdateStatus).toHaveBeenCalledWith(1, "Cancelled");
@@ -147,17 +146,19 @@ describe("Upcoming Screen", () => {
 
   test("shows Alert on cancel failure", async () => {
     mockUpdateStatus.mockRejectedValueOnce(new Error("fail"));
-    jest.spyOn(Alert, "alert").mockImplementation(() => {});
 
-    const { getByText } = render(<Upcoming data={sampleData} />);
+    render(<Upcoming data={sampleData} />);
 
-    const card = getByText(/"id":1/);
-    const parsed = JSON.parse(card.props.children);
+    const firstCallProps = (ReservationCardMock as jest.Mock).mock.calls[0][0];
 
     await act(async () => {
-      await parsed.onCancel();
+      await firstCallProps.onCancel();
     });
 
-    expect(Alert.alert).toHaveBeenCalledWith("Error", "Unable to cancel reservation");
+    expect(Toast.show).toHaveBeenCalledWith({
+      type: "error",
+      text1: "Error",
+      text2: "Unable to cancel reservation",
+    });
   });
 });
