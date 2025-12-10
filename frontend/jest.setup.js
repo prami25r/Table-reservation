@@ -9,7 +9,7 @@ jest.mock("react-native-toast-message", () => {
 
 jest.mock("@react-navigation/native", () => ({
   useNavigation: jest.fn(() => ({ navigate: jest.fn() })),
-  NavigationContainer: ({ children }: any) => children,
+  NavigationContainer: ({ children }) => children,
 }));
 
 const suppressedWarnings = [

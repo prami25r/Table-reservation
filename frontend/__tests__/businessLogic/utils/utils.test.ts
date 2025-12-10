@@ -1,14 +1,8 @@
 // tests/utils/utils.test.ts
 
-import { BREAKPOINTS } from "../../../src/utils/breakpoint";
 jest.unmock("../../../src/utils/date");
 
-const loadDateUtils = () => jest.requireActual("../../../src/utils/date");
-const loadResponsive = () => require("../../../src/utils/responsive");
-
-import { Platform, useWindowDimensions } from "react-native";
-
-// ---------- MOCKS ----------
+// Mock react-native BEFORE importing Platform/useWindowDimensions
 jest.mock("react-native", () => {
   const actual = jest.requireActual("react-native");
   return {
@@ -17,6 +11,12 @@ jest.mock("react-native", () => {
     Platform: { OS: "web" },
   };
 });
+
+import { BREAKPOINTS } from "../../../src/utils/breakpoint";
+import { Platform, useWindowDimensions } from "react-native";
+
+const loadDateUtils = () => jest.requireActual("../../../src/utils/date");
+const loadResponsive = () => require("../../../src/utils/responsive");
 
 const mockDimensions = (width: number) => {
   (useWindowDimensions as jest.Mock).mockReturnValue({

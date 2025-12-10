@@ -1,17 +1,17 @@
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import useNewReservation from "../../../src/screens/newreservation/hooks";
-
-const mockGetRestaurants = jest.fn();
-const mockCreateReservation = jest.fn();
-const mockUpdateReservation = jest.fn();
+import * as reservationApi from "../../../src/api/reservation";
 
 jest.mock("../../../src/api/reservation", () => ({
   __esModule: true,
-  default: {},
-  getRestaurants: mockGetRestaurants,
-  createReservation: mockCreateReservation,
-  updateReservation: mockUpdateReservation,
+  getRestaurants: jest.fn(),
+  createReservation: jest.fn(),
+  updateReservation: jest.fn(),
 }));
+
+const mockGetRestaurants = reservationApi.getRestaurants as unknown as jest.Mock;
+const mockCreateReservation = reservationApi.createReservation as unknown as jest.Mock;
+const mockUpdateReservation = reservationApi.updateReservation as unknown as jest.Mock;
 
 const mockNavigate = jest.fn();
 const mockNavigation = { navigate: mockNavigate };

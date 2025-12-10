@@ -35,13 +35,11 @@ describe("useReservationsLogic", () => {
     mockDispatch = jest.fn();
     (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
 
-    // return empty reservation list by default
+
     (useAppSelector as jest.Mock).mockReturnValue([]);
   });
 
-  // -----------------------------
-  // RESTAURANTS
-  // -----------------------------
+  
   it("loads restaurants on mount", async () => {
     (getRestaurants as jest.Mock).mockResolvedValue({
       data: [mockRestaurant({ id: 1 })],
@@ -55,9 +53,6 @@ describe("useReservationsLogic", () => {
     expect(result.current.restaurants).toEqual([mockRestaurant({ id: 1 })]);
   });
 
-  // -----------------------------
-  // RESERVATIONS
-  // -----------------------------
   it("loads reservations and dispatches them", async () => {
     (getReservations as jest.Mock).mockResolvedValue({
       data: [mockReservation({ id: 11 })],
@@ -95,9 +90,6 @@ describe("useReservationsLogic", () => {
     consoleSpy.mockRestore();
   });
 
-  // -----------------------------
-  // SORT
-  // -----------------------------
   it("updates sortConfig when handleSort is called", () => {
     const { result } = renderHook(() => useReservationsLogic());
 
@@ -109,9 +101,6 @@ describe("useReservationsLogic", () => {
     });
   });
 
-  // -----------------------------
-  // FILTER
-  // -----------------------------
   it("updates restaurantFilter", () => {
     const { result } = renderHook(() => useReservationsLogic());
 
@@ -128,9 +117,7 @@ describe("useReservationsLogic", () => {
     expect(result.current.restaurantFilter).toBeNull();
   });
 
-  // -----------------------------
-  // ACTIVE TAB
-  // -----------------------------
+  
   it("active tab updates correctly", () => {
     const { result } = renderHook(() => useReservationsLogic());
 

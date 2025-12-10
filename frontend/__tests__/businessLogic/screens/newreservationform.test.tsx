@@ -22,9 +22,7 @@ describe("useNewReservationFormLogic", () => {
   const setup = (saveMock = jest.fn().mockResolvedValue(undefined)) =>
     renderHook(() => useNewReservationFormLogic({ save: saveMock }));
 
-  // ----------------------------------------------------
-  // VALIDATION
-  // ----------------------------------------------------
+  
   it("sets errors when required fields are missing", () => {
     const { result } = setup();
 
@@ -43,14 +41,11 @@ describe("useNewReservationFormLogic", () => {
     expect(Toast.show).toHaveBeenCalled();
   });
 
-  // ----------------------------------------------------
-  // VALID SUBMISSION
-  // ----------------------------------------------------
+
   it("submits successfully when validation passes", async () => {
     const saveMock = jest.fn().mockResolvedValue(undefined);
     const { result } = setup(saveMock);
 
-    // Fill all required fields
     act(() => {
       result.current.setFullName("John Doe");
       result.current.setMobileNumber("9876543210");
@@ -69,14 +64,11 @@ describe("useNewReservationFormLogic", () => {
     expect(mockNavigate).toHaveBeenCalledWith("Reservations");
   });
 
-  // ----------------------------------------------------
-  // SAVE FAILURE (API error)
-  // ----------------------------------------------------
+
   it("shows error toast when save throws error", async () => {
     const failingSave = jest.fn().mockRejectedValue(new Error("No tables"));
     const { result } = setup(failingSave);
 
-    // Fill required fields so validation passes
     act(() => {
       result.current.setFullName("John");
       result.current.setMobileNumber("1234567890");
@@ -94,9 +86,7 @@ describe("useNewReservationFormLogic", () => {
     expect(Toast.show).toHaveBeenCalled();
   });
 
-  // ----------------------------------------------------
-  // HANDLE CANCEL
-  // ----------------------------------------------------
+ 
   it("navigates back on handleCancel", () => {
     const { result } = setup();
 
@@ -107,9 +97,6 @@ describe("useNewReservationFormLogic", () => {
     expect(mockNavigate).toHaveBeenCalledWith("Reservations");
   });
 
-  // ----------------------------------------------------
-  // DATE & TIME PICKERS
-  // ----------------------------------------------------
   it("updates date on date change", () => {
     const { result } = setup();
 

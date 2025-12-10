@@ -2,17 +2,19 @@ import React from "react";
 import { render, fireEvent, act } from "@testing-library/react-native";
 import Upcoming from "../../../src/screens/reservation/upcoming";
 import Toast from "react-native-toast-message";
+import * as reservationApi from "../../../src/api/reservation";
 
 const mockDispatch = jest.fn();
 jest.mock("../../../src/redux/hooks", () => ({
   useAppDispatch: () => mockDispatch,
 }));
 
-const mockUpdateStatus = jest.fn();
 jest.mock("../../../src/api/reservation", () => ({
   __esModule: true,
-  updateStatus: mockUpdateStatus,
+  updateStatus: jest.fn(),
 }));
+
+const mockUpdateStatus = reservationApi.updateStatus as unknown as jest.Mock;
 
 jest.mock("../../../src/utils/date", () => ({
   formatDate: jest.fn(() => "01 Dec"),
@@ -132,6 +134,8 @@ describe("Upcoming Screen", () => {
     render(<Upcoming data={sampleData} />);
 
     const firstCallProps = (ReservationCardMock as jest.Mock).mock.calls[0][0];
+
+    expect(firstCallProps.onCancel).toBeInstanceOf(Function);
 
     await act(async () => {
       await firstCallProps.onCancel();
