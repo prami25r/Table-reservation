@@ -2,3 +2,233 @@
 2025-12-11 09:26:21 [info]: GET /__unknown__route__
 2025-12-11 09:29:21 [info]: GET /__unknown__route__
 2025-12-11 09:30:52 [info]: GET /__unknown__route__
+2025-12-11 14:14:03 [info]: GET /__unknown__route__
+2025-12-11 14:14:03 [info]: Creating table
+2025-12-11 14:14:03 [info]: Creating table
+2025-12-11 14:14:03 [info]: Fetching all tables
+2025-12-11 14:14:03 [info]: Fetching all tables
+2025-12-11 14:14:03 [info]: Fetching table 1
+2025-12-11 14:14:03 [info]: Fetching table 5
+2025-12-11 14:14:03 [info]: Updating table 1
+2025-12-11 14:14:03 [info]: Updating table 2
+2025-12-11 14:14:03 [info]: Deleting table 1
+2025-12-11 14:14:03 [info]: Deleting table 3
+2025-12-11 14:14:03 [info]: Creating customer
+2025-12-11 14:14:03 [info]: Fetching all customers
+2025-12-11 14:14:03 [info]: Fetching customer 1
+2025-12-11 14:14:03 [info]: Fetching customer 123
+2025-12-11 14:14:03 [info]: Updating customer 1
+2025-12-11 14:14:03 [info]: Updating customer 999
+2025-12-11 14:14:03 [info]: Deleting customer 1
+2025-12-11 14:14:03 [info]: Deleting customer 404
+2025-12-11 14:14:03 [info]: Fetching all customers
+2025-12-11 14:14:03 [info]: Creating restaurant
+2025-12-11 14:14:03 [info]: Creating restaurant
+2025-12-11 14:14:03 [info]: Fetching all restaurants
+2025-12-11 14:14:03 [info]: Fetching all restaurants
+2025-12-11 14:14:03 [info]: Fetching restaurant 1
+2025-12-11 14:14:03 [info]: Fetching restaurant 99
+2025-12-11 14:14:03 [info]: Updating restaurant 1
+2025-12-11 14:14:03 [info]: Updating restaurant 55
+2025-12-11 14:14:03 [info]: Deleting restaurant 1
+2025-12-11 14:14:03 [info]: Deleting restaurant 10
+2025-12-11 14:14:03 [info]: Creating reservation
+2025-12-11 14:14:03 [info]: Creating reservation
+2025-12-11 14:14:03 [info]: Creating reservation
+2025-12-11 14:14:03 [error]: boom
+2025-12-11 14:14:03 [info]: Fetching all reservations
+2025-12-11 14:14:03 [info]: Fetching reservation 1
+2025-12-11 14:14:03 [info]: Updating reservation 1
+2025-12-11 14:14:03 [info]: Deleting reservation 1
+2025-12-11 14:14:03 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:14:03 [info]: Cancelling reservation 1
+2025-12-11 14:14:03 [info]: Fetching upcoming reservations
+2025-12-11 14:14:03 [info]: Fetching checked-in reservations
+2025-12-11 14:14:03 [info]: Fetching cancelled reservations
+2025-12-11 14:14:03 [info]: Fetching reservation 999
+2025-12-11 14:17:45 [info]: Creating reservation
+2025-12-11 14:17:45 [info]: Creating reservation
+2025-12-11 14:17:45 [info]: Creating reservation
+2025-12-11 14:17:45 [error]: boom
+2025-12-11 14:17:45 [info]: Fetching all reservations
+2025-12-11 14:17:45 [info]: Fetching reservation 1
+2025-12-11 14:17:45 [info]: Updating reservation 1
+2025-12-11 14:17:45 [info]: Deleting reservation 1
+2025-12-11 14:17:45 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:17:45 [info]: Cancelling reservation 1
+2025-12-11 14:17:45 [info]: Fetching upcoming reservations
+2025-12-11 14:17:45 [info]: Fetching checked-in reservations
+2025-12-11 14:17:45 [info]: Fetching cancelled reservations
+2025-12-11 14:17:45 [info]: Fetching reservation 999
+2025-12-11 14:17:45 [info]: GET /__unknown__route__
+2025-12-11 14:17:45 [info]: Creating table
+2025-12-11 14:17:45 [info]: Creating table
+2025-12-11 14:17:45 [info]: Fetching all tables
+2025-12-11 14:17:45 [info]: Fetching all tables
+2025-12-11 14:17:45 [info]: Fetching table 1
+2025-12-11 14:17:45 [info]: Fetching table 5
+2025-12-11 14:17:45 [info]: Updating table 1
+2025-12-11 14:17:45 [info]: Updating table 2
+2025-12-11 14:17:45 [info]: Deleting table 1
+2025-12-11 14:17:45 [info]: Deleting table 3
+2025-12-11 14:17:45 [info]: Creating customer
+2025-12-11 14:17:45 [info]: Fetching all customers
+2025-12-11 14:17:45 [info]: Fetching all customers
+2025-12-11 14:17:45 [info]: Fetching customer 1
+2025-12-11 14:17:45 [info]: Fetching customer 123
+2025-12-11 14:17:45 [info]: Updating customer 1
+2025-12-11 14:17:45 [info]: Updating customer 999
+2025-12-11 14:17:45 [info]: Deleting customer 1
+2025-12-11 14:17:45 [info]: Deleting customer 404
+2025-12-11 14:17:45 [info]: Creating reservation
+2025-12-11 14:17:45 [info]: Creating reservation
+2025-12-11 14:17:45 [error]: boom
+2025-12-11 14:17:45 [info]: Fetching all reservations
+2025-12-11 14:17:45 [info]: Fetching reservation 1
+2025-12-11 14:17:45 [info]: Fetching reservation 999
+2025-12-11 14:17:45 [info]: Updating reservation 1
+2025-12-11 14:17:45 [info]: Deleting reservation 1
+2025-12-11 14:17:45 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:17:45 [info]: Cancelling reservation 1
+2025-12-11 14:17:45 [info]: Fetching upcoming reservations
+2025-12-11 14:17:45 [info]: Fetching checked-in reservations
+2025-12-11 14:17:45 [info]: Fetching cancelled reservations
+2025-12-11 14:22:39 [info]: Creating reservation
+2025-12-11 14:22:39 [info]: Creating reservation
+2025-12-11 14:22:39 [info]: Creating reservation
+2025-12-11 14:22:39 [error]: boom
+2025-12-11 14:22:39 [info]: Fetching all reservations
+2025-12-11 14:22:39 [info]: Fetching reservation 1
+2025-12-11 14:22:39 [info]: Updating reservation 1
+2025-12-11 14:22:39 [info]: Deleting reservation 1
+2025-12-11 14:22:39 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:22:39 [info]: Cancelling reservation 1
+2025-12-11 14:22:39 [info]: Fetching upcoming reservations
+2025-12-11 14:22:39 [info]: Fetching checked-in reservations
+2025-12-11 14:22:39 [info]: Fetching cancelled reservations
+2025-12-11 14:22:39 [info]: Fetching reservation 999
+2025-12-11 14:22:39 [info]: GET /__unknown__route__
+2025-12-11 14:22:39 [info]: Creating table
+2025-12-11 14:22:39 [info]: Creating table
+2025-12-11 14:22:39 [info]: Fetching all tables
+2025-12-11 14:22:39 [info]: Fetching all tables
+2025-12-11 14:22:39 [info]: Fetching table 1
+2025-12-11 14:22:39 [info]: Fetching table 5
+2025-12-11 14:22:39 [info]: Updating table 1
+2025-12-11 14:22:39 [info]: Updating table 2
+2025-12-11 14:22:39 [info]: Deleting table 1
+2025-12-11 14:22:39 [info]: Deleting table 3
+2025-12-11 14:22:39 [info]: Creating reservation
+2025-12-11 14:22:39 [info]: Creating reservation
+2025-12-11 14:22:39 [error]: boom
+2025-12-11 14:22:39 [info]: Fetching all reservations
+2025-12-11 14:22:39 [info]: Fetching reservation 1
+2025-12-11 14:22:39 [info]: Fetching reservation 999
+2025-12-11 14:22:39 [info]: Updating reservation 1
+2025-12-11 14:22:39 [info]: Deleting reservation 1
+2025-12-11 14:22:39 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:22:39 [info]: Cancelling reservation 1
+2025-12-11 14:22:39 [info]: Fetching upcoming reservations
+2025-12-11 14:22:39 [info]: Fetching checked-in reservations
+2025-12-11 14:22:39 [info]: Fetching cancelled reservations
+2025-12-11 14:22:39 [info]: Creating customer
+2025-12-11 14:22:39 [info]: Fetching all customers
+2025-12-11 14:22:39 [info]: Fetching all customers
+2025-12-11 14:22:39 [info]: Fetching customer 1
+2025-12-11 14:22:39 [info]: Fetching customer 123
+2025-12-11 14:22:39 [info]: Updating customer 1
+2025-12-11 14:22:39 [info]: Updating customer 999
+2025-12-11 14:22:39 [info]: Deleting customer 1
+2025-12-11 14:22:39 [info]: Deleting customer 404
+2025-12-11 14:26:23 [info]: Creating reservation
+2025-12-11 14:26:23 [info]: Creating reservation
+2025-12-11 14:26:23 [error]: boom
+2025-12-11 14:26:23 [info]: Fetching all reservations
+2025-12-11 14:26:23 [info]: Fetching reservation 1
+2025-12-11 14:26:23 [info]: Updating reservation 1
+2025-12-11 14:26:23 [info]: Deleting reservation 1
+2025-12-11 14:26:23 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:26:23 [info]: Cancelling reservation 1
+2025-12-11 14:26:23 [info]: Fetching upcoming reservations
+2025-12-11 14:26:23 [info]: Fetching checked-in reservations
+2025-12-11 14:26:23 [info]: Fetching cancelled reservations
+2025-12-11 14:26:23 [info]: Fetching reservation 999
+2025-12-11 14:26:23 [info]: GET /__unknown__route__
+2025-12-11 14:26:23 [info]: Creating table
+2025-12-11 14:26:23 [info]: Creating table
+2025-12-11 14:26:23 [info]: Fetching all tables
+2025-12-11 14:26:23 [info]: Fetching all tables
+2025-12-11 14:26:23 [info]: Fetching table 1
+2025-12-11 14:26:23 [info]: Fetching table 5
+2025-12-11 14:26:23 [info]: Updating table 1
+2025-12-11 14:26:23 [info]: Updating table 2
+2025-12-11 14:26:23 [info]: Deleting table 1
+2025-12-11 14:26:23 [info]: Deleting table 3
+2025-12-11 14:26:23 [info]: Creating customer
+2025-12-11 14:26:23 [info]: Fetching all customers
+2025-12-11 14:26:23 [info]: Fetching all customers
+2025-12-11 14:26:23 [info]: Fetching customer 1
+2025-12-11 14:26:23 [info]: Fetching customer 123
+2025-12-11 14:26:23 [info]: Updating customer 1
+2025-12-11 14:26:23 [info]: Updating customer 999
+2025-12-11 14:26:23 [info]: Deleting customer 1
+2025-12-11 14:26:23 [info]: Deleting customer 404
+2025-12-11 14:26:23 [info]: Creating reservation
+2025-12-11 14:26:23 [info]: Creating reservation
+2025-12-11 14:26:23 [error]: boom
+2025-12-11 14:26:23 [info]: Fetching all reservations
+2025-12-11 14:26:23 [info]: Fetching reservation 1
+2025-12-11 14:26:23 [info]: Fetching reservation 999
+2025-12-11 14:26:23 [info]: Updating reservation 1
+2025-12-11 14:26:23 [info]: Deleting reservation 1
+2025-12-11 14:26:23 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:26:23 [info]: Cancelling reservation 1
+2025-12-11 14:26:23 [info]: Fetching upcoming reservations
+2025-12-11 14:26:23 [info]: Fetching checked-in reservations
+2025-12-11 14:26:23 [info]: Fetching cancelled reservations
+2025-12-11 14:27:09 [info]: GET /__unknown__route__
+2025-12-11 14:27:09 [info]: Creating reservation
+2025-12-11 14:27:09 [info]: Creating reservation
+2025-12-11 14:27:09 [error]: boom
+2025-12-11 14:27:09 [info]: Fetching all reservations
+2025-12-11 14:27:09 [info]: Fetching reservation 1
+2025-12-11 14:27:09 [info]: Updating reservation 1
+2025-12-11 14:27:09 [info]: Deleting reservation 1
+2025-12-11 14:27:09 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:27:09 [info]: Cancelling reservation 1
+2025-12-11 14:27:09 [info]: Fetching upcoming reservations
+2025-12-11 14:27:09 [info]: Fetching checked-in reservations
+2025-12-11 14:27:09 [info]: Fetching cancelled reservations
+2025-12-11 14:27:09 [info]: Fetching reservation 999
+2025-12-11 14:27:09 [info]: Creating table
+2025-12-11 14:27:09 [info]: Creating table
+2025-12-11 14:27:09 [info]: Fetching all tables
+2025-12-11 14:27:09 [info]: Fetching all tables
+2025-12-11 14:27:09 [info]: Fetching table 1
+2025-12-11 14:27:09 [info]: Fetching table 5
+2025-12-11 14:27:09 [info]: Updating table 1
+2025-12-11 14:27:09 [info]: Updating table 2
+2025-12-11 14:27:09 [info]: Deleting table 1
+2025-12-11 14:27:09 [info]: Deleting table 3
+2025-12-11 14:27:09 [info]: Creating reservation
+2025-12-11 14:27:09 [info]: Creating reservation
+2025-12-11 14:27:09 [error]: boom
+2025-12-11 14:27:09 [info]: Fetching all reservations
+2025-12-11 14:27:09 [info]: Fetching reservation 1
+2025-12-11 14:27:09 [info]: Fetching reservation 999
+2025-12-11 14:27:09 [info]: Updating reservation 1
+2025-12-11 14:27:09 [info]: Deleting reservation 1
+2025-12-11 14:27:09 [info]: Marking reservation 1 as Checked-In
+2025-12-11 14:27:09 [info]: Cancelling reservation 1
+2025-12-11 14:27:09 [info]: Fetching upcoming reservations
+2025-12-11 14:27:09 [info]: Fetching checked-in reservations
+2025-12-11 14:27:09 [info]: Fetching cancelled reservations
+2025-12-11 14:27:09 [info]: Creating customer
+2025-12-11 14:27:09 [info]: Fetching all customers
+2025-12-11 14:27:09 [info]: Fetching all customers
+2025-12-11 14:27:09 [info]: Fetching customer 1
+2025-12-11 14:27:09 [info]: Fetching customer 123
+2025-12-11 14:27:09 [info]: Updating customer 1
+2025-12-11 14:27:09 [info]: Updating customer 999
+2025-12-11 14:27:09 [info]: Deleting customer 1
+2025-12-11 14:27:09 [info]: Deleting customer 404

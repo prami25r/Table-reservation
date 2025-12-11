@@ -18,6 +18,7 @@ describe("Table Controller", () => {
       status: jest.fn().mockReturnThis()
     };
     next = jest.fn();
+    jest.clearAllMocks();
   });
 
   test("createTable → returns created table", async () => {
@@ -47,6 +48,7 @@ describe("Table Controller", () => {
 
     await getTables(req, res, next);
 
+    expect(service.getAll).toHaveBeenCalled();
     expect(res.json).toHaveBeenCalledWith(list);
   });
 
@@ -92,6 +94,7 @@ describe("Table Controller", () => {
 
     await updateTable(req, res, next);
 
+    expect(service.update).toHaveBeenCalledWith(1, updated);
     expect(res.json).toHaveBeenCalledWith(updated);
   });
 
@@ -116,6 +119,7 @@ describe("Table Controller", () => {
 
     await deleteTable(req, res, next);
 
+    expect(service.remove).toHaveBeenCalledWith(1);
     expect(res.json).toHaveBeenCalledWith({
       message: "Table deleted successfully",
       deleted

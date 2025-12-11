@@ -11,7 +11,6 @@ import * as reservationController from "../../src/controllers/reservation";
 import * as tableController from "../../src/controllers/table";
 import * as restaurantController from "../../src/controllers/restaurant";
 
-
 jest.mock("../../src/controllers/customer");
 jest.mock("../../src/controllers/reservation");
 jest.mock("../../src/controllers/table");
@@ -28,8 +27,7 @@ app.use("/restaurants", restaurantRoutes);
 describe("Route Tests", () => {
   beforeEach(() => jest.clearAllMocks());
 
-
-
+  // CUSTOMER 
   test("POST /customers → createCustomer", async () => {
     customerController.createCustomer.mockImplementation((req, res) => res.json({}));
 
@@ -58,7 +56,11 @@ describe("Route Tests", () => {
   test("PUT /customers/:id → updateCustomer", async () => {
     customerController.updateCustomer.mockImplementation((req, res) => res.json({}));
 
-    const payload = { name: "Updated", email: "u@example.com", phone: "1234567890" };
+    const payload = {
+      name: "Updated",
+      email: "u@example.com",
+      phone: "1234567890"
+    };
 
     await request(app).put("/customers/1").send(payload);
     expect(customerController.updateCustomer).toHaveBeenCalled();
@@ -70,16 +72,17 @@ describe("Route Tests", () => {
     expect(customerController.deleteCustomer).toHaveBeenCalled();
   });
 
+  // RESERVATIONS
 
   test("POST /reservations → createReservation", async () => {
     reservationController.createReservation.mockImplementation((req, res) => res.json({}));
 
     const payload = {
-      customerId: 1,
-      tableId: 2,
-      date: "2025-01-01",
-      time: "18:00",
-      guests: 2
+       fullName: "John Doe",
+        mobileNumber: "9876543210",
+        restaurantId: 1,
+        reservationDate: "2025-12-11",
+        guestCount: 2,
     };
 
     await request(app).post("/reservations").send(payload);
@@ -143,7 +146,7 @@ describe("Route Tests", () => {
     expect(reservationController.getCancelledReservations).toHaveBeenCalled();
   });
 
- 
+  // TABLE 
 
   test("POST /tables → createTable", async () => {
     tableController.createTable.mockImplementation((req, res) => res.json({}));
@@ -185,7 +188,7 @@ describe("Route Tests", () => {
     expect(tableController.deleteTable).toHaveBeenCalled();
   });
 
-
+  //  RESTAURANT
 
   test("POST /restaurants → createRestaurant", async () => {
     restaurantController.createRestaurant.mockImplementation((req, res) => res.json({}));
@@ -214,7 +217,10 @@ describe("Route Tests", () => {
   test("PUT /restaurants/:id → updateRestaurant", async () => {
     restaurantController.updateRestaurant.mockImplementation((req, res) => res.json({}));
 
-    const payload = { name: "Updated R", location: "Delhi" };
+    const payload = {
+      name: "Updated R",
+      location: "Delhi"
+    };
 
     await request(app).put("/restaurants/1").send(payload);
     expect(restaurantController.updateRestaurant).toHaveBeenCalled();
@@ -225,4 +231,5 @@ describe("Route Tests", () => {
     await request(app).delete("/restaurants/1");
     expect(restaurantController.deleteRestaurant).toHaveBeenCalled();
   });
+
 });

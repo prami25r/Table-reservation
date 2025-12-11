@@ -18,9 +18,11 @@ describe("Customer Controller", () => {
       status: jest.fn().mockReturnThis(),
     };
     next = jest.fn();
+
+    jest.clearAllMocks();
   });
 
-  test("createCustomer → should return created customer", async () => {
+  test("createCustomer → returns created customer", async () => {
     const mockCustomer = { id: 1, name: "Sunshine" };
     service.create = jest.fn().mockResolvedValue(mockCustomer);
 
@@ -30,8 +32,9 @@ describe("Customer Controller", () => {
 
     expect(service.create).toHaveBeenCalledWith(mockCustomer);
     expect(res.json).toHaveBeenCalledWith(mockCustomer);
-  })
-  test("getCustomers → should return all customers", async () => {
+  });
+
+  test("getCustomers → returns all customers", async () => {
     const list = [{ id: 1 }, { id: 2 }];
     service.getAll = jest.fn().mockResolvedValue(list);
 
@@ -41,8 +44,17 @@ describe("Customer Controller", () => {
     expect(res.json).toHaveBeenCalledWith(list);
   });
 
+  test("getCustomers → calls next(error) when service throws", async () => {
+    const error = new Error("Failed");
+    service.getAll = jest.fn().mockRejectedValue(error);
 
-  test("getCustomer → should return a single customer when found", async () => {
+    await getCustomers(req, res, next);
+
+    expect(service.getAll).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(error);
+  });
+
+  test("getCustomer → returns a single customer when found", async () => {
     const customer = { id: 1, name: "Sunshine" };
     service.getOne = jest.fn().mockResolvedValue(customer);
 
@@ -54,7 +66,7 @@ describe("Customer Controller", () => {
     expect(res.json).toHaveBeenCalledWith(customer);
   });
 
-  test("getCustomer → should call next(err) when not found", async () => {
+  test("getCustomer → calls next(err) when not found", async () => {
     service.getOne = jest.fn().mockResolvedValue(null);
     req.params.id = 123;
 
@@ -65,8 +77,7 @@ describe("Customer Controller", () => {
     expect(err.status).toBe(404);
   });
 
-
-  test("updateCustomer → should return updated customer", async () => {
+  test("updateCustomer → returns updated customer", async () => {
     const updated = { id: 1, name: "Updated" };
     service.update = jest.fn().mockResolvedValue(updated);
 
@@ -79,7 +90,7 @@ describe("Customer Controller", () => {
     expect(res.json).toHaveBeenCalledWith(updated);
   });
 
-  test("updateCustomer → should call next(err) when not found", async () => {
+  test("updateCustomer → calls next(err) when not found", async () => {
     service.update = jest.fn().mockResolvedValue(null);
 
     req.params.id = 999;
@@ -91,7 +102,7 @@ describe("Customer Controller", () => {
     expect(err.status).toBe(404);
   });
 
-  test("deleteCustomer → should return success message", async () => {
+  test("deleteCustomer → returns success message", async () => {
     const deletedData = { id: 1 };
     service.remove = jest.fn().mockResolvedValue(deletedData);
 
@@ -106,7 +117,7 @@ describe("Customer Controller", () => {
     });
   });
 
-  test("deleteCustomer → should call next(err) when not found", async () => {
+  test("deleteCustomer → calls next(err) when not found", async () => {
     service.remove = jest.fn().mockResolvedValue(null);
 
     req.params.id = 404;
@@ -117,20 +128,4 @@ describe("Customer Controller", () => {
     const err = next.mock.calls[0][0];
     expect(err.status).toBe(404);
   });
-
- test("getCustomers → should hit line 15 even when service.getAll throws", async () => {
-  const error = new Error("Failed");
-
-  service.getAll = jest.fn().mockImplementation(async () => {
-    throw error; 
-  });
-
-  await getCustomers(req, res, next);
-
-  expect(service.getAll).toHaveBeenCalled();
-  expect(next).toHaveBeenCalledWith(error);
-});
-
-
-
 });

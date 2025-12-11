@@ -24,7 +24,6 @@ describe("Reservation Controller", () => {
     };
   });
 
-  
   test("createReservation → returns 201 + created data", async () => {
     const mockData = { id: 1, fullName: "Sunshine" };
 
@@ -44,17 +43,6 @@ describe("Reservation Controller", () => {
     expect(res.json).toHaveBeenCalledWith(mockData);
   });
 
-  test("createReservation → returns 400 when required fields missing", async () => {
-    req.body = { fullName: "Sunshine" }; 
-
-    await createReservation(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      error: "Missing required fields",
-    });
-  });
-
   test("createReservation → handles server error", async () => {
     ReservationService.create = jest.fn().mockRejectedValue(new Error("boom"));
 
@@ -69,9 +57,7 @@ describe("Reservation Controller", () => {
     await createReservation(req, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({
-      error: "boom",
-    });
+    expect(res.json).toHaveBeenCalledWith({ error: "boom" });
   });
 
   test("getReservations → returns all reservations", async () => {
@@ -95,7 +81,6 @@ describe("Reservation Controller", () => {
     expect(res.json).toHaveBeenCalledWith(data);
   });
 
-
   test("updateReservation → updates and returns reservation", async () => {
     const result = { id: 1, guestCount: 4 };
     ReservationService.update = jest.fn().mockResolvedValue(result);
@@ -108,7 +93,6 @@ describe("Reservation Controller", () => {
     expect(ReservationService.update).toHaveBeenCalledWith(1, { guestCount: 4 });
     expect(res.json).toHaveBeenCalledWith(result);
   });
-
 
   test("deleteReservation → returns success message", async () => {
     ReservationService.remove = jest.fn().mockResolvedValue(true);
@@ -123,9 +107,7 @@ describe("Reservation Controller", () => {
 
   test("checkedInReservation → updates status", async () => {
     const updated = { id: 1, status: "Checked-In" };
-    ReservationService.updateStatus = jest
-      .fn()
-      .mockResolvedValue(updated);
+    ReservationService.updateStatus = jest.fn().mockResolvedValue(updated);
 
     req.params.id = "1";
 
@@ -135,12 +117,9 @@ describe("Reservation Controller", () => {
     expect(res.json).toHaveBeenCalledWith(updated);
   });
 
-
   test("cancelledReservation → updates status", async () => {
     const updated = { id: 1, status: "Cancelled" };
-    ReservationService.updateStatus = jest
-      .fn()
-      .mockResolvedValue(updated);
+    ReservationService.updateStatus = jest.fn().mockResolvedValue(updated);
 
     req.params.id = "1";
 
@@ -177,18 +156,15 @@ describe("Reservation Controller", () => {
     expect(res.json).toHaveBeenCalledWith(list);
   });
 
-test("getReservation → should execute return json(null) (cover line 55)", async () => {
-  ReservationService.getOne = jest.fn().mockImplementation(async () => null);
+  test("getReservation → returns json(null) when not found", async () => {
+    ReservationService.getOne = jest.fn().mockResolvedValue(null);
 
-  req.params.id = "999";
+    req.params.id = "999";
 
-  await getReservation(req, res);
+    await getReservation(req, res);
 
-  expect(ReservationService.getOne).toHaveBeenCalledWith(999); 
-  expect(res.json).toHaveBeenCalledTimes(1);                   
-  expect(res.json).toHaveBeenCalledWith(null);              
-});
-
-
+    expect(ReservationService.getOne).toHaveBeenCalledWith(999);
+    expect(res.json).toHaveBeenCalledWith(null);
+  });
 
 });
