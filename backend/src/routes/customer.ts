@@ -1,12 +1,18 @@
 import { Router } from "express";
 import * as controller from "../controllers/customer";
+import { validate } from "../middleware/validate";
+import {
+  createCustomerSchema,
+  updateCustomerSchema,
+  idParamSchema
+} from "../validations/customer";
 
 const router = Router();
 
-router.post("/", controller.createCustomer);
+router.post("/", validate(createCustomerSchema), controller.createCustomer);
 router.get("/", controller.getCustomers);
-router.get("/:id", controller.getCustomer);
-router.put("/:id", controller.updateCustomer);
-router.delete("/:id", controller.deleteCustomer);
+router.get("/:id", validate(idParamSchema), controller.getCustomer);
+router.put("/:id", validate(updateCustomerSchema), controller.updateCustomer);
+router.delete("/:id", validate(idParamSchema), controller.deleteCustomer);
 
 export default router;
