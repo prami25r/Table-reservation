@@ -9,7 +9,7 @@ import useSortFilterBar, {
   SortOrder,
   Restaurant,
   UseSortFilterBarProps,
-} from "./usefilteLogic";
+} from "./usefilterLogic";
 
 export default function SortFilterBar(props: UseSortFilterBarProps) {
   const {

@@ -3,7 +3,7 @@ import useSortFilterBar, {
   Restaurant,
   SortOrder,
   SortType,
-} from "../../../src/components/usefilteLogic";
+} from "../../../src/components/usefilterLogic";
 
 describe("useSortFilterBar Hook", () => {
   const restaurants: Restaurant[] = [

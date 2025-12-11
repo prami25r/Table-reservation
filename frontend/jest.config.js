@@ -18,6 +18,7 @@ module.exports = {
     "src/screens/reservation/checkedIn.tsx",
     "src/screens/newreservation/hooks.tsx",
     "src/screens/newreservation/logic.tsx",
+    "src/components/usefilterLogic.tsx",
     "src/screens/newreservation/newreservation.tsx",
     "src/utils/breakpoint.ts",
     "src/utils/date.ts",
