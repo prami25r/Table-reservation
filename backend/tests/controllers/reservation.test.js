@@ -1,170 +1,137 @@
-import {
-  createReservation,
-  getReservations,
-  getReservation,
-  updateReservation,
-  deleteReservation,
-  checkedInReservation,
-  cancelledReservation,
-  getUpcomingReservations,
-  getCheckedInReservations,
-  getCancelledReservations
-} from "../../src/controllers/reservation";
+const {
+  createRestaurant,
+  getRestaurants,
+  getRestaurant,
+  updateRestaurant,
+  deleteRestaurant,
+} = require("../../src/controllers/restaurant");
 
-import * as ReservationService from "../../src/services/reservation";
+const RestaurantService = require("../../src/services/restaurant");
 
-describe("Reservation Controller", () => {
-  let req, res;
+jest.mock("../../src/services/restaurant", () => ({
+  create: jest.fn(),
+  getAll: jest.fn(),
+  getOne: jest.fn(),
+  update: jest.fn(),
+  remove: jest.fn(),
+}));
+
+describe("Restaurant Controller", () => {
+  let req;
+  let res;
+  let next;
 
   beforeEach(() => {
     req = { params: {}, body: {} };
     res = {
       json: jest.fn(),
-      status: jest.fn().mockReturnThis(),
     };
+    next = jest.fn();
+    jest.clearAllMocks();
   });
 
-  test("createReservation → returns 201 + created data", async () => {
-    const mockData = { id: 1, fullName: "Sunshine" };
+  test("createRestaurant → returns created restaurant", async () => {
+    const data = { id: 1, name: "BBQ Nation" };
 
-    ReservationService.create = jest.fn().mockResolvedValue(mockData);
+    RestaurantService.create.mockResolvedValue(data);
+    req.body = { name: "BBQ Nation" };
 
-    req.body = {
-      fullName: "Sunshine",
-      mobileNumber: "98765",
-      restaurantId: 10,
-      reservationDate: "2025-12-10",
-      guestCount: 3,
-    };
+    await createRestaurant(req, res, next);
 
-    await createReservation(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith(mockData);
+    expect(RestaurantService.create).toHaveBeenCalledWith(req.body);
+    expect(res.json).toHaveBeenCalledWith(data);
+    expect(next).not.toHaveBeenCalled();
   });
 
-  test("createReservation → handles server error", async () => {
-    ReservationService.create = jest.fn().mockRejectedValue(new Error("boom"));
+  test("createRestaurant → forwards error to next", async () => {
+    const error = new Error("boom");
 
-    req.body = {
-      fullName: "Sunshine",
-      mobileNumber: "98765",
-      restaurantId: 10,
-      reservationDate: "2025-12-10",
-      guestCount: 3,
-    };
+    RestaurantService.create.mockRejectedValue(error);
 
-    await createReservation(req, res);
+    await createRestaurant(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({ error: "boom" });
+    expect(next).toHaveBeenCalledWith(error);
   });
 
-  test("getReservations → returns all reservations", async () => {
+  test("getRestaurants → returns list", async () => {
     const list = [{ id: 1 }];
-    ReservationService.getAll = jest.fn().mockResolvedValue(list);
 
-    await getReservations(req, res);
+    RestaurantService.getAll.mockResolvedValue(list);
+
+    await getRestaurants(req, res, next);
 
     expect(res.json).toHaveBeenCalledWith(list);
   });
 
-  test("getReservation → returns a single reservation", async () => {
+  test("getRestaurant → returns restaurant when found", async () => {
     const data = { id: 1 };
-    ReservationService.getOne = jest.fn().mockResolvedValue(data);
 
+    RestaurantService.getOne.mockResolvedValue(data);
     req.params.id = "1";
 
-    await getReservation(req, res);
+    await getRestaurant(req, res, next);
 
-    expect(ReservationService.getOne).toHaveBeenCalledWith(1);
+    expect(RestaurantService.getOne).toHaveBeenCalledWith(1);
     expect(res.json).toHaveBeenCalledWith(data);
   });
 
-  test("updateReservation → updates and returns reservation", async () => {
-    const result = { id: 1, guestCount: 4 };
-    ReservationService.update = jest.fn().mockResolvedValue(result);
+  test("getRestaurant → 404 when not found", async () => {
+    RestaurantService.getOne.mockResolvedValue(null);
+    req.params.id = "99";
 
-    req.params.id = "1";
-    req.body = { guestCount: 4 };
+    await getRestaurant(req, res, next);
 
-    await updateReservation(req, res);
-
-    expect(ReservationService.update).toHaveBeenCalledWith(1, { guestCount: 4 });
-    expect(res.json).toHaveBeenCalledWith(result);
+    const err = next.mock.calls[0][0];
+    expect(err.message).toBe("Restaurant not found");
+    expect(err.status).toBe(404);
   });
 
-  test("deleteReservation → returns success message", async () => {
-    ReservationService.remove = jest.fn().mockResolvedValue(true);
+  test("updateRestaurant → updates successfully", async () => {
+    const updated = { id: 1, name: "Updated" };
 
+    RestaurantService.update.mockResolvedValue(updated);
     req.params.id = "1";
+    req.body = { name: "Updated" };
 
-    await deleteReservation(req, res);
+    await updateRestaurant(req, res, next);
 
-    expect(ReservationService.remove).toHaveBeenCalledWith(1);
-    expect(res.json).toHaveBeenCalledWith({ message: "Deleted" });
-  });
-
-  test("checkedInReservation → updates status", async () => {
-    const updated = { id: 1, status: "Checked-In" };
-    ReservationService.updateStatus = jest.fn().mockResolvedValue(updated);
-
-    req.params.id = "1";
-
-    await checkedInReservation(req, res);
-
-    expect(ReservationService.updateStatus).toHaveBeenCalledWith(1, "Checked-In");
+    expect(RestaurantService.update).toHaveBeenCalledWith(1, req.body);
     expect(res.json).toHaveBeenCalledWith(updated);
   });
 
-  test("cancelledReservation → updates status", async () => {
-    const updated = { id: 1, status: "Cancelled" };
-    ReservationService.updateStatus = jest.fn().mockResolvedValue(updated);
-
+  test("updateRestaurant → 404 when restaurant missing", async () => {
+    RestaurantService.update.mockResolvedValue(null);
     req.params.id = "1";
 
-    await cancelledReservation(req, res);
+    await updateRestaurant(req, res, next);
 
-    expect(ReservationService.updateStatus).toHaveBeenCalledWith(1, "Cancelled");
-    expect(res.json).toHaveBeenCalledWith(updated);
+    const err = next.mock.calls[0][0];
+    expect(err.message).toBe("Cannot update: Restaurant not found");
+    expect(err.status).toBe(404);
   });
 
-  test("getUpcomingReservations → returns list", async () => {
-    const list = [{ id: 1 }];
-    ReservationService.getUpcoming = jest.fn().mockResolvedValue(list);
+  test("deleteRestaurant → deletes successfully", async () => {
+    const deleted = { id: 1 };
 
-    await getUpcomingReservations(req, res);
+    RestaurantService.remove.mockResolvedValue(deleted);
+    req.params.id = "1";
 
-    expect(res.json).toHaveBeenCalledWith(list);
+    await deleteRestaurant(req, res, next);
+
+    expect(res.json).toHaveBeenCalledWith({
+      message: "Restaurant deleted successfully",
+      deleted,
+    });
   });
 
-  test("getCheckedInReservations → returns list", async () => {
-    const list = [{ id: 2 }];
-    ReservationService.getCheckedIn = jest.fn().mockResolvedValue(list);
+  test("deleteRestaurant → 404 when restaurant missing", async () => {
+    RestaurantService.remove.mockResolvedValue(null);
+    req.params.id = "1";
 
-    await getCheckedInReservations(req, res);
+    await deleteRestaurant(req, res, next);
 
-    expect(res.json).toHaveBeenCalledWith(list);
+    const err = next.mock.calls[0][0];
+    expect(err.message).toBe("Cannot delete: Restaurant not found");
+    expect(err.status).toBe(404);
   });
-
-  test("getCancelledReservations → returns list", async () => {
-    const list = [{ id: 3 }];
-    ReservationService.getCancelled = jest.fn().mockResolvedValue(list);
-
-    await getCancelledReservations(req, res);
-
-    expect(res.json).toHaveBeenCalledWith(list);
-  });
-
-  test("getReservation → returns json(null) when not found", async () => {
-    ReservationService.getOne = jest.fn().mockResolvedValue(null);
-
-    req.params.id = "999";
-
-    await getReservation(req, res);
-
-    expect(ReservationService.getOne).toHaveBeenCalledWith(999);
-    expect(res.json).toHaveBeenCalledWith(null);
-  });
-
 });

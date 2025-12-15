@@ -1,12 +1,12 @@
-import {
+const {
   create,
   getAll,
   getOne,
   update,
-  remove
-} from "../../src/services/restaurant";
+  remove,
+} = require("../../src/services/restaurant");
 
-import { prisma } from "../../src/prisma";
+const { prisma } = require("../../src/prisma");
 
 jest.mock("../../src/prisma", () => ({
   prisma: {
@@ -15,66 +15,74 @@ jest.mock("../../src/prisma", () => ({
       findMany: jest.fn(),
       findUnique: jest.fn(),
       update: jest.fn(),
-      delete: jest.fn()
-    }
-  }
+      delete: jest.fn(),
+    },
+  },
 }));
 
 describe("Restaurant Service", () => {
-  beforeEach(() => jest.clearAllMocks());
-
-  test("create()", async () => {
-    const mockData = { id: 1 };
-    prisma.restaurant.create.mockResolvedValue(mockData);
-
-    const result = await create(mockData);
-
-    expect(prisma.restaurant.create).toHaveBeenCalledWith({ data: mockData });
-    expect(result).toEqual(mockData);
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  test("getAll()", async () => {
-    const list = [{ id: 2 }];
+  test("create() → creates restaurant", async () => {
+    const data = { name: "BBQ Nation" };
+
+    prisma.restaurant.create.mockResolvedValue(data);
+
+    const result = await create(data);
+
+    expect(prisma.restaurant.create).toHaveBeenCalledWith({ data });
+    expect(result).toEqual(data);
+  });
+
+  test("getAll() → returns all restaurants", async () => {
+    const list = [{ id: 1 }, { id: 2 }];
+
     prisma.restaurant.findMany.mockResolvedValue(list);
 
     const result = await getAll();
 
+    expect(prisma.restaurant.findMany).toHaveBeenCalled();
     expect(result).toEqual(list);
   });
 
-  test("getOne()", async () => {
-    const item = { id: 3 };
-    prisma.restaurant.findUnique.mockResolvedValue(item);
+  test("getOne() → returns single restaurant", async () => {
+    const restaurant = { id: 1 };
 
-    const result = await getOne(3);
+    prisma.restaurant.findUnique.mockResolvedValue(restaurant);
+
+    const result = await getOne(1);
 
     expect(prisma.restaurant.findUnique).toHaveBeenCalledWith({
-      where: { id: 3 }
+      where: { id: 1 },
     });
-    expect(result).toEqual(item);
+    expect(result).toEqual(restaurant);
   });
 
-  test("update()", async () => {
-    const updated = { id: 4, name: "Updated" };
+  test("update() → updates restaurant", async () => {
+    const updated = { id: 1, name: "Updated Name" };
+
     prisma.restaurant.update.mockResolvedValue(updated);
 
-    const result = await update(4, updated);
+    const result = await update(1, updated);
 
     expect(prisma.restaurant.update).toHaveBeenCalledWith({
-      where: { id: 4 },
-      data: updated
+      where: { id: 1 },
+      data: updated,
     });
     expect(result).toEqual(updated);
   });
 
-  test("remove()", async () => {
-    const deleted = { id: 5 };
+  test("remove() → deletes restaurant", async () => {
+    const deleted = { id: 1 };
+
     prisma.restaurant.delete.mockResolvedValue(deleted);
 
-    const result = await remove(5);
+    const result = await remove(1);
 
     expect(prisma.restaurant.delete).toHaveBeenCalledWith({
-      where: { id: 5 }
+      where: { id: 1 },
     });
     expect(result).toEqual(deleted);
   });
