@@ -1,5 +1,6 @@
 import * as React from "react";
 import Registry from "./registry";
+import Providers from "./providers";
 
 export const metadata = {
   title: "RN Web via Next.js",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Registry>{children}</Registry>
+        <Registry>
+          <Providers>{children}</Providers>
+        </Registry>
       </body>
     </html>
   );
