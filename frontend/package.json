@@ -2,6 +2,13 @@
   "name": "frontend",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -9,7 +16,10 @@
     "start": "react-native start",
     "test": "jest",
     "reverse": "adb reverse tcp:3000 tcp:3000",
-    "web": "webpack serve --mode development --open"
+    "web": "webpack serve --mode development --open",
+    "next:dev": "npm --workspace @apps/next run dev",
+    "next:build": "npm --workspace @apps/next run build",
+    "next:start": "npm --workspace @apps/next run start"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^8.5.1",

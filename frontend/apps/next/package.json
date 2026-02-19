@@ -1,0 +1,21 @@
+{
+  "name": "@apps/next",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@packages/app": "file:../../packages/app",
+    "next": "^15.0.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "react-native": "^0.82.1",
+    "react-native-web": "^0.21.2"
+  }
+}
